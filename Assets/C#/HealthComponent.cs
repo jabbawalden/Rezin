@@ -5,7 +5,6 @@ using UnityEngine;
 public class HealthComponent : MonoBehaviour
 {
     public int health;
-
     private void Update()
     {
         IsAlive();

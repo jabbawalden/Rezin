@@ -49,8 +49,15 @@ public class UIManager : MonoBehaviour {
     // called by player on damagebeahviour
     public void UpdateHealth()
     {
+        //update health and ensure that it does not go into negative
         if (_healthComponent != null)
-            currentHealth.text = "" + _healthComponent.health;
+        {
+            if (_healthComponent.health > 0)
+                currentHealth.text = "" + _healthComponent.health;
+            else
+                currentHealth.text = "0";
+        }
+            
     }
 
 }

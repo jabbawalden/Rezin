@@ -15,9 +15,11 @@ public class Player : MonoBehaviour {
     //creates a slider for between values 1 and 10 to control jump velocity
     [Range(1, 10)]
     public float jumpVelocity;
+    BoxCollider2D boxCol;
 
     [Space(5)]
     private HealthComponent _healthComponent;
+    public bool dead;
     [Space(5)]
 
     [Header("Player GroundCheck")]
@@ -49,17 +51,22 @@ public class Player : MonoBehaviour {
     public Transform shotOrigin;
     float distance;
 
+    private Laser _laser;
+    
+
 
     private void Awake() 
     {
         rb = GetComponent<Rigidbody2D>();
         _uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
+        _healthComponent = GetComponent<HealthComponent>();
+        boxCol = GetComponent<BoxCollider2D>();
     }
 
     // Use this for initialization
     void Start ()
     {
-        _healthComponent = GetComponent<HealthComponent>();
+        dead = false;
         _lastPosition = transform.position;
         facingPositive = true;
     }
@@ -83,6 +90,8 @@ public class Player : MonoBehaviour {
         {
             Debug.Log("Dead");
             _uiManager.ShowRestartPanel();
+            dead = true;
+            rb.velocity = new Vector2(0, 0);
             //Death UI
             //No longer moving
             //Death anim
@@ -120,7 +129,6 @@ public class Player : MonoBehaviour {
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
         //direction through - vectors of both positions
-
         if (mousePos.x > transform.position.x)
         {
             transform.localScale = new Vector3(1, 1, 1);
@@ -132,7 +140,7 @@ public class Player : MonoBehaviour {
             transform.localScale = new Vector3(-1, 1, 1);
             facingPositive = false;
             //print("right");
-        }  
+        }
 
     }
 
@@ -194,12 +202,22 @@ public class Player : MonoBehaviour {
             _lastPosition = transform.position;
             print("right mouse hit");
             energy -= 50;
+            //StartCoroutine(colliderDashInvulnerable());
             if (facingPositive)
                 rb.velocity = new Vector2(dashSpeed, 0);
             else
                 rb.velocity = new Vector2(-dashSpeed, 0);
         }
 
+    }
+
+    IEnumerator colliderDashInvulnerable()
+    {
+        boxCol.isTrigger = true;
+        rb.gravityScale = 0;
+        yield return new WaitForSeconds(0.2F);
+        boxCol.isTrigger = false;
+        rb.gravityScale = 1;
     }
 
     void PlayerShoot(float newFireRate)
@@ -213,6 +231,8 @@ public class Player : MonoBehaviour {
 
             GameObject shot = Instantiate(projectile, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
             shot.GetComponent<Rigidbody2D>().velocity = new Vector2(GetMouseDirection().x * laserSpeed, GetMouseDirection().y * laserSpeed);
+            _laser = shot.GetComponent<Laser>();
+            _laser._damage = laserDamage;
         }
 
     }
@@ -220,6 +240,8 @@ public class Player : MonoBehaviour {
     void PlayerDeath()
     {
     }
+
+    
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

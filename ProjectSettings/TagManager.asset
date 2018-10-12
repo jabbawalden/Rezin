@@ -17,8 +17,8 @@ TagManager:
   - 
   - 
   - GroundLayer
-  - 
-  - 
+  - Enemy
+  - Player
   - 
   - 
   - 
