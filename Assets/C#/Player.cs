@@ -26,6 +26,7 @@ public class Player : MonoBehaviour {
     public bool onGroundCheckRepresentation;
     public Material pMat;
     private UIManager _uiManager;
+    private bool _haveJumped;
     [Space(5)]
 
     [Header("Player Jump")]
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour {
     [Space(5)]
 
     [Header("Player Energy")]
-    public int energy;
+    public int currentEnergy;
     public int maxEnergy;
     private float _nextEnergyRegen;
     public float energyRegenRate;
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour {
     public float distanceTravelled;
     private Vector2 _lastPosition;
 
-    [Header("PlayerShoot")]
+    [Header("Player Shoot")]
     public int laserDamage;
     public float laserSpeed;
     public GameObject projectile;
@@ -52,7 +53,13 @@ public class Player : MonoBehaviour {
     float distance;
 
     private Laser _laser;
-    
+    public int projectileLife;
+
+    [Space(5)]
+
+    [Header("Player Uprades")]
+    public bool doubleJump;
+    public bool rebound;
 
 
     private void Awake() 
@@ -69,6 +76,9 @@ public class Player : MonoBehaviour {
         dead = false;
         _lastPosition = transform.position;
         facingPositive = true;
+        doubleJump = false;
+        rebound = false;
+        _haveJumped = false;
     }
 	
 	// Update is called once per frame
@@ -99,11 +109,6 @@ public class Player : MonoBehaviour {
         }
 
         //onGroundCheckRepresentation = GetGround();
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 
     public Vector2 GetMouseDirection()
@@ -158,19 +163,25 @@ public class Player : MonoBehaviour {
         {
             rb.velocity = Vector2.up * jumpVelocity;
             jumpCount--;
+            _haveJumped = true;
         }
 
         //fall multiplier
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+
+            if (doubleJump && !_haveJumped)
+                jumpCount = 1;
+            else if (!doubleJump && !_haveJumped)
+                jumpCount = 0;
         }
     }
 
     public void PlayerDamageBehaviour()
     {
         StartCoroutine(MaterialShift());
-        rb.AddForce(Vector2.up * 180);
+        rb.AddForce(Vector2.up * 100);
         _uiManager.UpdateHealth();
     }
 
@@ -183,25 +194,25 @@ public class Player : MonoBehaviour {
 
     void EnergyRegenerate()
     {
-        if (energy < maxEnergy)
+        if (currentEnergy < maxEnergy)
         {
             if (_nextEnergyRegen < Time.time)
             {
                 _nextEnergyRegen = Time.time + energyRegenRate;
-                energy++;
+                currentEnergy++;
             }
         }
     }
 
     void PlayerDash()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && energy >= 50)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50)
         {
             distanceTravelled = 0;
             distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
             _lastPosition = transform.position;
             print("right mouse hit");
-            energy -= 50;
+            currentEnergy -= 50;
             //StartCoroutine(colliderDashInvulnerable());
             if (facingPositive)
                 rb.velocity = new Vector2(dashSpeed, 0);
@@ -233,6 +244,7 @@ public class Player : MonoBehaviour {
             shot.GetComponent<Rigidbody2D>().velocity = new Vector2(GetMouseDirection().x * laserSpeed, GetMouseDirection().y * laserSpeed);
             _laser = shot.GetComponent<Laser>();
             _laser._damage = laserDamage;
+            _laser.projectileLife = projectileLife;
         }
 
     }
@@ -246,7 +258,11 @@ public class Player : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground"))
+        {
             jumpCount = jumpMaxCount;
+            _haveJumped = false;
+        }
+            
     }
 
 

@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour {
     private GameObject _restartPanel;
 
     public Text currentHealth;
+    public Text currentEnergy;
 
     // set variables
     private void Awake()
@@ -25,14 +26,15 @@ public class UIManager : MonoBehaviour {
     void Start ()
     {
         currentHealth.text = "" + _healthComponent.health;
+        currentEnergy.text = "" + _player.currentEnergy;
         _restartPanel.SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-     
-	}
+        currentEnergy.text = "" + _player.currentEnergy;
+    }
 
     // called by player on death
     public void ShowRestartPanel()

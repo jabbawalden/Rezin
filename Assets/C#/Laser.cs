@@ -8,10 +8,12 @@ public class Laser : MonoBehaviour {
     Rigidbody2D rb;
     public float rotationSpeed;
     public int _damage;
-    Player player;
+    private Player _player;
+    public int projectileLife;
+    private CircleCollider2D _reboundCol;
     [SerializeField]
     public enum ProjectileType {Player, Enemy}
-
+    
     public ProjectileType projType;
 
     private void Awake()
@@ -22,7 +24,18 @@ public class Laser : MonoBehaviour {
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        player = GameObject.Find("Player").GetComponent<Player>();
+        _reboundCol = GetComponent<CircleCollider2D>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
+
+        if (projType == ProjectileType.Player)
+        {
+            if (_player.rebound)
+                _reboundCol.enabled = true;
+            else
+                _reboundCol.enabled = false;
+        }
+
+
     }
 
     private void Update()
@@ -47,7 +60,7 @@ public class Laser : MonoBehaviour {
             Debug.Log("HitTarget");
             healthComponent = collision.collider.GetComponent<HealthComponent>();
             healthComponent.health -= _damage;
-            player.PlayerDamageBehaviour();
+            _player.PlayerDamageBehaviour();
             Destroy(gameObject);
         }
     }
