@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860313989534732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1056.5665, y: 17.732244, z: -0.57749385}
+  m_LocalPosition: {x: 1072.61, y: 13.57, z: -0.57749385}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4151771043496446}
@@ -135,7 +135,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &61355523875521418
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -173,11 +173,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 1
-  fireRate: 0.5
+  fireRate: 0.2
   eProj: {fileID: 1359072622980384, guid: e9cf9524194479343b1cb36f16115841, type: 2}
   shotOrigin: {fileID: 4151771043496446}
-  laserSpeed: 25
+  laserSpeed: 13
   damage: 3
+  eMat: {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
+  shootRange: 7
+  distanceKept: 3.5
 --- !u!114 &114417048775342530
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -190,3 +193,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 15
+  maxHealth: 15

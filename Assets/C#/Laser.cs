@@ -11,18 +11,16 @@ public class Laser : MonoBehaviour {
     private Player _player;
     public int projectileLife;
     private CircleCollider2D _reboundCol;
+    public float duration;
     [SerializeField]
     public enum ProjectileType {Player, Enemy}
     
     public ProjectileType projType;
 
-    private void Awake()
-    {
-        
-    }
 
     private void Start()
     {
+        StartCoroutine(ProjectileLifetime());
         rb = GetComponent<Rigidbody2D>();
         _reboundCol = GetComponent<CircleCollider2D>();
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -34,8 +32,12 @@ public class Laser : MonoBehaviour {
             else
                 _reboundCol.enabled = false;
         }
+    }
 
-
+    IEnumerator ProjectileLifetime()
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(gameObject);
     }
 
     private void Update()
@@ -43,6 +45,13 @@ public class Laser : MonoBehaviour {
         //alter rotation
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
+
+        if (_player.rebound && projType == ProjectileType.Player)
+        {
+            print(projectileLife);
+            if (projectileLife <= 0)
+                Destroy(gameObject);
+        } 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -63,6 +72,9 @@ public class Laser : MonoBehaviour {
             _player.PlayerDamageBehaviour();
             Destroy(gameObject);
         }
+
+       
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -72,6 +84,29 @@ public class Laser : MonoBehaviour {
             Debug.Log("HitTarget");
             healthComponent = collision.GetComponent<HealthComponent>();
             healthComponent.health -= _damage;
+            Destroy(gameObject);
+        }
+
+        if (collision.CompareTag("pProj") && projType == ProjectileType.Enemy)
+        {
+            Destroy(gameObject);
+        }
+        else if (collision.CompareTag("eProj") && projType == ProjectileType.Player)
+        {
+            Destroy(gameObject);
+        }
+
+        if (collision.CompareTag("Ground") && !_player.rebound) 
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            projectileLife--;
+        }
+
+        if (collision.CompareTag("Shield") && projType == ProjectileType.Player)
+        {
             Destroy(gameObject);
         }
 
@@ -90,7 +125,6 @@ public class Laser : MonoBehaviour {
 
     private void OnBecameInvisible()
     {
-        print("ProjectileDestroyed");
         Destroy(gameObject);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     [Header("Player Movement")]
     public float movementSpeed;
@@ -38,7 +38,7 @@ public class Player : MonoBehaviour {
     public int currentEnergy;
     public int maxEnergy;
     private float _nextEnergyRegen;
-    public float energyRegenRate;
+    public float energyRegenerate;
     public bool facingPositive;
     public float distanceTravelled;
     private Vector2 _lastPosition;
@@ -73,11 +73,16 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        //if file exists, load files here
+        //else initialize default variables
+        doubleJump = true;
+        rebound = true;
+
+
+        //always default
+        facingPositive = true;
         dead = false;
         _lastPosition = transform.position;
-        facingPositive = true;
-        doubleJump = false;
-        rebound = false;
         _haveJumped = false;
     }
 	
@@ -107,6 +112,8 @@ public class Player : MonoBehaviour {
             //Death anim
             //Game State Change
         }
+
+     
 
         //onGroundCheckRepresentation = GetGround();
     }
@@ -157,7 +164,6 @@ public class Player : MonoBehaviour {
 
     void PlayerJump()
     {
-        //TODO Need to check if the player falls off without jumping
         //check if grounded
         if (Input.GetButtonDown("Jump") && jumpCount >= 1)
         {
@@ -167,7 +173,7 @@ public class Player : MonoBehaviour {
         }
 
         //fall multiplier
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < -0.1f)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
 
@@ -177,6 +183,56 @@ public class Player : MonoBehaviour {
                 jumpCount = 0;
         }
     }
+
+
+    void PlayerDash()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50)
+        {
+            distanceTravelled = 0;
+            distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
+            _lastPosition = transform.position;
+            print("right mouse hit");
+            currentEnergy -= 50;
+            if (facingPositive)
+                rb.velocity = new Vector2(dashSpeed, 0);
+            else
+                rb.velocity = new Vector2(-dashSpeed, 0);
+        }
+
+    }
+
+    IEnumerator colliderDashInvulnerable()
+    {
+        boxCol.isTrigger = true; 
+        rb.gravityScale = 0;
+        yield return new WaitForSeconds(0.2F);
+        boxCol.isTrigger = false;
+        rb.gravityScale = 1;
+    }
+
+    void PlayerShoot(float newFireRate)
+    {
+        if (Input.GetKey(KeyCode.Mouse0) && _nextFire < Time.time && currentEnergy >= 1)
+        {
+            _nextFire = Time.time + newFireRate;
+
+            //crazy maths stuff to rotate sprite on its axis
+            float angle = Mathf.Atan2(GetMouseDirection().y, GetMouseDirection().x) * Mathf.Rad2Deg;
+
+            GameObject shot = Instantiate(projectile, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
+            shot.GetComponent<Rigidbody2D>().velocity = 
+                new Vector2(
+                    Mathf.Clamp(GetMouseDirection().x * laserSpeed, GetMouseDirection().x * 2, GetMouseDirection().x * 3), 
+                    Mathf.Clamp(GetMouseDirection().y * laserSpeed, GetMouseDirection().y * 2, GetMouseDirection().y * 3));
+
+            _laser = shot.GetComponent<Laser>();
+            _laser._damage = laserDamage;
+            _laser.projectileLife = projectileLife;
+        }
+
+    }
+
 
     public void PlayerDamageBehaviour()
     {
@@ -198,68 +254,39 @@ public class Player : MonoBehaviour {
         {
             if (_nextEnergyRegen < Time.time)
             {
-                _nextEnergyRegen = Time.time + energyRegenRate;
+                _nextEnergyRegen = Time.time + energyRegenerate;
                 currentEnergy++;
             }
         }
     }
 
-    void PlayerDash()
+    public void SpringBehaviour()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50)
+        if (jumpCount > 0)
         {
-            distanceTravelled = 0;
-            distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
-            _lastPosition = transform.position;
-            print("right mouse hit");
-            currentEnergy -= 50;
-            //StartCoroutine(colliderDashInvulnerable());
-            if (facingPositive)
-                rb.velocity = new Vector2(dashSpeed, 0);
-            else
-                rb.velocity = new Vector2(-dashSpeed, 0);
+            jumpCount--;
+            _haveJumped = true;
         }
-
-    }
-
-    IEnumerator colliderDashInvulnerable()
-    {
-        boxCol.isTrigger = true;
-        rb.gravityScale = 0;
-        yield return new WaitForSeconds(0.2F);
-        boxCol.isTrigger = false;
-        rb.gravityScale = 1;
-    }
-
-    void PlayerShoot(float newFireRate)
-    {
-        if (Input.GetKey(KeyCode.Mouse0) && _nextFire < Time.time)
-        {
-            _nextFire = Time.time + newFireRate;
-
-            //crazy maths stuff to rotate sprite on its axis
-            float angle = Mathf.Atan2(GetMouseDirection().y, GetMouseDirection().x) * Mathf.Rad2Deg;
-
-            GameObject shot = Instantiate(projectile, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
-            shot.GetComponent<Rigidbody2D>().velocity = new Vector2(GetMouseDirection().x * laserSpeed, GetMouseDirection().y * laserSpeed);
-            _laser = shot.GetComponent<Laser>();
-            _laser._damage = laserDamage;
-            _laser.projectileLife = projectileLife;
-        }
-
     }
 
     void PlayerDeath()
     {
     }
 
-    
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground"))
         {
+            print("groundcollide");
             jumpCount = jumpMaxCount;
+        }
+
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
             _haveJumped = false;
         }
             

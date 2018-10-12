@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 114592871750341898}
   - component: {fileID: 114086920108605140}
   - component: {fileID: 50792544386310970}
-  - component: {fileID: 61392792254485530}
+  - component: {fileID: 61985782573841942}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -129,7 +129,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186857213979842}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 998.23, y: 13.009999, z: 0.042821653}
+  m_LocalPosition: {x: 1064.4, y: 15.138, z: 0.042821653}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4231861833735350}
@@ -296,7 +296,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &61392792254485530
+--- !u!61 &61985782573841942
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -304,11 +304,11 @@ BoxCollider2D:
   m_GameObject: {fileID: 1186857213979842}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 9713b5cc76469464f83276dc54578914, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.000061035156, y: 0.0012807846}
+  m_Offset: {x: -0.00061035156, y: 0.0050530434}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -319,7 +319,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.30249023, y: 0.9334507}
+  m_Size: {x: 0.31201172, y: 0.93565464}
   m_EdgeRadius: 0
 --- !u!114 &114086920108605140
 MonoBehaviour:
@@ -332,7 +332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8633bfc37c14b64eaa124607284294f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 25
+  health: 50
+  maxHealth: 50
 --- !u!114 &114592871750341898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620f004466438ea4198ab26b4729ef94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
   movementSpeed: 300
   dashSpeed: 150
   fallMultiplier: 2
@@ -355,16 +357,16 @@ MonoBehaviour:
   pMat: {fileID: 2100000, guid: ff933567ac2eade4aad6915612acc014, type: 2}
   jumpCount: 1
   jumpMaxCount: 1
-  energy: 100
+  currentEnergy: 100
   maxEnergy: 100
-  energyRegenRate: 0.035
+  energyRegenerate: 0
   facingPositive: 0
   distanceTravelled: 0
   laserDamage: 5
-  laserSpeed: 2.5
+  laserSpeed: 3.5
   projectile: {fileID: 1394726853307084, guid: d81d5c19bacb03e47a9c021efb69b5bd, type: 2}
-  fireRateDivider: 30
+  fireRateDivider: 25
   shotOrigin: {fileID: 4430188145359368}
-  projectileLife: 0
+  projectileLife: 3
   doubleJump: 0
   rebound: 0

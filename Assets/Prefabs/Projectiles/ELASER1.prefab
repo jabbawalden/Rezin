@@ -24,9 +24,9 @@ GameObject:
   - component: {fileID: 50265727442523604}
   - component: {fileID: 23453709260350316}
   - component: {fileID: 58926094656987466}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: ELASER1
-  m_TagString: Untagged
+  m_TagString: eProj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4819721454151270}
   - component: {fileID: 212727301923678376}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: laser-beam-sprite-png-6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,6 +182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 400
   _damage: 0
+  projectileLife: 0
   projType: 1
 --- !u!212 &212727301923678376
 SpriteRenderer:

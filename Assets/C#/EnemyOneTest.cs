@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyOneTest : MonoBehaviour {
 
     HealthComponent healthComp;
+    Rigidbody2D _rb;
     Transform playerTarget;
     private Player _player;
     public float movementSpeed;
@@ -16,13 +17,16 @@ public class EnemyOneTest : MonoBehaviour {
     Laser laser;
     public int damage;
     // Use this for initialization
-
+    public Material eMat;
+    public float shootRange;
+    public float distanceKept;
 
     void Start ()
     {
-        healthComp = GetComponent<HealthComponent>();
+        healthComp = GetComponent<HealthComponent>(); 
         playerTarget = GameObject.Find("Player").transform;
         _player = GameObject.Find("Player").GetComponent<Player>();
+        _rb = GetComponent<Rigidbody2D>();
     }
 
 
@@ -53,12 +57,12 @@ public class EnemyOneTest : MonoBehaviour {
                 {
                     transform.position = Vector2.MoveTowards(transform.position, playerTarget.position, deltaPosition);
                 }
-                else if (GetDistanceFromPlayer() <= 3.9)
+                else if (GetDistanceFromPlayer() <= distanceKept)
                 {
                     transform.position = Vector2.MoveTowards(transform.position, playerTarget.position, -deltaPosition);
                 }
 
-                if (GetDistanceFromPlayer() <= 8)
+                if (GetDistanceFromPlayer() <= shootRange)
                 {
                     EnemyShoot();
                 }
@@ -84,6 +88,19 @@ public class EnemyOneTest : MonoBehaviour {
             laser = shot.GetComponent<Laser>();
             laser._damage = damage;
         }
+    }
+
+    void DamageBehaviour()
+    {
+        StartCoroutine(MaterialShift());
+        _rb.AddForce(Vector2.up * 50);
+    }
+
+    IEnumerator MaterialShift()
+    {
+        eMat.color = new Color(0, 191, 156);
+        yield return new WaitForSeconds(0.34f);
+        eMat.color = new Color(80, 0, 255);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

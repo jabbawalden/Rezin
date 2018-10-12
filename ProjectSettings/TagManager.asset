@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Wall
   - Enemy
+  - eProj
+  - pProj
+  - Shield
   layers:
   - Default
   - TransparentFX
@@ -19,9 +22,9 @@ TagManager:
   - GroundLayer
   - Enemy
   - Player
-  - 
-  - 
-  - 
+  - PlayerProjectiles
+  - EnemyShield
+  - EnemyProjectiles
   - 
   - 
   - 

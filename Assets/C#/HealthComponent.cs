@@ -5,6 +5,13 @@ using UnityEngine;
 public class HealthComponent : MonoBehaviour
 {
     public int health;
+    public int maxHealth;
+
+    private void Start()
+    {
+        health = maxHealth;
+    }
+
     private void Update()
     {
         IsAlive();

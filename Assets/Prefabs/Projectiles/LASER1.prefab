@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4576514485267128}
   - component: {fileID: 212256985334555352}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: laser-beam-sprite-png-6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,9 +40,9 @@ GameObject:
   - component: {fileID: 61238426101810324}
   - component: {fileID: 50948478126549676}
   - component: {fileID: 23569534317627204}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LASER1
-  m_TagString: Untagged
+  m_TagString: pProj
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,8 +54,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1311871750692102}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.2, z: 1}
+  m_LocalPosition: {x: 0.1997, y: 0, z: 0}
+  m_LocalScale: {x: 0.13800387, y: 0.09296412, z: 1}
   m_Children: []
   m_Father: {fileID: 4696013400914380}
   m_RootOrder: 0
@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1394726853307084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 996.78326, y: 17.846954, z: 0}
+  m_LocalPosition: {x: 998.62573, y: 15.589908, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4576514485267128}
@@ -156,7 +156,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.07574463, y: -0.030450344}
+  m_Offset: {x: 0.1862793, y: -0.0071783066}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -167,7 +167,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6052246, y: 0.23367977}
+  m_Size: {x: 0.38415527, y: 0.1871357}
   m_EdgeRadius: 0
 --- !u!114 &114405551421321406
 MonoBehaviour:
@@ -182,6 +182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 400
   _damage: 0
+  projectileLife: 0
+  duration: 3
   projType: 0
 --- !u!212 &212256985334555352
 SpriteRenderer:

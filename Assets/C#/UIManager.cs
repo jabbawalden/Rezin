@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour {
     private GameObject _restartPanel;
 
     public Text currentHealth;
+    public Text maxHealth;
     public Text currentEnergy;
 
     // set variables
@@ -26,6 +27,7 @@ public class UIManager : MonoBehaviour {
     void Start ()
     {
         currentHealth.text = "" + _healthComponent.health;
+        maxHealth.text = "/ " + _healthComponent.maxHealth; 
         currentEnergy.text = "" + _player.currentEnergy;
         _restartPanel.SetActive(false);
     }
