@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class EnemyOneTest : MonoBehaviour {
 
-    HealthComponent healthComp;
-    Rigidbody2D _rb;
-    Transform playerTarget;
+    private HealthComponent _healthComp;
+    private Rigidbody2D _rb;
+    private Transform playerTarget;
     private Player _player;
     public float movementSpeed;
+    [Space(5)]
+    [Header("Enemy Shoot")]
     float _nextFire;
     public float fireRate;
     public GameObject eProj;
@@ -18,12 +20,15 @@ public class EnemyOneTest : MonoBehaviour {
     public int damage;
     // Use this for initialization
     public Material eMat;
+    [Space(5)]
+    [Header("Enemy Aggro")]
     public float shootRange;
     public float distanceKept;
+    public float distanceAggro;
 
     void Start ()
     {
-        healthComp = GetComponent<HealthComponent>(); 
+        _healthComp = GetComponent<HealthComponent>(); 
         playerTarget = GameObject.Find("Player").transform;
         _player = GameObject.Find("Player").GetComponent<Player>();
         _rb = GetComponent<Rigidbody2D>();
@@ -39,7 +44,7 @@ public class EnemyOneTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (healthComp.health <= 0)
+        if (_healthComp.health <= 0)
             Destroy(gameObject);
         EnemyBasicBehaviour();
         //Debug.Log(GetDistanceFromPlayer());
@@ -53,7 +58,7 @@ public class EnemyOneTest : MonoBehaviour {
         {
             if (!_player.dead)
             {
-                if (GetDistanceFromPlayer() <= 10 && GetDistanceFromPlayer() >= 4)
+                if (GetDistanceFromPlayer() <= distanceAggro && GetDistanceFromPlayer() >= 4)
                 {
                     transform.position = Vector2.MoveTowards(transform.position, playerTarget.position, deltaPosition);
                 }
@@ -78,7 +83,7 @@ public class EnemyOneTest : MonoBehaviour {
         if (_nextFire < Time.time)
         {
             _nextFire = Time.time + fireRate;
-            Vector2 direction = new Vector2(transform.position.x - playerTarget.transform.position.x, transform.position.y - playerTarget.transform.position.y + 0.5f).normalized;
+            Vector2 direction = new Vector2(transform.position.x - playerTarget.transform.position.x, transform.position.y - playerTarget.transform.position.y).normalized;
 
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 

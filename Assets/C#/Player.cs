@@ -77,13 +77,19 @@ public class Player : MonoBehaviour {
         //else initialize default variables
         doubleJump = true;
         rebound = true;
-
+        jumpCount = 2;
+        jumpMaxCount = 2;
 
         //always default
         facingPositive = true;
         dead = false;
         _lastPosition = transform.position;
         _haveJumped = false;
+    }
+
+    void LoadData()
+    {
+
     }
 	
 	// Update is called once per frame

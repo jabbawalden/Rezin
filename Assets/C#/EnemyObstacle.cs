@@ -23,7 +23,10 @@ public class EnemyObstacle : MonoBehaviour {
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<Player>();
-        transform.position = points[0].transform.position;
+
+        if (points.Length > 0)
+            transform.position = points[0].transform.position;
+
         destination = 1;
     }
 
@@ -31,8 +34,10 @@ public class EnemyObstacle : MonoBehaviour {
     void Update()
     {
         CheckLocation();
-        MoveObstacle(points[destination - 1].transform.position); 
-
+        if (points.Length > 0)
+        {
+            MoveObstacle(points[destination - 1].transform.position);
+        }
     }
     
     void MoveObstacle(Vector2 location)
@@ -43,17 +48,21 @@ public class EnemyObstacle : MonoBehaviour {
 
     void CheckLocation()
     {
-        if (transform.position == points[destination - 1].transform.position)
+        if (points.Length > 0)
         {
-            if (destination == points.Length)
+            if (transform.position == points[destination - 1].transform.position)
             {
-                destination = 1;
-            }
-            else
-            {
-                destination++;
+                if (destination == points.Length)
+                {
+                    destination = 1;
+                }
+                else
+                {
+                    destination++;
+                }
             }
         }
+    
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

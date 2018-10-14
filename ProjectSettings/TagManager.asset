@@ -20,12 +20,12 @@ TagManager:
   - 
   - 
   - GroundLayer
-  - Enemy
+  - 
   - Player
   - PlayerProjectiles
   - EnemyShield
   - EnemyProjectiles
-  - 
+  - Enemy
   - 
   - 
   - 
