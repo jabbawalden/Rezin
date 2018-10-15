@@ -7,7 +7,7 @@ public class JsonData : MonoBehaviour {
     string filename = "GameData.Json";
     string path;
 
-    GameData gameData = new GameData();
+    public static GameData gameData = new GameData();
 
     private Player _player;
 
@@ -17,22 +17,35 @@ public class JsonData : MonoBehaviour {
         path = Application.persistentDataPath + "/" + filename;
         Debug.Log(path);
         _player = GameObject.Find("Player").GetComponent<Player>();
+
+        if (System.IO.File.Exists(path))
+        {
+            ReadData();
+            _player.LoadData();
+            print("file exists");
+        }
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
-		if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveData();
-        }
+		//if (Input.GetKeyDown(KeyCode.S))
+  //      {
+  //          SaveData();
+  //      }
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             ReadData();
+            
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            System.IO.File.Delete(path);
         }
 	}
 
-    void SaveData()
+    public void SaveData()
     {
         gameData.maxEnergy = _player.maxEnergy;
         gameData.startPosition = _player.startPosition;
@@ -42,20 +55,32 @@ public class JsonData : MonoBehaviour {
         //
         System.IO.File.WriteAllText(path, contents);
 
+
+        Debug.Log("Game Saved");
+
     }
 
     void ReadData()
     {
-        if (System.IO.File.Exists(path))
+        try
         {
-            string contents = System.IO.File.ReadAllText(path);
-            gameData = JsonUtility.FromJson<GameData>(contents);
-            Debug.Log(gameData);
+            if (System.IO.File.Exists(path))
+            {
+                string contents = System.IO.File.ReadAllText(path);
+                gameData = JsonUtility.FromJson<GameData>(contents);
+                Debug.Log(gameData.maxEnergy);
+                Debug.Log(gameData.startPosition);
+            }
+            else
+            {
+                Debug.Log("Unable to read data, file does not exist");
+                gameData = new GameData();
+            }
         }
-        else
+        catch (System.Exception ex)
         {
-            Debug.Log("Unable to read data, file does not exist");
-            gameData = new GameData();
+            Debug.Log(ex.Message);
+            Debug.Log("File does not exist");
         }
        
     }

@@ -6,8 +6,9 @@ public class Player : MonoBehaviour {
 
     
     public Rigidbody2D rb;
-
     public Vector2 startPosition;
+    GameData gameData = new GameData();
+    public Camera playerCamera;
 
     [Header("Player Movement")]
     public float movementSpeed;
@@ -70,6 +71,7 @@ public class Player : MonoBehaviour {
         _uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
         _healthComponent = GetComponent<HealthComponent>();
         boxCol = GetComponent<BoxCollider2D>();
+
     }
 
     // Use this for initialization
@@ -89,9 +91,14 @@ public class Player : MonoBehaviour {
         _haveJumped = false;
     }
 
-    void LoadData()
+    public void LoadData()
     {
-        //set variables and set start position here.
+        //Load data
+        startPosition = JsonData.gameData.startPosition;
+        maxEnergy = JsonData.gameData.maxEnergy;
+        //set variables
+        transform.position = startPosition;
+        playerCamera.transform.position = new Vector3(startPosition.x, startPosition.y, -10);
     }
 	
 	// Update is called once per frame

@@ -80,7 +80,7 @@ public class Laser : MonoBehaviour {
     {
         if (collision.CompareTag("Enemy") && projType == ProjectileType.Player)
         {
-            Debug.Log("HitTarget");
+            //Debug.Log("HitTarget");
             healthComponent = collision.GetComponent<HealthComponent>();
             healthComponent.health -= _damage;
             Destroy(gameObject);
@@ -102,6 +102,11 @@ public class Laser : MonoBehaviour {
         else
         {
             projectileLife--;
+        }
+
+        if (collision.CompareTag("Ground") && projType == ProjectileType.Enemy)
+        {
+            Destroy(gameObject);
         }
 
         if (collision.CompareTag("Shield") && projType == ProjectileType.Player)
