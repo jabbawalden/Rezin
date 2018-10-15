@@ -8,7 +8,7 @@ public class Laser : MonoBehaviour {
     Rigidbody2D rb;
     public float rotationSpeed;
     public int _damage;
-    private Player _player;
+    private PlayerMain _player;
     public int projectileLife;
     private CircleCollider2D _reboundCol;
     public float duration;
@@ -23,7 +23,7 @@ public class Laser : MonoBehaviour {
         StartCoroutine(ProjectileLifetime());
         rb = GetComponent<Rigidbody2D>();
         _reboundCol = GetComponent<CircleCollider2D>();
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        _player = GameObject.Find("Player").GetComponent<PlayerMain>();
 
         if (projType == ProjectileType.Player)
         {

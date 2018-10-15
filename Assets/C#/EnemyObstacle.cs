@@ -9,7 +9,7 @@ public class EnemyObstacle : MonoBehaviour {
     public float speed;
     public int destination;
     Rigidbody2D rb;
-    Player player;
+    PlayerMain player;
 
     HealthComponent healthComponent;
 
@@ -22,7 +22,7 @@ public class EnemyObstacle : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<Player>();
+        player = GameObject.Find("Player").GetComponent<PlayerMain>();
 
         if (points.Length > 0)
             transform.position = points[0].transform.position;

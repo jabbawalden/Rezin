@@ -9,14 +9,14 @@ public class JsonData : MonoBehaviour {
 
     public static GameData gameData = new GameData();
 
-    private Player _player;
+    private PlayerMain _player;
 
 	// Use this for initialization
 	void Start ()
     {
         path = Application.persistentDataPath + "/" + filename;
         Debug.Log(path);
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        _player = GameObject.Find("Player").GetComponent<PlayerMain>();
 
         if (System.IO.File.Exists(path))
         {

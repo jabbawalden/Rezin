@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class PlayerMain : MonoBehaviour {
 
     
     public Rigidbody2D rb;
@@ -46,24 +46,26 @@ public class Player : MonoBehaviour {
     public float distanceTravelled;
     private Vector2 _lastPosition;
 
-    [Header("Player Shoot")]
-    public int laserDamage;
-    public float laserSpeed;
-    public GameObject projectile;
-    public float fireRateDivider;
-    private float _nextFire;
+    //[Header("Player Shoot")]
+    //public int laserDamage;
+    //public float laserSpeed;
+    //public GameObject projectile;
+    //public float fireRateDivider;
+    //private float _nextFire;
     public Transform shotOrigin;
     float distance;
 
-    private Laser _laser;
-    public int projectileLife;
+    //private Laser _laser;
+    //public int projectileLife;
 
+    public bool isWallSliding;
     [Space(5)]
+    
 
     [Header("Player Uprades")]
     public bool doubleJump;
     public bool rebound;
-
+    public bool wallSlide;
 
     private void Awake() 
     {
@@ -77,6 +79,7 @@ public class Player : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        pMat.color = new Color(0, 191, 156);
         //if file exists, load files here
         //else initialize default variables
         doubleJump = true;
@@ -118,7 +121,7 @@ public class Player : MonoBehaviour {
             PlayerDirectionFace();
             PlayerDash();
             EnergyRegenerate();
-            PlayerShoot(GetFireRateFromDistance());
+            //PlayerShoot(GetFireRateFromDistance());
             
         }
         else
@@ -141,6 +144,7 @@ public class Player : MonoBehaviour {
     public Vector2 GetMouseDirection()
     {
         Vector2 mousePos2 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //using transform instead of ShotOrigin for now
         Vector3 direction = new Vector2(mousePos2.x - shotOrigin.position.x, mousePos2.y - shotOrigin.position.y);
         //normalize to get the same speed. 
         //No normalize to increase projectile speed based on mouse distance from player
@@ -148,12 +152,12 @@ public class Player : MonoBehaviour {
         return direction;
     }
 
-    public float GetFireRateFromDistance()
-    {
-        distance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
-        float newFireRate = distance / fireRateDivider;
-        return newFireRate;
-    }
+    //public float GetFireRateFromDistance()
+    //{
+    //    distance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
+    //    float newFireRate = distance / fireRateDivider;
+    //    return newFireRate;
+    //}
 
     void PlayerDirectionFace()
     {
@@ -231,27 +235,39 @@ public class Player : MonoBehaviour {
         rb.gravityScale = 1;
     }
 
-    void PlayerShoot(float newFireRate)
+    void WallSlide()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && _nextFire < Time.time && currentEnergy >= 1)
+        if (wallSlide)
         {
-            _nextFire = Time.time + newFireRate;
+            if (isWallSliding)
+            {
 
-            //crazy maths stuff to rotate sprite on its axis
-            float angle = Mathf.Atan2(GetMouseDirection().y, GetMouseDirection().x) * Mathf.Rad2Deg;
+            }
 
-            GameObject shot = Instantiate(projectile, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
-            shot.GetComponent<Rigidbody2D>().velocity = 
-                new Vector2(
-                    Mathf.Clamp(GetMouseDirection().x * laserSpeed, GetMouseDirection().x * 2, GetMouseDirection().x * 3), 
-                    Mathf.Clamp(GetMouseDirection().y * laserSpeed, GetMouseDirection().y * 2, GetMouseDirection().y * 3));
-
-            _laser = shot.GetComponent<Laser>();
-            _laser._damage = laserDamage;
-            _laser.projectileLife = projectileLife;
         }
-
     }
+
+    //void PlayerShoot(float newFireRate)
+    //{
+    //    if (Input.GetKey(KeyCode.Mouse0) && _nextFire < Time.time && currentEnergy >= 1)
+    //    {
+    //        _nextFire = Time.time + newFireRate;
+
+    //        //crazy maths stuff to rotate sprite on its axis
+    //        float angle = Mathf.Atan2(GetMouseDirection().y, GetMouseDirection().x) * Mathf.Rad2Deg;
+
+    //        GameObject shot = Instantiate(projectile, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
+    //        shot.GetComponent<Rigidbody2D>().velocity = 
+    //            new Vector2(
+    //                Mathf.Clamp(GetMouseDirection().x * laserSpeed, GetMouseDirection().x * 2, GetMouseDirection().x * 3), 
+    //                Mathf.Clamp(GetMouseDirection().y * laserSpeed, GetMouseDirection().y * 2, GetMouseDirection().y * 3));
+
+    //        _laser = shot.GetComponent<Laser>();
+    //        _laser._damage = laserDamage;
+    //        _laser.projectileLife = projectileLife;
+    //    }
+
+    //}
 
 
     public void PlayerDamageBehaviour()
@@ -309,7 +325,20 @@ public class Player : MonoBehaviour {
         {
             _haveJumped = false;
         }
-            
+
+
+        foreach (ContactPoint2D hitPos in collision.contacts)
+        {
+            Debug.Log(hitPos.normal);
+            if (hitPos.normal.x > 0 || hitPos.normal.x < 0)
+            {
+                isWallSliding = true;
+            }
+            else
+            {
+                isWallSliding = false;
+            }
+        }
     }
 
 

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour {
 
-    private Player _player;
+    private PlayerMain _playerMain;
     private HealthComponent _healthComponent;
 
     private GameObject _restartPanel;
@@ -20,7 +20,7 @@ public class UIManager : MonoBehaviour {
     private void Awake()
     {
         _restartPanel = GameObject.Find("RestartPanel");
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _healthComponent = GameObject.Find("Player").GetComponent<HealthComponent>();
     }
 
@@ -29,15 +29,15 @@ public class UIManager : MonoBehaviour {
     {
         currentHealth.text = "" + _healthComponent.health;
         maxHealth.text = "/ " + _healthComponent.maxHealth; 
-        currentEnergy.text = "" + _player.currentEnergy;
+        currentEnergy.text = "" + _playerMain.currentEnergy;
         _restartPanel.SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        currentEnergy.text = "" + _player.currentEnergy;
-        maxEnergy.text = "" + _player.maxEnergy;
+        currentEnergy.text = "" + _playerMain.currentEnergy;
+        maxEnergy.text = "" + _playerMain.maxEnergy;
     }
 
     // called by player on death

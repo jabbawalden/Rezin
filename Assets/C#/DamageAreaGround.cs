@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamageAreaGround : MonoBehaviour {
 
     HealthComponent healthComponent;
-    Player player;
+    PlayerMain player;
     bool playerDetected;
     private float _nextFire;
     public float fireRate;
@@ -23,7 +23,7 @@ public class DamageAreaGround : MonoBehaviour {
         {
             playerDetected = true;
             healthComponent = collision.GetComponent<HealthComponent>();
-            player = collision.GetComponent<Player>();
+            player = collision.GetComponent<PlayerMain>();
         }
         else
             playerDetected = false;

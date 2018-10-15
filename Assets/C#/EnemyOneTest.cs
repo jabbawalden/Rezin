@@ -7,7 +7,7 @@ public class EnemyOneTest : MonoBehaviour {
     private HealthComponent _healthComp;
     private Rigidbody2D _rb;
     private Transform playerTarget;
-    private Player _player;
+    private PlayerMain _player;
     [Header("Enemy Movement")]
     public float movementSpeed;
     public bool facingForward;
@@ -35,7 +35,7 @@ public class EnemyOneTest : MonoBehaviour {
     {
         _healthComp = GetComponent<HealthComponent>(); 
         playerTarget = GameObject.Find("Player").transform;
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        _player = GameObject.Find("Player").GetComponent<PlayerMain>();
         _rb = GetComponent<Rigidbody2D>();
         _startPos = transform.position;
     }
