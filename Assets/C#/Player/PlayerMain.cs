@@ -29,7 +29,7 @@ public class PlayerMain : MonoBehaviour {
     public bool onGroundCheckRepresentation;
     public Material pMat;
     private UIManager _uiManager;
-    private bool _haveJumped;
+    [SerializeField] private bool _haveJumped;
     [Space(5)]
 
     [Header("Player Jump")]
@@ -46,12 +46,6 @@ public class PlayerMain : MonoBehaviour {
     public float distanceTravelled;
     private Vector2 _lastPosition;
 
-    //[Header("Player Shoot")]
-    //public int laserDamage;
-    //public float laserSpeed;
-    //public GameObject projectile;
-    //public float fireRateDivider;
-    //private float _nextFire;
     public Transform shotOrigin;
     float distance;
 
@@ -82,10 +76,10 @@ public class PlayerMain : MonoBehaviour {
         pMat.color = new Color(0, 191, 156);
         //if file exists, load files here
         //else initialize default variables
-        doubleJump = true;
-        rebound = true;
-        jumpCount = 2;
-        jumpMaxCount = 2;
+        //doubleJump = true;
+        //rebound = true;
+        //jumpCount = 2;
+        //jumpMaxCount = 2;
 
         //always default
         facingPositive = true;
@@ -121,7 +115,6 @@ public class PlayerMain : MonoBehaviour {
             PlayerDirectionFace();
             PlayerDash();
             EnergyRegenerate();
-            //PlayerShoot(GetFireRateFromDistance());
             
         }
         else
@@ -151,13 +144,6 @@ public class PlayerMain : MonoBehaviour {
 
         return direction;
     }
-
-    //public float GetFireRateFromDistance()
-    //{
-    //    distance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
-    //    float newFireRate = distance / fireRateDivider;
-    //    return newFireRate;
-    //}
 
     void PlayerDirectionFace()
     {
@@ -247,28 +233,6 @@ public class PlayerMain : MonoBehaviour {
         }
     }
 
-    //void PlayerShoot(float newFireRate)
-    //{
-    //    if (Input.GetKey(KeyCode.Mouse0) && _nextFire < Time.time && currentEnergy >= 1)
-    //    {
-    //        _nextFire = Time.time + newFireRate;
-
-    //        //crazy maths stuff to rotate sprite on its axis
-    //        float angle = Mathf.Atan2(GetMouseDirection().y, GetMouseDirection().x) * Mathf.Rad2Deg;
-
-    //        GameObject shot = Instantiate(projectile, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
-    //        shot.GetComponent<Rigidbody2D>().velocity = 
-    //            new Vector2(
-    //                Mathf.Clamp(GetMouseDirection().x * laserSpeed, GetMouseDirection().x * 2, GetMouseDirection().x * 3), 
-    //                Mathf.Clamp(GetMouseDirection().y * laserSpeed, GetMouseDirection().y * 2, GetMouseDirection().y * 3));
-
-    //        _laser = shot.GetComponent<Laser>();
-    //        _laser._damage = laserDamage;
-    //        _laser.projectileLife = projectileLife;
-    //    }
-
-    //}
-
 
     public void PlayerDamageBehaviour()
     {
@@ -311,25 +275,31 @@ public class PlayerMain : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Ground"))
+        foreach (ContactPoint2D hitPos in collision.contacts)
         {
-            print("groundcollide");
-            jumpCount = jumpMaxCount;
+            Debug.Log(hitPos.normal);
+            if (collision.collider.CompareTag("Ground") && hitPos.normal.y > 0)
+            {
+                jumpCount = jumpMaxCount;
+                _haveJumped = false;
+            }
+            
+
         }
 
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.CompareTag("Ground"))
-        {
-            _haveJumped = false;
-        }
+        //if (collision.collider.CompareTag("Ground"))
+        //{
+        //    _haveJumped = false;
+        //}
 
 
         foreach (ContactPoint2D hitPos in collision.contacts)
         {
-            Debug.Log(hitPos.normal);
+            
             if (hitPos.normal.x > 0 || hitPos.normal.x < 0)
             {
                 isWallSliding = true;
@@ -338,8 +308,11 @@ public class PlayerMain : MonoBehaviour {
             {
                 isWallSliding = false;
             }
+
         }
     }
+
+
 
 
 
