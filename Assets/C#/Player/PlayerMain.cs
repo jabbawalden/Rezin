@@ -230,7 +230,11 @@ public class PlayerMain : MonoBehaviour {
             if (isWallSliding && rb.velocity.y < 0)
             {
                 if (rb.velocity.y < -wallSlideSpeedMax)
+                {
                     rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedMax);
+                }
+
+                jumpCount = jumpMaxCount;
             }
 
         }
@@ -305,6 +309,15 @@ public class PlayerMain : MonoBehaviour {
                 isWallSliding = false;
             }
 
+        }
+    }
+
+    //check off isWallSliding
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isWallSliding = false;
         }
     }
 
