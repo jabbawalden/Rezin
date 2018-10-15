@@ -48,6 +48,9 @@ public class PlayerMain : MonoBehaviour {
 
     public Transform shotOrigin;
     float distance;
+    [Space(5)]
+    [Header("Player Wall Slide Behaviour")]
+    public float wallSlideSpeedMax;
 
     //private Laser _laser;
     //public int projectileLife;
@@ -115,6 +118,7 @@ public class PlayerMain : MonoBehaviour {
             PlayerDirectionFace();
             PlayerDash();
             EnergyRegenerate();
+            WallSlide();
             
         }
         else
@@ -155,13 +159,11 @@ public class PlayerMain : MonoBehaviour {
         {
             transform.localScale = new Vector3(1, 1, 1);
             facingPositive = true;
-            //print("left");
         }
         else
         {
             transform.localScale = new Vector3(-1, 1, 1);
             facingPositive = false;
-            //print("right");
         }
 
     }
@@ -225,9 +227,10 @@ public class PlayerMain : MonoBehaviour {
     {
         if (wallSlide)
         {
-            if (isWallSliding)
+            if (isWallSliding && rb.velocity.y < 0)
             {
-
+                if (rb.velocity.y < -wallSlideSpeedMax)
+                    rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedMax);
             }
 
         }
@@ -283,7 +286,6 @@ public class PlayerMain : MonoBehaviour {
                 jumpCount = jumpMaxCount;
                 _haveJumped = false;
             }
-            
 
         }
 
@@ -291,12 +293,6 @@ public class PlayerMain : MonoBehaviour {
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        //if (collision.collider.CompareTag("Ground"))
-        //{
-        //    _haveJumped = false;
-        //}
-
-
         foreach (ContactPoint2D hitPos in collision.contacts)
         {
             
