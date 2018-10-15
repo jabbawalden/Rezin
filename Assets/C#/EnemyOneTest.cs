@@ -8,11 +8,13 @@ public class EnemyOneTest : MonoBehaviour {
     private Rigidbody2D _rb;
     private Transform playerTarget;
     private Player _player;
+    [Header("Enemy Movement")]
     public float movementSpeed;
+    public bool facingForward;
     [Space(5)]
     [Header("Enemy Shoot")]
-    float _nextFire;
     public float fireRate;
+    private float _nextFire;
     public GameObject eProj;
     public Transform shotOrigin;
     public float laserSpeed;
@@ -20,11 +22,14 @@ public class EnemyOneTest : MonoBehaviour {
     public int damage;
     // Use this for initialization
     public Material eMat;
+    private Vector2 _startPos;
+
     [Space(5)]
     [Header("Enemy Aggro")]
     public float shootRange;
     public float distanceKept;
     public float distanceAggro;
+    public bool aggro;
 
     void Start ()
     {
@@ -32,6 +37,7 @@ public class EnemyOneTest : MonoBehaviour {
         playerTarget = GameObject.Find("Player").transform;
         _player = GameObject.Find("Player").GetComponent<Player>();
         _rb = GetComponent<Rigidbody2D>();
+        _startPos = transform.position;
     }
 
 
@@ -48,8 +54,32 @@ public class EnemyOneTest : MonoBehaviour {
             Destroy(gameObject);
         EnemyBasicBehaviour();
         //Debug.Log(GetDistanceFromPlayer());
+        SetDirection();
 
 	}
+
+    void SetDirection()
+    {
+        if (_rb.velocity.x < 0 && !aggro)
+        {
+            facingForward = false;
+        }
+        else if (_rb.velocity.x > 0 && !aggro)
+        {
+            facingForward = true;
+        }
+
+        if (playerTarget.position.x < transform.position.x && aggro)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+            facingForward = false;
+        }
+        else if (playerTarget.position.x > transform.position.x && aggro)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+            facingForward = true;
+        }
+    }
 
     void EnemyBasicBehaviour()
     {
@@ -58,13 +88,20 @@ public class EnemyOneTest : MonoBehaviour {
         {
             if (!_player.dead)
             {
-                if (GetDistanceFromPlayer() <= distanceAggro && GetDistanceFromPlayer() >= 4)
+                if (GetDistanceFromPlayer() <= distanceAggro && GetDistanceFromPlayer() >= distanceKept)
                 {
                     transform.position = Vector2.MoveTowards(transform.position, playerTarget.position, deltaPosition);
+                    aggro = true;
                 }
                 else if (GetDistanceFromPlayer() <= distanceKept)
                 {
                     transform.position = Vector2.MoveTowards(transform.position, playerTarget.position, -deltaPosition);
+                    aggro = true;
+                }
+
+                if (GetDistanceFromPlayer() > distanceAggro)
+                {
+                    transform.position = Vector2.MoveTowards(transform.position, _startPos, deltaPosition);
                 }
 
                 if (GetDistanceFromPlayer() <= shootRange)

@@ -48,7 +48,6 @@ public class Laser : MonoBehaviour {
 
         if (_player.rebound && projType == ProjectileType.Player)
         {
-            print(projectileLife);
             if (projectileLife <= 0)
                 Destroy(gameObject);
         } 

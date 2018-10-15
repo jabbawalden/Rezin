@@ -7,6 +7,8 @@ public class Player : MonoBehaviour {
     
     public Rigidbody2D rb;
 
+    public Vector2 startPosition;
+
     [Header("Player Movement")]
     public float movementSpeed;
     public float dashSpeed;
@@ -89,12 +91,17 @@ public class Player : MonoBehaviour {
 
     void LoadData()
     {
-
+        //set variables and set start position here.
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            maxEnergy += 10;
+            startPosition += new Vector2(21, -5);
+        }
 
         if (_healthComponent.IsAlive())
         {
@@ -193,13 +200,13 @@ public class Player : MonoBehaviour {
 
     void PlayerDash()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 100)
         {
             distanceTravelled = 0;
             distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
             _lastPosition = transform.position;
             print("right mouse hit");
-            currentEnergy -= 50;
+            currentEnergy -= 100;
             if (facingPositive)
                 rb.velocity = new Vector2(dashSpeed, 0);
             else

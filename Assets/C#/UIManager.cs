@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour {
     public Text currentHealth;
     public Text maxHealth;
     public Text currentEnergy;
+    public Text maxEnergy;
 
     // set variables
     private void Awake()
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour {
 	void Update ()
     {
         currentEnergy.text = "" + _player.currentEnergy;
+        maxEnergy.text = "" + _player.maxEnergy;
     }
 
     // called by player on death
