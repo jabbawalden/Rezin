@@ -155,7 +155,7 @@ public class PlayerMain : MonoBehaviour {
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
         //direction through - vectors of both positions
-        if (mousePos.x > transform.position.x)
+        if (mousePos.x > transform.position.x /*&& !isWallSliding*/)
         {
             transform.localScale = new Vector3(1, 1, 1);
             facingPositive = true;
@@ -164,6 +164,11 @@ public class PlayerMain : MonoBehaviour {
         {
             transform.localScale = new Vector3(-1, 1, 1);
             facingPositive = false;
+        }
+
+        if (wallSlide && isWallSliding)
+        {
+
         }
 
     }
@@ -284,7 +289,8 @@ public class PlayerMain : MonoBehaviour {
     {
         foreach (ContactPoint2D hitPos in collision.contacts)
         {
-            Debug.Log(hitPos.normal);
+            //Debug.Log(hitPos.normal);
+            //check if we hit ground object AND our hit came from below
             if (collision.collider.CompareTag("Ground") && hitPos.normal.y > 0)
             {
                 jumpCount = jumpMaxCount;
@@ -303,10 +309,20 @@ public class PlayerMain : MonoBehaviour {
             if (hitPos.normal.x > 0 || hitPos.normal.x < 0)
             {
                 isWallSliding = true;
+                
             }
             else
             {
                 isWallSliding = false;
+            }
+
+            if (hitPos.normal.x > 0)
+            {
+                Debug.Log(hitPos);
+            }
+            if (hitPos.normal.x < 0)
+            {
+
             }
 
         }
