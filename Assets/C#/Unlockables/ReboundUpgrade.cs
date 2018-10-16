@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashUpgrade : UnlockableBaseClass {
+public class ReboundUpgrade : UnlockableBaseClass {
 
-    // Update is called once per frame
-    public bool dashUpgrade;
-    
+    public bool reboundUpgrade;
+
     public void LoadData()
     {
-        dashUpgrade = JsonData.gameData.dashUpgrade;
+        reboundUpgrade = JsonData.gameData.reboundUpgrade;
 
-        if (dashUpgrade)
+        if (reboundUpgrade)
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 
-    void Update ()
+    void Update()
     {
         if (playerisHere)
         {
             Upgrade();
-            dashUpgrade = true;
+            reboundUpgrade = true;
             Destroy(upgradeObject);
             //Particle FX
             //trigger UI
@@ -33,6 +32,6 @@ public class DashUpgrade : UnlockableBaseClass {
 
     void Upgrade()
     {
-        _playerMain.dashUpgrade = true;
+        _playerMain.reboundUpgrade = true;
     }
 }

@@ -27,7 +27,7 @@ public class Laser : MonoBehaviour {
 
         if (projType == ProjectileType.Player)
         {
-            if (_player.rebound)
+            if (_player.reboundUpgrade)
                 _reboundCol.enabled = true;
             else
                 _reboundCol.enabled = false;
@@ -46,7 +46,7 @@ public class Laser : MonoBehaviour {
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        if (_player.rebound && projType == ProjectileType.Player)
+        if (_player.reboundUpgrade && projType == ProjectileType.Player)
         {
             if (projectileLife <= 0)
                 Destroy(gameObject);
@@ -95,7 +95,7 @@ public class Laser : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if (collision.CompareTag("Ground") && !_player.rebound) 
+        if (collision.CompareTag("Ground") && !_player.reboundUpgrade) 
         {
             Destroy(gameObject);
         }

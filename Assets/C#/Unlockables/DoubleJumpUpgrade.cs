@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashUpgrade : UnlockableBaseClass {
+public class DoubleJumpUpgrade : UnlockableBaseClass {
 
-    // Update is called once per frame
-    public bool dashUpgrade;
-    
+    public bool doubleJumpUpgrade;
+
     public void LoadData()
     {
-        dashUpgrade = JsonData.gameData.dashUpgrade;
+        doubleJumpUpgrade = JsonData.gameData.doubleJumpUpgrade;
 
-        if (dashUpgrade)
+        if (doubleJumpUpgrade)
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 
-    void Update ()
+    void Update()
     {
         if (playerisHere)
         {
             Upgrade();
-            dashUpgrade = true;
+            doubleJumpUpgrade = true;
             Destroy(upgradeObject);
             //Particle FX
             //trigger UI
@@ -33,6 +32,7 @@ public class DashUpgrade : UnlockableBaseClass {
 
     void Upgrade()
     {
-        _playerMain.dashUpgrade = true;
+        _playerMain.doubleJumpUpgrade = true;
+        _playerMain.jumpCount = 2;
     }
 }

@@ -60,9 +60,11 @@ public class PlayerMain : MonoBehaviour {
     
 
     [Header("Player Uprades")]
-    public bool doubleJump;
-    public bool rebound;
-    public bool wallSlide;
+    public bool doubleJumpUpgrade;
+    public bool reboundUpgrade;
+    public bool wallSlideUpgrade;
+    public bool dashUpgrade;
+    public bool explosionUpgrade; 
 
     private void Awake() 
     {
@@ -96,9 +98,15 @@ public class PlayerMain : MonoBehaviour {
         //Load data
         startPosition = JsonData.gameData.startPosition;
         maxEnergy = JsonData.gameData.maxEnergy;
+        dashUpgrade = JsonData.gameData.dashUpgrade;
+        doubleJumpUpgrade = JsonData.gameData.doubleJumpUpgrade;
+        reboundUpgrade = JsonData.gameData.reboundUpgrade;
+        wallSlideUpgrade = JsonData.gameData.wallSlideUpgrade;
+        explosionUpgrade = JsonData.gameData.explosionUpgrade;
         //set variables
         transform.position = startPosition;
         playerCamera.transform.position = new Vector3(startPosition.x, startPosition.y, -10);
+        
     }
 	
 	// Update is called once per frame
@@ -166,10 +174,10 @@ public class PlayerMain : MonoBehaviour {
             facingPositive = false;
         }
 
-        if (wallSlide && isWallSliding)
-        {
+        //if (wallSlideUpgrade && isWallSliding)
+        //{
 
-        }
+        //}
 
     }
 
@@ -181,6 +189,10 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerJump()
     {
+        if (doubleJumpUpgrade)
+        {
+            jumpMaxCount = 2;
+        }
         //check if grounded
         if (Input.GetButtonDown("Jump") && jumpCount >= 1)
         {
@@ -194,9 +206,9 @@ public class PlayerMain : MonoBehaviour {
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
 
-            if (doubleJump && !_haveJumped)
+            if (doubleJumpUpgrade && !_haveJumped)
                 jumpCount = 1;
-            else if (!doubleJump && !_haveJumped)
+            else if (!doubleJumpUpgrade && !_haveJumped)
                 jumpCount = 0;
         }
     }
@@ -204,7 +216,7 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerDash()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 100)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 100 && dashUpgrade)
         {
             distanceTravelled = 0;
             distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
@@ -230,7 +242,7 @@ public class PlayerMain : MonoBehaviour {
 
     void WallSlide()
     {
-        if (wallSlide)
+        if (wallSlideUpgrade)
         {
             if (isWallSliding && rb.velocity.y < 0)
             {

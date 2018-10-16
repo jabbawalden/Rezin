@@ -10,18 +10,30 @@ public class JsonData : MonoBehaviour {
     public static GameData gameData = new GameData();
 
     private PlayerMain _player;
-
+    private DashUpgrade _dashUpgrade;
+    private ReboundUpgrade _reboundUpgrade;
+    private DoubleJumpUpgrade _doubleJumpUpgrade;
+    private WallSlideUpgrade _wallSlideUpgrade; 
 	// Use this for initialization
 	void Start ()
     {
         path = Application.persistentDataPath + "/" + filename;
         Debug.Log(path);
         _player = GameObject.Find("Player").GetComponent<PlayerMain>();
+        _dashUpgrade = GameObject.Find("DashUpgrade").GetComponent<DashUpgrade>();
+        _reboundUpgrade = GameObject.Find("ReboundUpgrade").GetComponent<ReboundUpgrade>();
+        _doubleJumpUpgrade = GameObject.Find("DoubleJumpUpgrade").GetComponent<DoubleJumpUpgrade>();
+        _wallSlideUpgrade = GameObject.Find("WallSlideUpgrade").GetComponent<WallSlideUpgrade>();
 
         if (System.IO.File.Exists(path))
         {
             ReadData();
             _player.LoadData();
+            _dashUpgrade.LoadData();
+            _reboundUpgrade.LoadData();
+            _doubleJumpUpgrade.LoadData();
+            _wallSlideUpgrade.LoadData();
+
             print("file exists");
         }
 	}
@@ -49,6 +61,11 @@ public class JsonData : MonoBehaviour {
     {
         gameData.maxEnergy = _player.maxEnergy;
         gameData.startPosition = _player.startPosition;
+        gameData.dashUpgrade = _player.dashUpgrade;
+        gameData.reboundUpgrade = _player.reboundUpgrade;
+        gameData.doubleJumpUpgrade = _player.doubleJumpUpgrade;
+        gameData.wallSlideUpgrade = _player.wallSlideUpgrade;
+        gameData.explosionUpgrade = _player.explosionUpgrade;
 
         //set items in gameData class to contents string variable
         string contents = JsonUtility.ToJson(gameData, true);
