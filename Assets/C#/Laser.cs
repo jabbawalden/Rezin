@@ -42,18 +42,15 @@ public class Laser : MonoBehaviour {
                 if (canRebound)
                     _reboundCol.isTrigger = false;
                 else
-                    _reboundCol.isTrigger = true;
-            } 
+                    Destroy(_reboundCol);
+            }
             else
             {
                 _reboundCol.enabled = false;
             }
         }
+        else { Destroy(_reboundCol); }
 
-        if (projType == ProjectileType.Enemy)
-        {
-            Destroy(_reboundCol);
-        }
     }
 
     IEnumerator ProjectileLifetime()
@@ -129,9 +126,10 @@ public class Laser : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if (collision.CompareTag("Ground") && !_playerShoot.reboundUpgrade) 
+        if (collision.CompareTag("Ground")) 
         {
-            Destroy(gameObject);
+            if (!_playerShoot.reboundUpgrade || !canRebound) 
+                Destroy(gameObject);
         }
         else
         {
