@@ -7,7 +7,7 @@ public class EnemyOneTest : MonoBehaviour {
     private HealthComponent _healthComp;
     private Rigidbody2D _rb;
     private Transform playerTarget;
-    private PlayerMain _player;
+    private PlayerMain _playerMain;
     [Header("Enemy Movement")]
     public float movementSpeed;
     public bool facingForward;
@@ -31,13 +31,15 @@ public class EnemyOneTest : MonoBehaviour {
     public float distanceAggro;
     public bool aggro;
 
+    public bool stun;
     void Start ()
     {
         _healthComp = GetComponent<HealthComponent>(); 
         playerTarget = GameObject.Find("Player").transform;
-        _player = GameObject.Find("Player").GetComponent<PlayerMain>();
+        _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _rb = GetComponent<Rigidbody2D>();
         _startPos = transform.position;
+        stun = false;
     }
 
 
@@ -52,9 +54,19 @@ public class EnemyOneTest : MonoBehaviour {
     {
         if (_healthComp.health <= 0)
             Destroy(gameObject);
-        EnemyBasicBehaviour();
-        //Debug.Log(GetDistanceFromPlayer());
-        SetDirection();
+
+        if(!stun)
+        {
+            EnemyBasicBehaviour();
+            //Debug.Log(GetDistanceFromPlayer());
+            SetDirection();
+        }
+
+        if (stun)
+        {
+            StartCoroutine(StunBehaviour(_playerMain.stunTime));
+        }
+      
 
 	}
 
@@ -81,12 +93,18 @@ public class EnemyOneTest : MonoBehaviour {
         }
     }
 
+    IEnumerator StunBehaviour(float seconds)
+    {
+        yield return new WaitForSeconds(1);
+        stun = false;
+    }
+
     void EnemyBasicBehaviour()
     {
         float deltaPosition = movementSpeed * Time.deltaTime;
-        if (_player != null)
+        if (_playerMain != null)
         {
-            if (!_player.dead)
+            if (!_playerMain.dead)
             {
                 if (GetDistanceFromPlayer() <= distanceAggro && GetDistanceFromPlayer() >= distanceKept)
                 {

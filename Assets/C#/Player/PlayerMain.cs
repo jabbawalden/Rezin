@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMain : MonoBehaviour {
 
-    
+
     public Rigidbody2D rb;
     public Vector2 startPosition;
     GameData gameData = new GameData();
@@ -57,7 +57,13 @@ public class PlayerMain : MonoBehaviour {
 
     public bool isWallSliding;
     [Space(5)]
-    
+
+    [Header("Player Concussion Behaviour")]
+    public GameObject concussionObj;
+    public int concussionDamage;
+    public float stunTime;
+
+    [Space(5)]
 
     [Header("Player Uprades")]
     public bool doubleJumpUpgrade;
@@ -90,6 +96,7 @@ public class PlayerMain : MonoBehaviour {
         dead = false;
         _lastPosition = transform.position;
         _haveJumped = false;
+        
     }
 
     public void LoadData()
@@ -214,20 +221,24 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerDash()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 100 && dashUpgrade)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 99 && dashUpgrade)
         {
-            distanceTravelled = 0;
-            distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
-            _lastPosition = transform.position;
+            //distanceTravelled = 0;
+            //distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
+            //_lastPosition = transform.position;
             print("Dash enabled");
-            currentEnergy -= 100;
+            currentEnergy -= 50;
             if (facingPositive)
-                rb.velocity = new Vector2(dashSpeed, 0);
+                rb.AddForce(new Vector2(dashSpeed, 0));
             else
-                rb.velocity = new Vector2(-dashSpeed, 0);
+                rb.AddForce(new Vector2(-dashSpeed, 0));
+
+            if (concussionUpgrade)
+                Instantiate(concussionObj, transform.position, transform.rotation);
         }
 
     }
+
 
     IEnumerator colliderDashInvulnerable()
     {

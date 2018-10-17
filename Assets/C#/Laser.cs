@@ -83,7 +83,6 @@ public class Laser : MonoBehaviour {
 
         if (collision.collider.CompareTag("Player") && projType == ProjectileType.Enemy)
         {
-            Debug.Log("HitTarget");
             healthComponent = collision.collider.GetComponent<HealthComponent>();
             healthComponent.health -= _damage;
             _playerMain.PlayerDamageBehaviour();
