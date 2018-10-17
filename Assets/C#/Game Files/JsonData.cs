@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class JsonData : MonoBehaviour {
 
+    //main one for now
     string filename = "GameData.Json";
+    //setup for when 3 slots are available
+    string filename2 = "GameData2.Json";
+    string filename3 = "GameData3.Json";
+
     string path;
+    //for next 2 slots
+    string path2;
+    string path3;
+
+    //above code will require a singleton to keep track of which ones to load
+    //the singleton will send information here and tell the JsonData which path is to be used based on the player input
 
     public static GameData gameData = new GameData();
 
@@ -27,8 +38,11 @@ public class JsonData : MonoBehaviour {
         _doubleJumpUpgrade = GameObject.Find("DoubleJumpUpgrade").GetComponent<DoubleJumpUpgrade>();
         _wallSlideUpgrade = GameObject.Find("WallSlideUpgrade").GetComponent<WallSlideUpgrade>();
 
+        //this will later be converted into a function, with a string argument passed through it to check which paths to save through
+        //eg, GameLoadData(path2);
         if (System.IO.File.Exists(path))
         {
+            //argument will also be passed through ReadData eg. ReadData(path2);
             ReadData();
             _playerMain.LoadData();
             _dashUpgrade.LoadData();
@@ -51,6 +65,7 @@ public class JsonData : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.R))
         {
+            
             ReadData();
             
         }
@@ -60,6 +75,7 @@ public class JsonData : MonoBehaviour {
         }
 	}
 
+    //argument required for savedata for check which path and file we are saving into
     public void SaveData()
     {
         gameData.ShootRebound = _playerShoot.shootRebound;
@@ -81,6 +97,7 @@ public class JsonData : MonoBehaviour {
 
     }
 
+    //pass an argument through here for path
     void ReadData()
     {
         try
@@ -89,8 +106,6 @@ public class JsonData : MonoBehaviour {
             {
                 string contents = System.IO.File.ReadAllText(path);
                 gameData = JsonUtility.FromJson<GameData>(contents);
-                Debug.Log(gameData.maxEnergy);
-                Debug.Log(gameData.startPosition);
             }
             else
             {
