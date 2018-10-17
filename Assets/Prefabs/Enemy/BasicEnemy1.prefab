@@ -35,6 +35,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4196376294116828}
   - component: {fileID: 114066124544646916}
+  - component: {fileID: 114013493511638770}
   - component: {fileID: 114570168003702734}
   - component: {fileID: 23307447346490888}
   - component: {fileID: 61747438615375436}
@@ -100,8 +101,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1005827890959846}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.808289, y: -4.729266, z: 0.1484375}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1123.47, y: 33.38, z: 0}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4419674602016736}
   - {fileID: 4290520112014376}
@@ -185,7 +186,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
+  - {fileID: 2100000, guid: de6f661cb45fd494686da816c609ee34, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -220,7 +221,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
+  - {fileID: 2100000, guid: de6f661cb45fd494686da816c609ee34, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -299,6 +300,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.65722656, y: 1.1499586}
   m_EdgeRadius: 0
+--- !u!114 &114013493511638770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1005827890959846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4523dc5ff54e34089cb56af79c60c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRate: 1
+  eProj: {fileID: 1359072622980384, guid: e9cf9524194479343b1cb36f16115841, type: 2}
+  shotOrigin: {fileID: 4419674602016736}
+  laserSpeed: 2
+  damage: 5
 --- !u!114 &114066124544646916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -312,16 +329,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   facingForward: 0
-  fireRate: 0.7
-  eProj: {fileID: 1359072622980384, guid: e9cf9524194479343b1cb36f16115841, type: 2}
-  shotOrigin: {fileID: 4419674602016736}
-  laserSpeed: 3
-  damage: 5
   eMat: {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
-  shootRange: 8
+  shootRange: 7
   distanceKept: 5
   distanceAggro: 11
   aggro: 0
+  stun: 0
 --- !u!114 &114570168003702734
 MonoBehaviour:
   m_ObjectHideFlags: 1

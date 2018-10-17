@@ -9,6 +9,7 @@ public class PlayerMain : MonoBehaviour {
     public Vector2 startPosition;
     GameData gameData = new GameData();
     public Camera playerCamera;
+    public bool invulnerable;
 
     [Header("Player Movement")]
     public float movementSpeed;
@@ -96,6 +97,7 @@ public class PlayerMain : MonoBehaviour {
         dead = false;
         _lastPosition = transform.position;
         _haveJumped = false;
+        invulnerable = false;
         
     }
 
@@ -234,19 +236,21 @@ public class PlayerMain : MonoBehaviour {
                 rb.AddForce(new Vector2(-dashSpeed, 0));
 
             if (concussionUpgrade)
-                Instantiate(concussionObj, transform.position, transform.rotation);
+                StartCoroutine(ConcussionSpawn());
+                
         }
 
     }
 
 
-    IEnumerator colliderDashInvulnerable()
+    IEnumerator ConcussionSpawn() 
     {
-        boxCol.isTrigger = true; 
-        rb.gravityScale = 0;
-        yield return new WaitForSeconds(0.2F);
-        boxCol.isTrigger = false;
-        rb.gravityScale = 1;
+        Instantiate(concussionObj, transform.position, transform.rotation);
+        invulnerable = true;
+        yield return new WaitForSeconds(0.02F);
+        Instantiate(concussionObj, transform.position, transform.rotation);
+        yield return new WaitForSeconds(0.1F);
+        invulnerable = false;
     }
 
     void WallSlide()

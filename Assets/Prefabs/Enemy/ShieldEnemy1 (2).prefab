@@ -71,6 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4219499911111422}
   - component: {fileID: 114140482535961326}
+  - component: {fileID: 114469136808841886}
   - component: {fileID: 114467319451179216}
   - component: {fileID: 23868603943131754}
   - component: {fileID: 61084900222298426}
@@ -119,7 +120,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1524386913420026}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1108.42, y: -15.59, z: 0}
+  m_LocalPosition: {x: 1111.35, y: -15.57, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4942610488706384}
@@ -432,16 +433,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   facingForward: 0
-  fireRate: 1
-  eProj: {fileID: 1359072622980384, guid: e9cf9524194479343b1cb36f16115841, type: 2}
-  shotOrigin: {fileID: 4942610488706384}
-  laserSpeed: 2
-  damage: 5
   eMat: {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
   shootRange: 6
   distanceKept: 2
   distanceAggro: 11
   aggro: 0
+  stun: 0
 --- !u!114 &114467319451179216
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -455,3 +452,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 25
   maxHealth: 25
+--- !u!114 &114469136808841886
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1524386913420026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4523dc5ff54e34089cb56af79c60c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRate: 2
+  eProj: {fileID: 1359072622980384, guid: e9cf9524194479343b1cb36f16115841, type: 2}
+  shotOrigin: {fileID: 4942610488706384}
+  laserSpeed: 1
+  damage: 10

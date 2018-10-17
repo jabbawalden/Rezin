@@ -391,7 +391,7 @@ MonoBehaviour:
   concussionObj: {fileID: 1341363833201774, guid: 0f6e2399c50409a4397d76eae50e12d3,
     type: 2}
   concussionDamage: 10
-  stunTime: 0
+  stunTime: 2
   doubleJumpUpgrade: 0
   wallSlideUpgrade: 0
   dashUpgrade: 0

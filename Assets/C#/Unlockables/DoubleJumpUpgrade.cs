@@ -22,13 +22,14 @@ public class DoubleJumpUpgrade : UnlockableBaseClass {
         {
             Upgrade();
             doubleJumpUpgrade = true;
-            Destroy(upgradeObject);
+            Destroy(gameObject);
             //Particle FX
-            //trigger UI
+            //trigger UI 
         }
 
         //float up and down
     }
+
 
     void Upgrade()
     {

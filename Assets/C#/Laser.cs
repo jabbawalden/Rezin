@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour {
 
-    HealthComponent healthComponent;
+    private HealthComponent _healthComponent;
+    private EnemyBasic _enemyOnetest;
     Rigidbody2D rb;
     public float rotationSpeed;
     public int _damage;
@@ -13,6 +14,7 @@ public class Laser : MonoBehaviour {
     public int projectileLife;
     private CircleCollider2D _reboundCol;
     public float duration;
+    
     [SerializeField]
     public enum ProjectileType {Player, Enemy}
     
@@ -46,9 +48,11 @@ public class Laser : MonoBehaviour {
             {
                 _reboundCol.enabled = false;
             }
-                
+        }
 
-            
+        if (projType == ProjectileType.Enemy)
+        {
+            Destroy(_reboundCol);
         }
     }
 
@@ -81,25 +85,38 @@ public class Laser : MonoBehaviour {
         //    Destroy(gameObject);
         //}
 
-        if (collision.collider.CompareTag("Player") && projType == ProjectileType.Enemy)
-        {
-            healthComponent = collision.collider.GetComponent<HealthComponent>();
-            healthComponent.health -= _damage;
-            _playerMain.PlayerDamageBehaviour();
-            Destroy(gameObject);
-        }
-
-       
-
+        //if (collision.collider.CompareTag("Player") && projType == ProjectileType.Enemy)
+        //{
+        //    if (!_playerMain.invulnerable)
+        //    {
+        //        _healthComponent = collision.collider.GetComponent<HealthComponent>();
+        //        _healthComponent.health -= _damage;
+        //        _playerMain.PlayerDamageBehaviour();
+        //        Destroy(gameObject);
+        //    }
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.CompareTag("Player") && projType == ProjectileType.Enemy)
+        {
+            if (!_playerMain.invulnerable)
+            {
+                _healthComponent = collision.GetComponent<HealthComponent>();
+                _healthComponent.health -= _damage;
+                _playerMain.PlayerDamageBehaviour();
+                Destroy(gameObject);
+            }
+        }
+
         if (collision.CompareTag("Enemy") && projType == ProjectileType.Player)
         {
             //Debug.Log("HitTarget");
-            healthComponent = collision.GetComponent<HealthComponent>();
-            healthComponent.health -= _damage;
+            _healthComponent = collision.GetComponent<HealthComponent>();
+            _healthComponent.health -= _damage;
+            //_enemyOnetest = collision.GetComponent<EnemyBasic>();
+            //_enemyOnetest.DamageBehaviour();
             Destroy(gameObject);
         }
 

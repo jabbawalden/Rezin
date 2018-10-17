@@ -8,9 +8,10 @@ public class ConcussionObject : MonoBehaviour {
     Vector2 direction;
     bool haveExploded;
     [SerializeField] private List<GameObject> enemies;
+    [SerializeField] private List<GameObject> eProj;
     HealthComponent _healthComponent;
     PlayerMain _playerMain;
-    EnemyOneTest enemyOnetest;
+    EnemyBasic enemyOnetest;
     // Use this for initialization
     void Start ()
     {
@@ -22,7 +23,7 @@ public class ConcussionObject : MonoBehaviour {
     {
         yield return new WaitForSeconds(0.01f);
         AddConcussion();
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.18f);
         Destroy(gameObject);  
     }
 
@@ -41,8 +42,13 @@ public class ConcussionObject : MonoBehaviour {
             ConcussionBehaviour(direction);
             _healthComponent = enemy.GetComponent<HealthComponent>();
             _healthComponent.health -= _playerMain.concussionDamage;
-            enemyOnetest = enemy.GetComponent<EnemyOneTest>();
+            enemyOnetest = enemy.GetComponent<EnemyBasic>();
             enemyOnetest.stun = true;
+        }
+
+        foreach(GameObject proj in eProj)
+        {
+            Destroy(proj);
         }
     }
 
@@ -52,6 +58,11 @@ public class ConcussionObject : MonoBehaviour {
         {
             print("Concussion Hit Success");
             enemies.Add(collision.gameObject);
+        }
+        if (collision.CompareTag("eProj") && !haveExploded)
+        {
+            print("Concussion Hit Success");
+            eProj.Add(collision.gameObject);
             Debug.Log(enemies);
         }
     }
