@@ -61,10 +61,9 @@ public class PlayerMain : MonoBehaviour {
 
     [Header("Player Uprades")]
     public bool doubleJumpUpgrade;
-    public bool reboundUpgrade;
     public bool wallSlideUpgrade;
     public bool dashUpgrade;
-    public bool explosionUpgrade; 
+    public bool concussionUpgrade; 
 
     private void Awake() 
     {
@@ -100,9 +99,8 @@ public class PlayerMain : MonoBehaviour {
         maxEnergy = JsonData.gameData.maxEnergy;
         dashUpgrade = JsonData.gameData.dashUpgrade;
         doubleJumpUpgrade = JsonData.gameData.doubleJumpUpgrade;
-        reboundUpgrade = JsonData.gameData.reboundUpgrade;
         wallSlideUpgrade = JsonData.gameData.wallSlideUpgrade;
-        explosionUpgrade = JsonData.gameData.explosionUpgrade;
+        concussionUpgrade = JsonData.gameData.concussionUpgrade;
         //set variables
         transform.position = startPosition;
         playerCamera.transform.position = new Vector3(startPosition.x, startPosition.y, -10);
@@ -221,7 +219,7 @@ public class PlayerMain : MonoBehaviour {
             distanceTravelled = 0;
             distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
             _lastPosition = transform.position;
-            print("right mouse hit");
+            print("Dash enabled");
             currentEnergy -= 100;
             if (facingPositive)
                 rb.velocity = new Vector2(dashSpeed, 0);

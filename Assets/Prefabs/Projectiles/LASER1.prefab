@@ -36,8 +36,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4696013400914380}
   - component: {fileID: 114405551421321406}
-  - component: {fileID: 58090595978353356}
   - component: {fileID: 61238426101810324}
+  - component: {fileID: 58090595978353356}
   - component: {fileID: 50948478126549676}
   - component: {fileID: 23569534317627204}
   m_Layer: 11
@@ -185,6 +185,7 @@ MonoBehaviour:
   projectileLife: 0
   duration: 3
   projType: 0
+  canRebound: 0
 --- !u!212 &212256985334555352
 SpriteRenderer:
   m_ObjectHideFlags: 1

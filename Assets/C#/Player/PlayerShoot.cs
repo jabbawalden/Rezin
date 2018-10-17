@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour {
 
+
+    public bool shootRebound;
+
+    GameData gameData = new GameData();
     [Header("Player Shoot")]
     public int laserDamage;
     public float laserSpeed;
@@ -17,11 +21,20 @@ public class PlayerShoot : MonoBehaviour {
 
     HealthComponent _healthComponent;
     PlayerMain _playerMain;
+
+    public bool reboundUpgrade;
     // Use this for initialization
     void Start ()
     {
         _healthComponent = GetComponent<HealthComponent>();
         _playerMain = GetComponent<PlayerMain>();
+        shootRebound = false;
+    }
+
+    public void LoadData()
+    {
+        shootRebound = JsonData.gameData.ShootRebound;
+        reboundUpgrade = JsonData.gameData.reboundUpgrade;
     }
 	
 	// Update is called once per frame
@@ -31,7 +44,17 @@ public class PlayerShoot : MonoBehaviour {
         {
             Shoot(GetFireRateFromDistance());
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            shootRebound = false;
+            print("Set Rebound Off");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            shootRebound = true;
+            print("Set Rebound On");
+        }
     }
 
     public float GetFireRateFromDistance()

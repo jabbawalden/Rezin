@@ -8,7 +8,8 @@ public class Laser : MonoBehaviour {
     Rigidbody2D rb;
     public float rotationSpeed;
     public int _damage;
-    private PlayerMain _player;
+    private PlayerShoot _playerShoot;
+    private PlayerMain _playerMain;
     public int projectileLife;
     private CircleCollider2D _reboundCol;
     public float duration;
@@ -17,26 +18,43 @@ public class Laser : MonoBehaviour {
     
     public ProjectileType projType;
 
+    public bool canRebound;
 
     private void Start()
     {
         StartCoroutine(ProjectileLifetime());
         rb = GetComponent<Rigidbody2D>();
         _reboundCol = GetComponent<CircleCollider2D>();
-        _player = GameObject.Find("Player").GetComponent<PlayerMain>();
+        _playerShoot = GameObject.Find("Player").GetComponent<PlayerShoot>();
+        _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
+        canRebound = _playerShoot.shootRebound;
 
         if (projType == ProjectileType.Player)
         {
-            if (_player.reboundUpgrade)
+            //set collision to true if reboundUpgrade achieved
+            if (_playerShoot.reboundUpgrade)
+            {
                 _reboundCol.enabled = true;
+
+                //check if canRebound is activated, if so, set trigger false, else, is set to trigger to act as normal
+                if (canRebound)
+                    _reboundCol.isTrigger = false;
+                else
+                    _reboundCol.isTrigger = true;
+            } 
             else
+            {
                 _reboundCol.enabled = false;
+            }
+                
+
+            
         }
     }
 
     IEnumerator ProjectileLifetime()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
         Destroy(gameObject);
     }
 
@@ -46,7 +64,7 @@ public class Laser : MonoBehaviour {
         float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        if (_player.reboundUpgrade && projType == ProjectileType.Player)
+        if (_playerShoot.reboundUpgrade && projType == ProjectileType.Player)
         {
             if (projectileLife <= 0)
                 Destroy(gameObject);
@@ -68,7 +86,7 @@ public class Laser : MonoBehaviour {
             Debug.Log("HitTarget");
             healthComponent = collision.collider.GetComponent<HealthComponent>();
             healthComponent.health -= _damage;
-            _player.PlayerDamageBehaviour();
+            _playerMain.PlayerDamageBehaviour();
             Destroy(gameObject);
         }
 
@@ -95,7 +113,7 @@ public class Laser : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if (collision.CompareTag("Ground") && !_player.reboundUpgrade) 
+        if (collision.CompareTag("Ground") && !_playerShoot.reboundUpgrade) 
         {
             Destroy(gameObject);
         }

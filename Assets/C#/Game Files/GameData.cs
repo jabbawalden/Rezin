@@ -5,9 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    public bool ShootRebound;
     public bool dashUpgrade;
     public bool doubleJumpUpgrade;
-    public bool explosionUpgrade;
+    public bool concussionUpgrade;
     public bool wallSlideUpgrade;
     public bool reboundUpgrade;
     public int maxEnergy;

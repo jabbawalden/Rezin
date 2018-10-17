@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReboundUpgrade : UnlockableBaseClass {
+public class ConcussionUpgrade : UnlockableBaseClass
+{
 
-    public bool reboundUpgrade;
+    // Update is called once per frame
+    public bool concussionUpgrade;
 
     public void LoadData()
     {
-        reboundUpgrade = JsonData.gameData.reboundUpgrade;
+        concussionUpgrade = JsonData.gameData.concussionUpgrade;
 
-        if (reboundUpgrade)
+        if (concussionUpgrade)
         {
             Destroy(gameObject);
         }
@@ -21,7 +23,7 @@ public class ReboundUpgrade : UnlockableBaseClass {
         if (playerisHere)
         {
             Upgrade();
-            reboundUpgrade = true;
+            concussionUpgrade = true;
             Destroy(upgradeObject);
             //Particle FX
             //trigger UI
@@ -32,6 +34,6 @@ public class ReboundUpgrade : UnlockableBaseClass {
 
     void Upgrade()
     {
-        _playerShoot.reboundUpgrade = true;
+        _playerMain.concussionUpgrade = true;
     }
 }

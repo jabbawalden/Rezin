@@ -9,7 +9,8 @@ public class JsonData : MonoBehaviour {
 
     public static GameData gameData = new GameData();
 
-    private PlayerMain _player;
+    private PlayerShoot _playerShoot;
+    private PlayerMain _playerMain;
     private DashUpgrade _dashUpgrade;
     private ReboundUpgrade _reboundUpgrade;
     private DoubleJumpUpgrade _doubleJumpUpgrade;
@@ -19,7 +20,8 @@ public class JsonData : MonoBehaviour {
     {
         path = Application.persistentDataPath + "/" + filename;
         Debug.Log(path);
-        _player = GameObject.Find("Player").GetComponent<PlayerMain>();
+        _playerShoot = GameObject.Find("Player").GetComponent<PlayerShoot>();
+        _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _dashUpgrade = GameObject.Find("DashUpgrade").GetComponent<DashUpgrade>();
         _reboundUpgrade = GameObject.Find("ReboundUpgrade").GetComponent<ReboundUpgrade>();
         _doubleJumpUpgrade = GameObject.Find("DoubleJumpUpgrade").GetComponent<DoubleJumpUpgrade>();
@@ -28,11 +30,12 @@ public class JsonData : MonoBehaviour {
         if (System.IO.File.Exists(path))
         {
             ReadData();
-            _player.LoadData();
+            _playerMain.LoadData();
             _dashUpgrade.LoadData();
             _reboundUpgrade.LoadData();
             _doubleJumpUpgrade.LoadData();
             _wallSlideUpgrade.LoadData();
+            _playerShoot.LoadData();
 
             print("file exists");
         }
@@ -59,13 +62,14 @@ public class JsonData : MonoBehaviour {
 
     public void SaveData()
     {
-        gameData.maxEnergy = _player.maxEnergy;
-        gameData.startPosition = _player.startPosition;
-        gameData.dashUpgrade = _player.dashUpgrade;
-        gameData.reboundUpgrade = _player.reboundUpgrade;
-        gameData.doubleJumpUpgrade = _player.doubleJumpUpgrade;
-        gameData.wallSlideUpgrade = _player.wallSlideUpgrade;
-        gameData.explosionUpgrade = _player.explosionUpgrade;
+        gameData.ShootRebound = _playerShoot.shootRebound;
+        gameData.maxEnergy = _playerMain.maxEnergy;
+        gameData.startPosition = _playerMain.startPosition;
+        gameData.dashUpgrade = _playerMain.dashUpgrade;
+        gameData.reboundUpgrade = _playerShoot.reboundUpgrade;
+        gameData.doubleJumpUpgrade = _playerMain.doubleJumpUpgrade;
+        gameData.wallSlideUpgrade = _playerMain.wallSlideUpgrade;
+        gameData.concussionUpgrade = _playerMain.concussionUpgrade;
 
         //set items in gameData class to contents string variable
         string contents = JsonUtility.ToJson(gameData, true);
