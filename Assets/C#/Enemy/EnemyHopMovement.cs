@@ -11,6 +11,7 @@ public class EnemyHopMovement : MonoBehaviour {
     private Transform _playerTarget;
     public float aggressionDistance;
     Rigidbody2D _rb;
+
 	// Use this for initialization
 	void Start ()
     {

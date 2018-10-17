@@ -333,8 +333,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8633bfc37c14b64eaa124607284294f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
-  maxHealth: 50
+  health: 60
+  maxHealth: 60
 --- !u!114 &114541623098430520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -368,6 +368,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   startPosition: {x: 0, y: 0}
   playerCamera: {fileID: 0}
+  invulnerable: 0
   movementSpeed: 280
   dashSpeed: 7200
   fallMultiplier: 1.2
