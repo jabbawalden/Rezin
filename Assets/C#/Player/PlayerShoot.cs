@@ -61,6 +61,12 @@ public class PlayerShoot : MonoBehaviour {
     {
         distance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
         float newFireRate = distance / fireRateDivider;
+
+        if (newFireRate <= 0.08f)
+        {
+            newFireRate = 0.06f;
+        }
+
         return newFireRate;
     }
 
@@ -74,10 +80,8 @@ public class PlayerShoot : MonoBehaviour {
             float angle = Mathf.Atan2(_playerMain.GetMouseDirection().y, _playerMain.GetMouseDirection().x) * Mathf.Rad2Deg;
 
             GameObject shot = Instantiate(projectile, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
-            shot.GetComponent<Rigidbody2D>().velocity =
-                new Vector2(
-                    Mathf.Clamp(_playerMain.GetMouseDirection().x * laserSpeed, _playerMain.GetMouseDirection().x * 2, _playerMain.GetMouseDirection().x * 3),
-                    Mathf.Clamp(_playerMain.GetMouseDirection().y * laserSpeed, _playerMain.GetMouseDirection().y * 2, _playerMain.GetMouseDirection().y * 3));
+            shot.GetComponent<Rigidbody2D>().velocity = new Vector2(_playerMain.GetMouseDirection().x * laserSpeed, _playerMain.GetMouseDirection().y * laserSpeed);
+                  
 
             _laser = shot.GetComponent<Laser>();
             _laser._damage = laserDamage;

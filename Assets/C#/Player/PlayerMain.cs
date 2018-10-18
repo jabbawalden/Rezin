@@ -67,7 +67,7 @@ public class PlayerMain : MonoBehaviour {
     [Space(5)]
 
     [Header("Player Uprades")]
-    public bool doubleJumpUpgrade;
+    public bool airJumpUpgrade;
     public bool wallSlideUpgrade;
     public bool dashUpgrade;
     public bool concussionUpgrade; 
@@ -107,7 +107,7 @@ public class PlayerMain : MonoBehaviour {
         startPosition = JsonData.gameData.startPosition;
         maxEnergy = JsonData.gameData.maxEnergy;
         dashUpgrade = JsonData.gameData.dashUpgrade;
-        doubleJumpUpgrade = JsonData.gameData.doubleJumpUpgrade;
+        airJumpUpgrade = JsonData.gameData.airJumpUpgrade;
         wallSlideUpgrade = JsonData.gameData.wallSlideUpgrade;
         concussionUpgrade = JsonData.gameData.concussionUpgrade;
         //set variables
@@ -196,7 +196,7 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerJump()
     {
-        if (doubleJumpUpgrade)
+        if (airJumpUpgrade)
         {
             jumpMaxCount = 2;
         }
@@ -213,9 +213,9 @@ public class PlayerMain : MonoBehaviour {
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
 
-            if (doubleJumpUpgrade && !_haveJumped)
+            if (airJumpUpgrade && !_haveJumped)
                 jumpCount = 1;
-            else if (!doubleJumpUpgrade && !_haveJumped)
+            else if (!airJumpUpgrade && !_haveJumped)
                 jumpCount = 0;
         }
     }
@@ -223,7 +223,7 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerDash()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 99 && dashUpgrade)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50 && dashUpgrade)
         {
             //distanceTravelled = 0;
             //distanceTravelled += Vector2.Distance(transform.position, _lastPosition);

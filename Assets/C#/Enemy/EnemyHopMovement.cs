@@ -43,7 +43,6 @@ public class EnemyHopMovement : MonoBehaviour {
             transform.localScale = new Vector2(1, 1);
             MoveBehaviour(-forwardForce, hopForce);
         }
-        Debug.Log(GetDirectionToPlayer());
     }
 
     public void MoveBehaviour(float forwardForce, float hopForce)

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleJumpUpgrade : UnlockableBaseClass {
+public class AirJumpUpgrade : UnlockableBaseClass {
 
-    public bool doubleJumpUpgrade;
+    public bool airJumpUpgrade;
 
     public void LoadData()
     {
-        doubleJumpUpgrade = JsonData.gameData.doubleJumpUpgrade;
+        airJumpUpgrade = JsonData.gameData.airJumpUpgrade;
 
-        if (doubleJumpUpgrade)
+        if (airJumpUpgrade)
         {
             Destroy(gameObject);
         }
@@ -21,7 +21,7 @@ public class DoubleJumpUpgrade : UnlockableBaseClass {
         if (playerisHere)
         {
             Upgrade();
-            doubleJumpUpgrade = true;
+            airJumpUpgrade = true;
             Destroy(gameObject);
             //Particle FX
             //trigger UI 
@@ -33,7 +33,7 @@ public class DoubleJumpUpgrade : UnlockableBaseClass {
 
     void Upgrade()
     {
-        _playerMain.doubleJumpUpgrade = true;
+        _playerMain.airJumpUpgrade = true;
         _playerMain.jumpCount = 2;
     }
 }

@@ -18,7 +18,7 @@ public class EnemyShoot : MonoBehaviour {
         _playerTarget = GameObject.Find("Player").transform;
     }
 
-    public void enemyFire()
+    public void EnemyFire()
     {
         if (_nextFire < Time.time)
         {

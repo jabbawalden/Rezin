@@ -117,7 +117,7 @@ public class EnemyBasic : MonoBehaviour {
 
                 if (GetDistanceFromPlayer() <= shootRange)
                 {
-                    _enemyShoot.enemyFire();
+                    _enemyShoot.EnemyFire();
                 }
             }
           

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveCheckPoint : MonoBehaviour {
 
-    PlayerMain _player;
+    PlayerMain _playerMain;
     JsonData jsonData;
 
     private void Awake()
@@ -16,8 +16,8 @@ public class SaveCheckPoint : MonoBehaviour {
     {
         if (collision.CompareTag("Player"))
         {
-            _player = collision.GetComponent<PlayerMain>();
-            _player.startPosition = transform.position;
+            _playerMain = collision.GetComponent<PlayerMain>();
+            _playerMain.startPosition = transform.position;
             jsonData.SaveData();
         }
     }

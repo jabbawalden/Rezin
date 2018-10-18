@@ -7,7 +7,7 @@ public class GameData
 {
     public bool ShootRebound;
     public bool dashUpgrade;
-    public bool doubleJumpUpgrade;
+    public bool airJumpUpgrade;
     public bool concussionUpgrade;
     public bool wallSlideUpgrade;
     public bool reboundUpgrade;
