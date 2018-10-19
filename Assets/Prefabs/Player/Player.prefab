@@ -370,9 +370,9 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0}
   playerCamera: {fileID: 0}
   invulnerable: 0
-  movementSpeed: 260
+  movementSpeed: 16000
   dashSpeed: 230
-  climbSpeed: 3
+  climbSpeed: 2.5
   fallMultiplier: 1.4
   lowJumpMultiplier: 0
   grounded: 0
