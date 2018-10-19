@@ -9,19 +9,22 @@ public class EnemyShoot : MonoBehaviour {
     public GameObject eProj; 
     public Transform shotOrigin;
     public float laserSpeed;
-    Laser laser;
+    private Laser laser;
     public int damage;
     private Transform _playerTarget;
 
     private void Start()
     {
         _playerTarget = GameObject.Find("Player").transform;
+        laser = eProj.GetComponent<Laser>();
+        
     }
 
     public void EnemyFire()
     {
         if (_nextFire < Time.time)
         {
+            laser._damage = damage;
             _nextFire = Time.time + fireRate;
             Vector2 direction = new Vector2(transform.position.x - _playerTarget.transform.position.x, transform.position.y - _playerTarget.transform.position.y).normalized;
 
@@ -34,8 +37,7 @@ public class EnemyShoot : MonoBehaviour {
                 shot.GetComponent<Rigidbody2D>().velocity = new Vector2(direction.x * -laserSpeed, direction.y * -laserSpeed);
             }
             
-            laser = shot.GetComponent<Laser>();
-            laser._damage = damage;
+
         }
     }
 }

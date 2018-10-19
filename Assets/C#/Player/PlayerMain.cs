@@ -189,8 +189,8 @@ public class PlayerMain : MonoBehaviour {
     {
         float x = Input.GetAxis("Horizontal");
         float deltaSpeed = s * Time.deltaTime;
-        //rb.velocity = new Vector2 (x * deltaSpeed, rb.velocity.y);
-        transform.Translate(Vector2.right * x * deltaSpeed);
+        rb.velocity = new Vector2(x * deltaSpeed, rb.velocity.y);
+        //transform.Translate(Vector2.right * x * deltaSpeed);
     }
 
     void PlayerJump()
