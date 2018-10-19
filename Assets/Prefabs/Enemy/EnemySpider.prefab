@@ -36,7 +36,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4135573811674352}
-  - component: {fileID: 33650544424183188}
   - component: {fileID: 114131116549233846}
   - component: {fileID: 114282889534689906}
   - component: {fileID: 114735304393331356}
@@ -265,13 +264,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1669030543616262}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!33 &33650544424183188
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1205494627473482}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!50 &50479218788107202
 Rigidbody2D:
   serializedVersion: 4
@@ -369,8 +361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8633bfc37c14b64eaa124607284294f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  maxHealth: 10
+  health: 40
+  maxHealth: 40
 --- !u!114 &114735304393331356
 MonoBehaviour:
   m_ObjectHideFlags: 1

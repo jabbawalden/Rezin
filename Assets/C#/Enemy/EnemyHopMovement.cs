@@ -12,11 +12,13 @@ public class EnemyHopMovement : MonoBehaviour {
     public float aggressionDistance;
     Rigidbody2D _rb;
     public BoxCollider2D physicsCollider;
+    HealthComponent _healthComponent;
 
 	// Use this for initialization
 	void Start ()
     {
         _playerTarget = GameObject.Find("Player").transform;
+        _healthComponent = GetComponent<HealthComponent>();
         _rb = GetComponent<Rigidbody2D>();
 	}
 
@@ -62,8 +64,16 @@ public class EnemyHopMovement : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        SetEnemyDirection();
-        //ignore player collision
-        Physics2D.IgnoreCollision(_playerTarget.GetComponent<Collider2D>(), physicsCollider);
+        if (!_healthComponent.IsAlive())
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            SetEnemyDirection();
+            //ignore player collision
+            Physics2D.IgnoreCollision(_playerTarget.GetComponent<Collider2D>(), physicsCollider);
+        }
+ 
 	}
 }

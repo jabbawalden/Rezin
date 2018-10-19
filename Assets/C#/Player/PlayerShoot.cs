@@ -62,10 +62,11 @@ public class PlayerShoot : MonoBehaviour {
         distance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
         float newFireRate = distance / fireRateDivider;
 
-        if (newFireRate <= 0.08f)
-        {
-            newFireRate = 0.06f;
-        }
+        //if (newFireRate <= 0.1f)
+        //{
+        //    newFireRate = 0.1f;
+        //}
+
 
         return newFireRate;
     }

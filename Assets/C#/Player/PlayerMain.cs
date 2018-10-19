@@ -259,6 +259,15 @@ public class PlayerMain : MonoBehaviour {
         {
             if (isWallSliding && rb.velocity.y < 0)
             {
+                float climbSpeed = movementSpeed * 0.02f;
+                float deltaSpeed = climbSpeed * Time.deltaTime;
+
+                float v = Input.GetAxis("Vertical");
+
+                rb.velocity = new Vector2(rb.velocity.x, v * climbSpeed);
+                //transform.Translate(transform.position.x, v * climbSpeed, transform.position.z);
+                //rb.AddForce(new Vector2(rb.velocity.x, v * movementSpeed));
+
                 if (rb.velocity.y < -wallSlideSpeedMax)
                 {
                     rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedMax);

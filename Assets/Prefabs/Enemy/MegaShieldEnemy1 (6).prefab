@@ -73,6 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4308716003161506}
   - component: {fileID: 114211870060919206}
+  - component: {fileID: 114896894572035674}
   - component: {fileID: 114421934394189364}
   - component: {fileID: 23674910441160390}
   - component: {fileID: 61729609673732812}
@@ -151,7 +152,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1587545153803404}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1120.28, y: -15.57, z: 0}
+  m_LocalPosition: {x: 1148.36, y: 39.17, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4031504369783934}
@@ -216,7 +217,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -251,7 +252,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -356,7 +357,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -552,16 +553,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 1
   facingForward: 0
-  fireRate: 0.9
-  eProj: {fileID: 1359072622980384, guid: e9cf9524194479343b1cb36f16115841, type: 2}
-  shotOrigin: {fileID: 4031504369783934}
-  laserSpeed: 2.5
-  damage: 7
-  eMat: {fileID: 2100000, guid: 3870ff34e9371994689ef3a7e72153b9, type: 2}
+  eMat: {fileID: 0}
   shootRange: 7
   distanceKept: 2
   distanceAggro: 11
   aggro: 0
+  stun: 0
 --- !u!114 &114421934394189364
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -575,3 +572,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 30
   maxHealth: 30
+--- !u!114 &114896894572035674
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1587545153803404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a4523dc5ff54e34089cb56af79c60c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireRate: 1.3
+  eProj: {fileID: 1869092160767022}
+  shotOrigin: {fileID: 4491843196100928, guid: e9cf9524194479343b1cb36f16115841, type: 2}
+  laserSpeed: 2
+  damage: 10

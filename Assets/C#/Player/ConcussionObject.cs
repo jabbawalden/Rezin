@@ -31,7 +31,7 @@ public class ConcussionObject : MonoBehaviour {
     void ConcussionBehaviour(Vector2 direction)
     {
         rbEnemy.AddForce(direction * 6, ForceMode2D.Impulse);
-        rbEnemy.AddForce(new Vector2(0, 200));
+        rbEnemy.AddForce(new Vector2(0, 150));
     }
 
     void AddConcussion()
