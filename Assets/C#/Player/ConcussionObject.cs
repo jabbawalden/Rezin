@@ -38,7 +38,9 @@ public class ConcussionObject : MonoBehaviour {
     {
         foreach(GameObject enemy in enemies)
         {
-            rbEnemy = enemy.GetComponent<Rigidbody2D>();
+            if (enemy.GetComponent<Rigidbody2D>() != null)
+                rbEnemy = enemy.GetComponent<Rigidbody2D>();
+
             direction = new Vector2(enemy.transform.position.x - transform.position.x, enemy.transform.position.y - transform.position.y).normalized;
             ConcussionBehaviour(direction);
             _healthComponent = enemy.GetComponent<HealthComponent>();

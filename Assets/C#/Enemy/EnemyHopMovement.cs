@@ -17,6 +17,7 @@ public class EnemyHopMovement : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        hopRate = Random.Range(1.7f, 2.25f);
         _playerTarget = GameObject.Find("Player").transform;
         _healthComponent = GetComponent<HealthComponent>();
         _rb = GetComponent<Rigidbody2D>();
@@ -54,6 +55,7 @@ public class EnemyHopMovement : MonoBehaviour {
         {
             if (_nextHop < Time.time)
             {
+                hopRate = Random.Range(1.7f, 2.24f);
                 _nextHop = Time.time + hopRate;
                 _rb.AddForce(new Vector2 (forwardForce, hopForce));
             }

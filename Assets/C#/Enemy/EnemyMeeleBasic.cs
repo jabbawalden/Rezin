@@ -22,8 +22,12 @@ public class EnemyMeeleBasic : MonoBehaviour {
         if (_attackPlayer && _nextAttack < Time.time)
         {
             _nextAttack = Time.time + attackRate;
-            _healthComponent.health -= damage;
-            _playerMain.PlayerDamageBehaviour();
+            if (!_healthComponent.invincible)
+            {
+                _healthComponent.health -= damage;
+                _playerMain.PlayerDamageBehaviour();
+            }
+      
         }
     }
 

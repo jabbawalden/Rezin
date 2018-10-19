@@ -6,6 +6,7 @@ public class HealthComponent : MonoBehaviour
 {
     public int health;
     public int maxHealth;
+    public bool invincible;
 
     private void Start()
     {

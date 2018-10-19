@@ -14,6 +14,7 @@ public class PlayerMain : MonoBehaviour {
     [Header("Player Movement")]
     public float movementSpeed;
     public float dashSpeed;
+    public float climbSpeed;
     public float fallMultiplier, lowJumpMultiplier;
     public bool grounded;
     //creates a slider for between values 1 and 10 to control jump velocity
@@ -220,7 +221,6 @@ public class PlayerMain : MonoBehaviour {
         }
     }
 
-
     void PlayerDash()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50 && dashUpgrade)
@@ -235,13 +235,19 @@ public class PlayerMain : MonoBehaviour {
             else
                 rb.AddForce(new Vector2(-dashSpeed, 0));
 
+            StartCoroutine(InvincibleTime());
             if (concussionUpgrade)
                 StartCoroutine(ConcussionSpawn());
-                
         }
 
     }
 
+    IEnumerator InvincibleTime()
+    {
+        _healthComponent.invincible = true;
+        yield return new WaitForSeconds(0.7f);
+        _healthComponent.invincible = false;
+    }
 
     IEnumerator ConcussionSpawn() 
     {
@@ -259,14 +265,14 @@ public class PlayerMain : MonoBehaviour {
         {
             if (isWallSliding && rb.velocity.y < 0)
             {
-                float climbSpeed = movementSpeed * 0.02f;
-                float deltaSpeed = climbSpeed * Time.deltaTime;
+                
+                float deltaSpeed = climbSpeed * Time.fixedDeltaTime;
 
                 float v = Input.GetAxis("Vertical");
 
-                rb.velocity = new Vector2(rb.velocity.x, v * climbSpeed);
-                //transform.Translate(transform.position.x, v * climbSpeed, transform.position.z);
-                //rb.AddForce(new Vector2(rb.velocity.x, v * movementSpeed));
+                //rb.velocity = new Vector2(rb.velocity.x, v * climbSpeed);
+                transform.Translate(Vector2.up * v * deltaSpeed);
+                //rb.AddForce(new Vector2(rb.velocity.x, v * deltaSpeed));
 
                 if (rb.velocity.y < -wallSlideSpeedMax)
                 {
