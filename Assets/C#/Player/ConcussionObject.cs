@@ -30,7 +30,7 @@ public class ConcussionObject : MonoBehaviour {
 
     void ConcussionBehaviour(Vector2 direction)
     {
-        rbEnemy.AddForce(direction * 6, ForceMode2D.Impulse);
+        rbEnemy.AddForce(direction * 3, ForceMode2D.Impulse);
         rbEnemy.AddForce(new Vector2(0, 150));
     }
 
@@ -38,8 +38,9 @@ public class ConcussionObject : MonoBehaviour {
     {
         foreach(GameObject enemy in enemies)
         {
-            if (enemy.GetComponent<Rigidbody2D>() != null)
-                rbEnemy = enemy.GetComponent<Rigidbody2D>();
+            if (enemy.gameObject != null)
+                if (enemy.GetComponent<Rigidbody2D>() != null)
+                    rbEnemy = enemy.GetComponent<Rigidbody2D>();
 
             direction = new Vector2(enemy.transform.position.x - transform.position.x, enemy.transform.position.y - transform.position.y).normalized;
             ConcussionBehaviour(direction);

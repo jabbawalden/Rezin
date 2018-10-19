@@ -8,10 +8,10 @@ public class EnemyObstacle : MonoBehaviour {
     public GameObject[] points;
     public float speed;
     public int destination;
-    Rigidbody2D rb;
-    PlayerMain player;
+    private Rigidbody2D _rb;
+    private PlayerMain _playerMain;
 
-    HealthComponent healthComponent;
+    private HealthComponent _healthComponent;
 
     private float _nextFire;
     [Space(12)]
@@ -22,8 +22,7 @@ public class EnemyObstacle : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        player = GameObject.Find("Player").GetComponent<PlayerMain>();
-
+        _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         if (points.Length > 0)
             transform.position = points[0].transform.position;
 
@@ -69,8 +68,19 @@ public class EnemyObstacle : MonoBehaviour {
     {
         if (collision.CompareTag("Player"))
         {
-            healthComponent = collision.GetComponent<HealthComponent>();
-            DamagePlayer();
+            print("hitting player");
+
+            if (collision.GetComponent<HealthComponent>() != null)
+            {
+                _healthComponent = collision.GetComponent<HealthComponent>();
+
+                if (!_healthComponent.invincible)
+                {
+                    DamagePlayer();
+                }
+
+            }
+
         }
     }
 
@@ -80,8 +90,8 @@ public class EnemyObstacle : MonoBehaviour {
         {
             _nextFire = Time.time + fireRate;
 
-            healthComponent.health -= damage;
-            player.PlayerDamageBehaviour();
+            _healthComponent.health -= damage;
+            _playerMain.PlayerDamageBehaviour();
         }
    
     }

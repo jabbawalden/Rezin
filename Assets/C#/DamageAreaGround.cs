@@ -44,7 +44,6 @@ public class DamageAreaGround : MonoBehaviour {
         {
             _nextFire = Time.time + fireRate;
             healthComponent.health -= 2;
-            Debug.Log(healthComponent.health);
             player.PlayerDamageBehaviour();
             
         }

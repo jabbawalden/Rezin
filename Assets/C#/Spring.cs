@@ -11,7 +11,6 @@ public class Spring : MonoBehaviour {
     {
         if (collision.CompareTag("Player"))
         {
-            print("playerspring");
             _player = collision.GetComponent<PlayerMain>();
             _player.rb.velocity = (new Vector2(0, springForce));
             _player.SpringBehaviour();

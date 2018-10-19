@@ -28,8 +28,12 @@ public class EnemyShoot : MonoBehaviour {
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             GameObject shot = Instantiate(eProj, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
-            shot.GetComponent<Rigidbody2D>().velocity = new Vector2(direction.x * -laserSpeed, direction.y * -laserSpeed);
 
+            if (shot.GetComponent<Rigidbody2D>() != null)
+            {
+                shot.GetComponent<Rigidbody2D>().velocity = new Vector2(direction.x * -laserSpeed, direction.y * -laserSpeed);
+            }
+            
             laser = shot.GetComponent<Laser>();
             laser._damage = damage;
         }

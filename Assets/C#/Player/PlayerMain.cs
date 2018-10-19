@@ -182,17 +182,15 @@ public class PlayerMain : MonoBehaviour {
             facingPositive = false;
         }
 
-        //if (wallSlideUpgrade && isWallSliding)
-        //{
-
-        //}
 
     }
 
     void PlayerMovementBehaviour(float s) 
     {
         float x = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2 (x * s, rb.velocity.y);
+        float deltaSpeed = s * Time.deltaTime;
+        //rb.velocity = new Vector2 (x * deltaSpeed, rb.velocity.y);
+        transform.Translate(Vector2.right * x * deltaSpeed);
     }
 
     void PlayerJump()
@@ -230,13 +228,20 @@ public class PlayerMain : MonoBehaviour {
             //_lastPosition = transform.position;
             print("Dash enabled");
             currentEnergy -= 50;
-            if (facingPositive)
-                rb.AddForce(new Vector2(dashSpeed, 0));
-            else
-                rb.AddForce(new Vector2(-dashSpeed, 0));
-
             StartCoroutine(InvincibleTime());
-            if (concussionUpgrade)
+            float deltaSpeed = dashSpeed * Time.deltaTime;
+            if (!concussionUpgrade)
+            {
+                //if no concussion, do normal dash
+                if (facingPositive)
+                    //rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
+                    transform.Translate(Vector2.right * deltaSpeed);
+                else
+                    //rb.AddForce(new Vector2(-dashSpeed, 0), ForceMode2D.Impulse);
+                    transform.Translate(Vector2.right * -deltaSpeed);
+            }
+            else
+                //else do special dash routine, spawning concussion at place of origin, and new location
                 StartCoroutine(ConcussionSpawn());
         }
 
@@ -245,15 +250,23 @@ public class PlayerMain : MonoBehaviour {
     IEnumerator InvincibleTime()
     {
         _healthComponent.invincible = true;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.3f);
         _healthComponent.invincible = false;
     }
 
     IEnumerator ConcussionSpawn() 
     {
+        float deltaSpeed = dashSpeed * Time.deltaTime;
         Instantiate(concussionObj, transform.position, transform.rotation);
         invulnerable = true;
-        yield return new WaitForSeconds(0.02F);
+        yield return new WaitForSeconds(0.03F);
+        if (facingPositive)
+            //rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
+            transform.Translate(Vector2.right * deltaSpeed);
+        else
+            //rb.AddForce(new Vector2(-dashSpeed, 0), ForceMode2D.Impulse);
+            transform.Translate(Vector2.right * -deltaSpeed);
+
         Instantiate(concussionObj, transform.position, transform.rotation);
         yield return new WaitForSeconds(0.1F);
         invulnerable = false;
@@ -265,7 +278,6 @@ public class PlayerMain : MonoBehaviour {
         {
             if (isWallSliding && rb.velocity.y < 0)
             {
-                
                 float deltaSpeed = climbSpeed * Time.fixedDeltaTime;
 
                 float v = Input.GetAxis("Vertical");
@@ -273,7 +285,6 @@ public class PlayerMain : MonoBehaviour {
                 //rb.velocity = new Vector2(rb.velocity.x, v * climbSpeed);
                 transform.Translate(Vector2.up * v * deltaSpeed);
                 //rb.AddForce(new Vector2(rb.velocity.x, v * deltaSpeed));
-
                 if (rb.velocity.y < -wallSlideSpeedMax)
                 {
                     rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedMax);
@@ -281,6 +292,7 @@ public class PlayerMain : MonoBehaviour {
 
                 jumpCount = jumpMaxCount;
             }
+
 
         }
     }
@@ -356,14 +368,14 @@ public class PlayerMain : MonoBehaviour {
                 isWallSliding = false;
             }
 
-            if (hitPos.normal.x > 0)
-            {
-                Debug.Log(hitPos);
-            }
-            if (hitPos.normal.x < 0)
-            {
+            //if (hitPos.normal.x > 0)
+            //{
+            //    Debug.Log(hitPos);
+            //}
+            //if (hitPos.normal.x < 0)
+            //{
 
-            }
+            //}
 
         }
     }

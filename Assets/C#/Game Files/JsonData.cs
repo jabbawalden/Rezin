@@ -25,7 +25,8 @@ public class JsonData : MonoBehaviour {
     private DashUpgrade _dashUpgrade;
     private ReboundUpgrade _reboundUpgrade;
     private AirJumpUpgrade _airJumpUpgrade;
-    private WallSlideUpgrade _wallSlideUpgrade; 
+    private WallSlideUpgrade _wallSlideUpgrade;
+    private ConcussionUpgrade _concussionUpgrade;
 	// Use this for initialization
 	void Start ()
     {
@@ -37,6 +38,7 @@ public class JsonData : MonoBehaviour {
         _reboundUpgrade = GameObject.Find("ReboundUpgrade").GetComponent<ReboundUpgrade>();
         _airJumpUpgrade = GameObject.Find("AirJumpUpgrade").GetComponent<AirJumpUpgrade>();
         _wallSlideUpgrade = GameObject.Find("WallSlideUpgrade").GetComponent<WallSlideUpgrade>();
+        _concussionUpgrade = GameObject.Find("ConcussionUpgrade").GetComponent<ConcussionUpgrade>();
 
         //this will later be converted into a function, with a string argument passed through it to check which paths to save through
         //eg, GameLoadData(path2);
@@ -50,6 +52,7 @@ public class JsonData : MonoBehaviour {
             _airJumpUpgrade.LoadData();
             _wallSlideUpgrade.LoadData();
             _playerShoot.LoadData();
+            _concussionUpgrade.LoadData();
 
             print("file exists");
         }

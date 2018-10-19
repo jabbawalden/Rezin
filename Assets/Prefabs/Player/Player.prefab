@@ -335,6 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 60
   maxHealth: 60
+  invincible: 0
 --- !u!114 &114541623098430520
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -369,8 +370,9 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0}
   playerCamera: {fileID: 0}
   invulnerable: 0
-  movementSpeed: 280
-  dashSpeed: 7200
+  movementSpeed: 260
+  dashSpeed: 230
+  climbSpeed: 3
   fallMultiplier: 1.4
   lowJumpMultiplier: 0
   grounded: 0
@@ -387,7 +389,7 @@ MonoBehaviour:
   facingPositive: 0
   distanceTravelled: 0
   shotOrigin: {fileID: 4430188145359368}
-  wallSlideSpeedMax: 1.2
+  wallSlideSpeedMax: 0.3
   isWallSliding: 0
   concussionObj: {fileID: 1341363833201774, guid: 0f6e2399c50409a4397d76eae50e12d3,
     type: 2}
