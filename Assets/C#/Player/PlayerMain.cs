@@ -274,7 +274,7 @@ public class PlayerMain : MonoBehaviour {
     public void PlayerDamageBehaviour()
     {
         StartCoroutine(MaterialShift());
-        rb.AddForce(Vector2.up * 100);
+        rb.AddForce(Vector2.up * 30);
         _uiManager.UpdateHealth();
     }
 

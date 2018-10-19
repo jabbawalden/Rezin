@@ -12,6 +12,7 @@ public class ConcussionObject : MonoBehaviour {
     HealthComponent _healthComponent;
     PlayerMain _playerMain;
     EnemyBasic enemyOnetest;
+    EnemyHopMovement _enemyHopMovement; 
     // Use this for initialization
     void Start ()
     {
@@ -42,8 +43,13 @@ public class ConcussionObject : MonoBehaviour {
             ConcussionBehaviour(direction);
             _healthComponent = enemy.GetComponent<HealthComponent>();
             _healthComponent.health -= _playerMain.concussionDamage;
-            enemyOnetest = enemy.GetComponent<EnemyBasic>();
-            enemyOnetest.stun = true;
+            if (enemy.GetComponent<EnemyBasic>() != null)
+            {
+                enemyOnetest = enemy.GetComponent<EnemyBasic>();
+                enemyOnetest.stun = true;
+            }
+
+            //_enemyHopMovement = enemy.GetComponent<EnemyHopMovement>();
         }
 
         foreach(GameObject proj in eProj)

@@ -11,6 +11,7 @@ public class EnemyHopMovement : MonoBehaviour {
     private Transform _playerTarget;
     public float aggressionDistance;
     Rigidbody2D _rb;
+    public BoxCollider2D physicsCollider;
 
 	// Use this for initialization
 	void Start ()
@@ -62,5 +63,7 @@ public class EnemyHopMovement : MonoBehaviour {
     void Update ()
     {
         SetEnemyDirection();
+        //ignore player collision
+        Physics2D.IgnoreCollision(_playerTarget.GetComponent<Collider2D>(), physicsCollider);
 	}
 }
