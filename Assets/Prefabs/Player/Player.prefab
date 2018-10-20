@@ -349,6 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootRebound: 0
   laserDamage: 5
+  maxLaserDamage: 8
   laserSpeed: 3
   projectile: {fileID: 1394726853307084, guid: d81d5c19bacb03e47a9c021efb69b5bd, type: 2}
   fireRateDivider: 15
@@ -371,8 +372,8 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   invulnerable: 0
   movementSpeed: 16000
-  dashSpeed: 230
-  climbSpeed: 2.5
+  dashSpeed: 210
+  climbSpeed: 3
   fallMultiplier: 1.4
   lowJumpMultiplier: 0
   grounded: 0

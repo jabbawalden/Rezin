@@ -13,8 +13,6 @@ public class EnemyBasic : MonoBehaviour {
     public float movementSpeed;
     public bool facingForward;
     [Space(5)]
-    [Header("Enemy Shoot")]
-    public Material eMat;
     private Vector2 _startPos;
 
     [Space(5)]
@@ -128,16 +126,9 @@ public class EnemyBasic : MonoBehaviour {
 
     public void DamageBehaviour()
     {
-        StartCoroutine(MaterialShift());
         _rb.AddForce(Vector2.up * 50);
     }
 
-    IEnumerator MaterialShift()
-    {
-        eMat.color = new Color(0, 191, 156);
-        yield return new WaitForSeconds(0.34f);
-        eMat.color = new Color(80, 0, 255);
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

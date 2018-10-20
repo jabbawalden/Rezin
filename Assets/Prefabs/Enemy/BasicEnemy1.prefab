@@ -315,6 +315,7 @@ MonoBehaviour:
   eProj: {fileID: 1359072622980384, guid: e9cf9524194479343b1cb36f16115841, type: 2}
   shotOrigin: {fileID: 4419674602016736}
   laserSpeed: 2
+  laser: {fileID: 114469108022190264, guid: e9cf9524194479343b1cb36f16115841, type: 2}
   damage: 5
 --- !u!114 &114066124544646916
 MonoBehaviour:
@@ -348,3 +349,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 15
   maxHealth: 15
+  invincible: 0

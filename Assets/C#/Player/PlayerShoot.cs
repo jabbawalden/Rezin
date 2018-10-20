@@ -10,6 +10,7 @@ public class PlayerShoot : MonoBehaviour {
     GameData gameData = new GameData();
     [Header("Player Shoot")]
     public int laserDamage;
+    public int maxLaserDamage;
     public float laserSpeed;
     public GameObject projectile;
     public float fireRateDivider;
@@ -61,14 +62,14 @@ public class PlayerShoot : MonoBehaviour {
     {
         distance = Vector2.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), transform.position);
         float newFireRate = distance / fireRateDivider;
-
+        float clampedRate = Mathf.Clamp(newFireRate, 0.1f, 0.6f);
         //if (newFireRate <= 0.1f)
         //{
         //    newFireRate = 0.1f;
         //}
-
-
-        return newFireRate;
+        //print(clampedRate);
+        return clampedRate;
+        
     }
 
     void Shoot(float newFireRate)
@@ -82,9 +83,24 @@ public class PlayerShoot : MonoBehaviour {
 
             GameObject shot = Instantiate(projectile, shotOrigin.position, Quaternion.AngleAxis(angle, Vector3.forward));
             shot.GetComponent<Rigidbody2D>().velocity = new Vector2(_playerMain.GetMouseDirection().x * laserSpeed, _playerMain.GetMouseDirection().y * laserSpeed);
-                  
 
             _laser = shot.GetComponent<Laser>();
+
+            //Damage shift based on speed
+            if (GetFireRateFromDistance() == 0.1f)
+                laserDamage = maxLaserDamage - 7;
+            else if (GetFireRateFromDistance() < 0.2f)
+                laserDamage = maxLaserDamage - 5;
+            else if (GetFireRateFromDistance() < 0.3f)
+                laserDamage = maxLaserDamage - 3;
+            else if (GetFireRateFromDistance() < 0.4f)
+                laserDamage = maxLaserDamage - 1;
+            else if (GetFireRateFromDistance() < 0.5f)
+                laserDamage = maxLaserDamage;
+            else if (GetFireRateFromDistance() > 5)
+                laserDamage = maxLaserDamage + 1;
+
+            Debug.Log(laserDamage);
             _laser._damage = laserDamage;
             _laser.projectileLife = projectileLife;
         }

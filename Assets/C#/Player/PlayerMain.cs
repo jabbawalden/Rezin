@@ -355,29 +355,33 @@ public class PlayerMain : MonoBehaviour {
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        foreach (ContactPoint2D hitPos in collision.contacts)
+        if (collision.collider.CompareTag("Ground"))
         {
-            
-            if (hitPos.normal.x > 0 || hitPos.normal.x < 0)
+            foreach (ContactPoint2D hitPos in collision.contacts)
             {
-                isWallSliding = true;
-                
+
+                if (hitPos.normal.x > 0 || hitPos.normal.x < 0)
+                {
+                    isWallSliding = true;
+
+                }
+                else
+                {
+                    isWallSliding = false;
+                }
+
+                //if (hitPos.normal.x > 0)
+                //{
+                //    Debug.Log(hitPos);
+                //}
+                //if (hitPos.normal.x < 0)
+                //{
+
+                //}
+
             }
-            else
-            {
-                isWallSliding = false;
-            }
-
-            //if (hitPos.normal.x > 0)
-            //{
-            //    Debug.Log(hitPos);
-            //}
-            //if (hitPos.normal.x < 0)
-            //{
-
-            //}
-
         }
+        
     }
 
     //check off isWallSliding
