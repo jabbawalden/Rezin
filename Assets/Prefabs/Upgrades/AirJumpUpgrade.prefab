@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 58055702126158520}
   - component: {fileID: 114236655472341860}
   m_Layer: 0
-  m_Name: DoubleJumpUpgrade
+  m_Name: AirJumpUpgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,4 +144,4 @@ MonoBehaviour:
   _playerShoot: {fileID: 0}
   playerisHere: 0
   upgradeObject: {fileID: 1796706172624278}
-  doubleJumpUpgrade: 0
+  airJumpUpgrade: 0

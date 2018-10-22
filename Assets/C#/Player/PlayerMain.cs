@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMain : MonoBehaviour {
 
+   
 
     public Rigidbody2D rb;
     public Vector2 startPosition;
@@ -11,9 +12,15 @@ public class PlayerMain : MonoBehaviour {
     public Camera playerCamera;
     public bool invulnerable;
 
+    [Header("Player Dash")]
+    public float dashSpeed;
+    public GameObject rayOrigin;
+
+    [Space(5)]
+
     [Header("Player Movement")]
     public float movementSpeed;
-    public float dashSpeed;
+
     public float climbSpeed;
     public float fallMultiplier, lowJumpMultiplier;
     public bool grounded;
@@ -120,11 +127,7 @@ public class PlayerMain : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            maxEnergy += 10;
-            startPosition += new Vector2(21, -5);
-        }
+        PlayerDash();
 
         if (_healthComponent.IsAlive())
         {
@@ -132,7 +135,6 @@ public class PlayerMain : MonoBehaviour {
             PlayerMovementBehaviour(deltaPosition);
             PlayerJump();
             PlayerDirectionFace();
-            PlayerDash();
             EnergyRegenerate();
             WallSlide();
             
@@ -148,19 +150,14 @@ public class PlayerMain : MonoBehaviour {
             //Death anim
             //Game State Change
         }
-
-     
-
         //onGroundCheckRepresentation = GetGround();
     }
 
+    
     public Vector2 GetMouseDirection()
     {
         Vector2 mousePos2 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //using transform instead of ShotOrigin for now
-        Vector3 direction = new Vector2(mousePos2.x - shotOrigin.position.x, mousePos2.y - shotOrigin.position.y);
-        //normalize to get the same speed. 
-        //No normalize to increase projectile speed based on mouse distance from player
+        Vector3 direction = new Vector2(mousePos2.x - shotOrigin.position.x, mousePos2.y - shotOrigin.position.y).normalized;
 
         return direction;
     }
@@ -221,56 +218,84 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerDash()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50 && dashUpgrade)
+        float transformOffset = 0.2f;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy == 50 && dashUpgrade)
         {
-            //distanceTravelled = 0;
-            //distanceTravelled += Vector2.Distance(transform.position, _lastPosition);
-            //_lastPosition = transform.position;
-            print("Dash enabled");
-            currentEnergy -= 50;
-            StartCoroutine(InvincibleTime());
-            float deltaSpeed = dashSpeed * Time.deltaTime;
-            if (!concussionUpgrade)
-            {
-                //if no concussion, do normal dash
-                if (facingPositive)
-                    //rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
-                    transform.Translate(Vector2.right * deltaSpeed);
-                else
-                    //rb.AddForce(new Vector2(-dashSpeed, 0), ForceMode2D.Impulse);
-                    transform.Translate(Vector2.right * -deltaSpeed);
-            }
-            else
-                //else do special dash routine, spawning concussion at place of origin, and new location
-                StartCoroutine(ConcussionSpawn());
+            StartCoroutine(DashBehaviour(transformOffset));
+        }
+    }
+
+    //set velocity to 0, then dash
+    IEnumerator DashBehaviour(float transformOffset)
+    {
+        if (concussionUpgrade)
+            Instantiate(concussionObj, transform.position, transform.rotation);
+
+        invulnerable = true;
+        int direction;
+        float offsetCalc;
+
+        if (facingPositive)
+        {
+            offsetCalc = -transformOffset;
+            direction = 1;
+        }
+        else
+        {
+            offsetCalc = transformOffset;
+            direction = -1;
+        }
+            
+        yield return new WaitForSeconds(0.02F);
+        
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin.transform.position, Vector2.right * direction, 3, 1 << LayerMask.NameToLayer("GroundLayer"));
+
+        Debug.DrawRay(rayOrigin.transform.position, Vector2.right * direction * 3, Color.red, 0.7f);
+
+        if (hit.collider != null)
+        {
+            Vector2 newLoc = new Vector2(hit.point.x + offsetCalc, transform.position.y);
+            Debug.Log(hit.collider.name);
+            transform.position = newLoc;
+        }
+        else
+        {
+            transform.Translate(Vector2.right * dashSpeed * direction);
         }
 
-    }
 
-    IEnumerator InvincibleTime()
-    {
-        _healthComponent.invincible = true;
-        yield return new WaitForSeconds(0.3f);
-        _healthComponent.invincible = false;
-    }
+        yield return new WaitForSeconds(0.01F);
 
-    IEnumerator ConcussionSpawn() 
-    {
-        float deltaSpeed = dashSpeed * Time.deltaTime;
-        Instantiate(concussionObj, transform.position, transform.rotation);
-        invulnerable = true;
-        yield return new WaitForSeconds(0.03F);
-        if (facingPositive)
-            //rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
-            transform.Translate(Vector2.right * deltaSpeed);
-        else
-            //rb.AddForce(new Vector2(-dashSpeed, 0), ForceMode2D.Impulse);
-            transform.Translate(Vector2.right * -deltaSpeed);
+        
+        //if (facingPositive)
+        //    //rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
+        //    transform.Translate(Vector2.right * dashSpeed);
+        //else
+        //    //rb.AddForce(new Vector2(-dashSpeed, 0), ForceMode2D.Impulse);
+        //    transform.Translate(Vector2.right * -dashSpeed);
 
-        Instantiate(concussionObj, transform.position, transform.rotation);
-        yield return new WaitForSeconds(0.1F);
+
+
+
+        //if (facingPositive)
+        //    //rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
+        //    transform.Translate(Vector2.right * dashSpeed);
+        //else
+        //    //rb.AddForce(new Vector2(-dashSpeed, 0), ForceMode2D.Impulse);
+        //    transform.Translate(Vector2.right * -dashSpeed);
+
+
+        if (concussionUpgrade)
+            Instantiate(concussionObj, transform.position, transform.rotation);
+
+        yield return new WaitForSeconds(0.3F);
         invulnerable = false;
     }
+
+
+
+ 
 
     void WallSlide()
     {
@@ -392,7 +417,7 @@ public class PlayerMain : MonoBehaviour {
             isWallSliding = false;
         }
     }
-
+    
 
 
 
