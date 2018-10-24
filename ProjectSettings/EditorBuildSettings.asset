@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/FirstMap.unity
     guid: b7fd78a5b8378aa4a8b24427e6f707e1
+  - enabled: 1
+    path: Assets/Scenes/SecondMap.unity
+    guid: 96772e930fe163c488997f5833685fe7
   m_configObjects: {}

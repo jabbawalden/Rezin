@@ -4,13 +4,23 @@ using UnityEngine;
 
 public class PlayerMain : MonoBehaviour {
 
-   
 
+    [Header("Player Stats")]
+
+    public int essence;
+    public float currentMomentum;
+    public float maxMomentum;
+
+    [Space(5)]
+
+    [Header("Player Setup ")]
     public Rigidbody2D rb;
     public Vector2 startPosition;
     GameData gameData = new GameData();
     public Camera playerCamera;
     public bool invulnerable;
+
+    [Space(5)]
 
     [Header("Player Dash")]
     public float dashSpeed;
@@ -20,10 +30,12 @@ public class PlayerMain : MonoBehaviour {
 
     [Header("Player Movement")]
     public float movementSpeed;
-
     public float climbSpeed;
+    public float springForce;
     public float fallMultiplier, lowJumpMultiplier;
     public bool grounded;
+    //TODO Diagonal shooting via bool and W & D or W & A checks
+    //if diagonal, velocity always equals zero and projectiles fire at 45 degree angles
     //creates a slider for between values 1 and 10 to control jump velocity
     [Range(1, 10)]
     public float jumpVelocity;
@@ -38,12 +50,13 @@ public class PlayerMain : MonoBehaviour {
     public bool onGroundCheckRepresentation;
     public Material pMat;
     private UIManager _uiManager;
-    [SerializeField] private bool _haveJumped;
+
     [Space(5)]
 
     [Header("Player Jump")]
     public int jumpCount;
     public int jumpMaxCount;
+    [SerializeField] private bool _haveJumped;
     [Space(5)]
 
     [Header("Player Energy")]
@@ -74,11 +87,19 @@ public class PlayerMain : MonoBehaviour {
 
     [Space(5)]
 
+    [Header("Player Slam Behaviour")]
+    public bool slamConcussion;
+    public bool stopVelocity;
+
+    [Space(5)]
+
     [Header("Player Uprades")]
     public bool airJumpUpgrade;
-    public bool wallSlideUpgrade;
+    public bool wallClimbUpgrade;
     public bool dashUpgrade;
-    public bool concussionUpgrade; 
+    public bool concussionUpgrade;
+    public bool slamUpgrade;
+    public bool doubleAirJumpUpgrade;
 
     private void Awake() 
     {
@@ -101,11 +122,13 @@ public class PlayerMain : MonoBehaviour {
         //jumpMaxCount = 2;
 
         //always default
+        slamConcussion = false;
         facingPositive = true;
         dead = false;
         _lastPosition = transform.position;
         _haveJumped = false;
         invulnerable = false;
+        stopVelocity = false;
         
     }
 
@@ -116,8 +139,11 @@ public class PlayerMain : MonoBehaviour {
         maxEnergy = JsonData.gameData.maxEnergy;
         dashUpgrade = JsonData.gameData.dashUpgrade;
         airJumpUpgrade = JsonData.gameData.airJumpUpgrade;
-        wallSlideUpgrade = JsonData.gameData.wallSlideUpgrade;
+        wallClimbUpgrade = JsonData.gameData.wallClimbUpgrade;
         concussionUpgrade = JsonData.gameData.concussionUpgrade;
+        slamUpgrade = JsonData.gameData.slamUpgrade;
+        doubleAirJumpUpgrade = JsonData.gameData.doubleAirJumpUpgrade;
+        essence = JsonData.gameData.essence;
         //set variables
         transform.position = startPosition;
         playerCamera.transform.position = new Vector3(startPosition.x, startPosition.y, -10);
@@ -127,13 +153,13 @@ public class PlayerMain : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        PlayerDash();
-
         if (_healthComponent.IsAlive())
         {
             float deltaPosition = movementSpeed * Time.deltaTime;
             PlayerMovementBehaviour(deltaPosition);
             PlayerJump();
+            PlayerDash();
+            Slam();
             PlayerDirectionFace();
             EnergyRegenerate();
             WallSlide();
@@ -151,9 +177,17 @@ public class PlayerMain : MonoBehaviour {
             //Game State Change
         }
         //onGroundCheckRepresentation = GetGround();
+        if (stopVelocity)
+        {
+            rb.velocity = new Vector2(0, 0);
+        }
     }
 
-    
+    private void FixedUpdate()
+    {
+
+    }
+
     public Vector2 GetMouseDirection()
     {
         Vector2 mousePos2 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -164,29 +198,38 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerDirectionFace()
     {
-        Vector2 mousePos = Input.mousePosition;
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        //Vector2 mousePos = Input.mousePosition;
+        //mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        //direction through - vectors of both positions
-        if (mousePos.x > transform.position.x /*&& !isWallSliding*/)
+        ////direction through - vectors of both positions
+        //if (mousePos.x > transform.position.x /*&& !isWallSliding*/)
+        //{
+        //    transform.localScale = new Vector3(1, 1, 1);
+        //    facingPositive = true;
+        //}
+        //else
+        //{
+        //    transform.localScale = new Vector3(-1, 1, 1);
+        //    facingPositive = false;
+        //}
+
+        if (rb.velocity.x > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
             facingPositive = true;
         }
-        else
+        else if (rb.velocity.x < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
             facingPositive = false;
         }
-
-
     }
 
     void PlayerMovementBehaviour(float s) 
     {
         float x = Input.GetAxis("Horizontal");
-        float deltaSpeed = s * Time.deltaTime;
-        rb.velocity = new Vector2(x * deltaSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(x * s, rb.velocity.y);
+        //transform.Translate(Vector2.right * x * s);
         //transform.Translate(Vector2.right * x * deltaSpeed);
     }
 
@@ -196,6 +239,13 @@ public class PlayerMain : MonoBehaviour {
         {
             jumpMaxCount = 2;
         }
+
+        if (doubleAirJumpUpgrade)
+        {
+            jumpMaxCount = 3;
+        }
+
+        
         //check if grounded
         if (Input.GetButtonDown("Jump") && jumpCount >= 1)
         {
@@ -209,10 +259,16 @@ public class PlayerMain : MonoBehaviour {
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
 
-            if (airJumpUpgrade && !_haveJumped)
-                jumpCount = 1;
-            else if (!airJumpUpgrade && !_haveJumped)
-                jumpCount = 0;
+            if (!_haveJumped)
+            {
+                if (airJumpUpgrade && !doubleAirJumpUpgrade)
+                    jumpCount = 1;
+                else if (doubleAirJumpUpgrade)
+                    jumpCount = 2;
+                else if (!airJumpUpgrade && !doubleAirJumpUpgrade)
+                    jumpCount = 0;
+            }
+            
         }
     }
 
@@ -220,7 +276,7 @@ public class PlayerMain : MonoBehaviour {
     {
         float transformOffset = 0.2f;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy == 50 && dashUpgrade)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50 && dashUpgrade)
         {
             StartCoroutine(DashBehaviour(transformOffset));
         }
@@ -235,6 +291,7 @@ public class PlayerMain : MonoBehaviour {
         invulnerable = true;
         int direction;
         float offsetCalc;
+        currentEnergy -= 50;
 
         if (facingPositive)
         {
@@ -250,7 +307,6 @@ public class PlayerMain : MonoBehaviour {
         yield return new WaitForSeconds(0.02F);
         
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin.transform.position, Vector2.right * direction, 3, 1 << LayerMask.NameToLayer("GroundLayer"));
-
         Debug.DrawRay(rayOrigin.transform.position, Vector2.right * direction * 3, Color.red, 0.7f);
 
         if (hit.collider != null)
@@ -264,49 +320,23 @@ public class PlayerMain : MonoBehaviour {
             transform.Translate(Vector2.right * dashSpeed * direction);
         }
 
-
         yield return new WaitForSeconds(0.01F);
-
-        
-        //if (facingPositive)
-        //    //rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
-        //    transform.Translate(Vector2.right * dashSpeed);
-        //else
-        //    //rb.AddForce(new Vector2(-dashSpeed, 0), ForceMode2D.Impulse);
-        //    transform.Translate(Vector2.right * -dashSpeed);
-
-
-
-
-        //if (facingPositive)
-        //    //rb.AddForce(new Vector2(dashSpeed, 0), ForceMode2D.Impulse);
-        //    transform.Translate(Vector2.right * dashSpeed);
-        //else
-        //    //rb.AddForce(new Vector2(-dashSpeed, 0), ForceMode2D.Impulse);
-        //    transform.Translate(Vector2.right * -dashSpeed);
-
 
         if (concussionUpgrade)
             Instantiate(concussionObj, transform.position, transform.rotation);
 
-        yield return new WaitForSeconds(0.3F);
+        yield return new WaitForSeconds(0.4F);
         invulnerable = false;
     }
 
-
-
- 
-
     void WallSlide()
     {
-        if (wallSlideUpgrade)
+        if (wallClimbUpgrade)
         {
             if (isWallSliding && rb.velocity.y < 0)
             {
                 float deltaSpeed = climbSpeed * Time.fixedDeltaTime;
-
                 float v = Input.GetAxis("Vertical");
-
                 //rb.velocity = new Vector2(rb.velocity.x, v * climbSpeed);
                 transform.Translate(Vector2.up * v * deltaSpeed);
                 //rb.AddForce(new Vector2(rb.velocity.x, v * deltaSpeed));
@@ -314,10 +344,8 @@ public class PlayerMain : MonoBehaviour {
                 {
                     rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedMax);
                 }
-
                 jumpCount = jumpMaxCount;
             }
-
 
         }
     }
@@ -351,11 +379,32 @@ public class PlayerMain : MonoBehaviour {
 
     public void SpringBehaviour()
     {
-        if (jumpCount > 0)
+        if (slamConcussion)
+            rb.velocity = (new Vector2(0, springForce));
+    }
+
+    void Slam()
+    {
+        if (rb.velocity.y < 0 || _haveJumped)
         {
-            jumpCount--;
-            _haveJumped = true;
+            if (Input.GetKeyDown(KeyCode.S) && !isWallSliding && slamUpgrade) 
+            {
+                slamConcussion = true;
+                StartCoroutine(SlamBehaviour());
+            }
         }
+    }
+
+    IEnumerator SlamBehaviour()
+    {
+        invulnerable = true;
+        stopVelocity = true;
+        yield return new WaitForSeconds(0.2f);
+        stopVelocity = false;
+        rb.AddForce(Vector2.down * 850);
+        yield return new WaitForSeconds(0.5f);
+        invulnerable = false;
+
     }
 
     void PlayerDeath()
@@ -372,8 +421,18 @@ public class PlayerMain : MonoBehaviour {
             {
                 jumpCount = jumpMaxCount;
                 _haveJumped = false;
+
+                if (concussionUpgrade && slamConcussion)
+                {
+                    Instantiate(concussionObj, transform.position, transform.rotation);
+                    slamConcussion = false;
+                }
             }
 
+            if (collision.collider.CompareTag("Ground"))
+            {
+                _haveJumped = false;
+            }
         }
 
     }
@@ -384,7 +443,6 @@ public class PlayerMain : MonoBehaviour {
         {
             foreach (ContactPoint2D hitPos in collision.contacts)
             {
-
                 if (hitPos.normal.x > 0 || hitPos.normal.x < 0)
                 {
                     isWallSliding = true;

@@ -2,20 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConcussionUpgrade : UnlockableBaseClass
-{
+public class SlamUpgrade : UnlockableBaseClass {
 
-    // Update is called once per frame
-    public bool concussionUpgrade;
-
+    public bool slamUpgrade;
 
     public void LoadData()
     {
-        concussionUpgrade = JsonData.gameData.concussionUpgrade;
+        slamUpgrade = JsonData.gameData.slamUpgrade;
 
-        if (concussionUpgrade)
+        if (slamUpgrade)
         {
-            print("Destroy Concussion");
             Destroy(gameObject);
         }
     }
@@ -25,7 +21,7 @@ public class ConcussionUpgrade : UnlockableBaseClass
         if (playerisHere)
         {
             Upgrade();
-            concussionUpgrade = true;
+            slamUpgrade = true;
             Destroy(upgradeObject);
             //Particle FX
             //trigger UI
@@ -36,6 +32,6 @@ public class ConcussionUpgrade : UnlockableBaseClass
 
     void Upgrade()
     {
-        _playerMain.concussionUpgrade = true;
+        _playerMain.slamUpgrade = true;
     }
 }

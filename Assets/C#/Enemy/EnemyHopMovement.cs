@@ -14,6 +14,8 @@ public class EnemyHopMovement : MonoBehaviour {
     public BoxCollider2D physicsCollider;
     HealthComponent _healthComponent;
 
+    public GameObject essenceCollectable;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -68,6 +70,7 @@ public class EnemyHopMovement : MonoBehaviour {
     {
         if (!_healthComponent.IsAlive())
         {
+            Instantiate(essenceCollectable, transform.position, transform.rotation);
             Destroy(gameObject);
         }
         else

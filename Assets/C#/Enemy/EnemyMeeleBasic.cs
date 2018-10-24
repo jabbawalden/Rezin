@@ -35,9 +35,13 @@ public class EnemyMeeleBasic : MonoBehaviour {
     {
         if (collision.CompareTag("Player"))
         {
-            print("Spider Hit Player");
-            _healthComponent = collision.GetComponent<HealthComponent>();
-            _attackPlayer = true;
+            if (!_playerMain.invulnerable)
+            {
+                print("Spider Hit Player");
+                _healthComponent = collision.GetComponent<HealthComponent>();
+                _attackPlayer = true;
+            }
+        
         }
     }
 

@@ -25,8 +25,11 @@ public class JsonData : MonoBehaviour {
     private DashUpgrade _dashUpgrade;
     private ReboundUpgrade _reboundUpgrade;
     private AirJumpUpgrade _airJumpUpgrade;
-    private WallSlideUpgrade _wallSlideUpgrade;
+    private WallClimbUpgrade _wallClimbUpgrade;
     private ConcussionUpgrade _concussionUpgrade;
+    private SlamUpgrade _slamUpgrade;
+    private DoubleAirJumpUpgrade _doubleAirJumpUpgrade;
+    //slam upgrade
 	// Use this for initialization
 	void Start ()
     {
@@ -37,8 +40,10 @@ public class JsonData : MonoBehaviour {
         _dashUpgrade = GameObject.Find("DashUpgrade").GetComponent<DashUpgrade>();
         _reboundUpgrade = GameObject.Find("ReboundUpgrade").GetComponent<ReboundUpgrade>();
         _airJumpUpgrade = GameObject.Find("AirJumpUpgrade").GetComponent<AirJumpUpgrade>();
-        _wallSlideUpgrade = GameObject.Find("WallSlideUpgrade").GetComponent<WallSlideUpgrade>();
+        _wallClimbUpgrade = GameObject.Find("WallClimbUpgrade").GetComponent<WallClimbUpgrade>();
         _concussionUpgrade = GameObject.Find("ConcussionUpgrade").GetComponent<ConcussionUpgrade>();
+        _slamUpgrade = GameObject.Find("SlamUpgrade").GetComponent<SlamUpgrade>();
+        _doubleAirJumpUpgrade = GameObject.Find("DoubleAirJumpUpgrade").GetComponent<DoubleAirJumpUpgrade>();
 
         //this will later be converted into a function, with a string argument passed through it to check which paths to save through
         //eg, GameLoadData(path2);
@@ -50,9 +55,11 @@ public class JsonData : MonoBehaviour {
             _dashUpgrade.LoadData();
             _reboundUpgrade.LoadData();
             _airJumpUpgrade.LoadData();
-            _wallSlideUpgrade.LoadData();
+            _wallClimbUpgrade.LoadData();
             _playerShoot.LoadData();
             _concussionUpgrade.LoadData();
+            _slamUpgrade.LoadData();
+            _doubleAirJumpUpgrade.LoadData();
 
             print("file exists");
         }
@@ -87,8 +94,11 @@ public class JsonData : MonoBehaviour {
         gameData.dashUpgrade = _playerMain.dashUpgrade;
         gameData.reboundUpgrade = _playerShoot.reboundUpgrade;
         gameData.airJumpUpgrade = _playerMain.airJumpUpgrade;
-        gameData.wallSlideUpgrade = _playerMain.wallSlideUpgrade;
+        gameData.wallClimbUpgrade = _playerMain.wallClimbUpgrade;
         gameData.concussionUpgrade = _playerMain.concussionUpgrade;
+        gameData.slamUpgrade = _playerMain.slamUpgrade;
+        gameData.doubleAirJumpUpgrade = _playerMain.doubleAirJumpUpgrade;
+        gameData.essence = _playerMain.essence;
 
         //set items in gameData class to contents string variable
         string contents = JsonUtility.ToJson(gameData, true);
@@ -103,12 +113,14 @@ public class JsonData : MonoBehaviour {
     //pass an argument through here for path
     void ReadData()
     {
+     
         try
         {
             if (System.IO.File.Exists(path))
             {
                 string contents = System.IO.File.ReadAllText(path);
                 gameData = JsonUtility.FromJson<GameData>(contents);
+                print(gameData.concussionUpgrade);
             }
             else
             {

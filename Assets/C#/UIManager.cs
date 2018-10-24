@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour {
     public Text maxHealth;
     public Text currentEnergy;
     public Text maxEnergy;
+    public Text essence;
 
     // set variables
     private void Awake()
@@ -64,6 +65,11 @@ public class UIManager : MonoBehaviour {
                 currentHealth.text = "0";
         }
             
+    }
+
+    public void UpdateEssence()
+    {
+        essence.text = "" + _playerMain.essence;
     }
 
 }

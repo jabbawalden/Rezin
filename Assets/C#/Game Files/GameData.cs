@@ -9,9 +9,12 @@ public class GameData
     public bool dashUpgrade;
     public bool airJumpUpgrade;
     public bool concussionUpgrade;
-    public bool wallSlideUpgrade;
+    public bool wallClimbUpgrade;
     public bool reboundUpgrade;
+    public bool slamUpgrade;
+    public bool doubleAirJumpUpgrade;
     public int maxEnergy;
+    public int essence;
     public Vector2 startPosition;
 	
 }

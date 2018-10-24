@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallSlideUpgrade : UnlockableBaseClass {
+public class DoubleAirJumpUpgrade : UnlockableBaseClass {
 
-
-    public bool wallSlideUpgrade;
+    public bool doubleAirJumpUpgrade;
 
     public void LoadData()
     {
-        wallSlideUpgrade = JsonData.gameData.wallSlideUpgrade;
+        doubleAirJumpUpgrade = JsonData.gameData.doubleAirJumpUpgrade;
 
-        if (wallSlideUpgrade)
+
+        if (doubleAirJumpUpgrade)
         {
             Destroy(gameObject);
         }
@@ -22,7 +22,7 @@ public class WallSlideUpgrade : UnlockableBaseClass {
         if (playerisHere)
         {
             Upgrade();
-            wallSlideUpgrade = true;
+            doubleAirJumpUpgrade = true;
             Destroy(upgradeObject);
             //Particle FX
             //trigger UI
@@ -33,6 +33,7 @@ public class WallSlideUpgrade : UnlockableBaseClass {
 
     void Upgrade()
     {
-        _playerMain.wallSlideUpgrade = true;
+        _playerMain.doubleAirJumpUpgrade = true;
+        _playerMain.jumpMaxCount = 3;
     }
 }

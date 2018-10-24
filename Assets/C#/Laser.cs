@@ -72,27 +72,6 @@ public class Laser : MonoBehaviour {
         } 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //if (collision.collider.CompareTag("Enemy") && projType == ProjectileType.Player)
-        //{
-        //    Debug.Log("HitTarget");
-        //    healthComponent = collision.collider.GetComponent<HealthComponent>();
-        //    healthComponent.health -= _damage;
-        //    Destroy(gameObject);
-        //}
-
-        //if (collision.collider.CompareTag("Player") && projType == ProjectileType.Enemy)
-        //{
-        //    if (!_playerMain.invulnerable)
-        //    {
-        //        _healthComponent = collision.collider.GetComponent<HealthComponent>();
-        //        _healthComponent.health -= _damage;
-        //        _playerMain.PlayerDamageBehaviour();
-        //        Destroy(gameObject);
-        //    }
-        //}
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

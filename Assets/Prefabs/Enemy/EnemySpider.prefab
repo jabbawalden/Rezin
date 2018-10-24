@@ -103,7 +103,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1205494627473482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1115.24, y: 29.880001, z: 3.0212452}
+  m_LocalPosition: {x: 942.90906, y: -74.94748, z: 3.0212452}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4832510226847312}
@@ -350,6 +350,8 @@ MonoBehaviour:
   hopRate: 2
   aggressionDistance: 10
   physicsCollider: {fileID: 61404134118926530}
+  essenceCollectable: {fileID: 1738151554376940, guid: ec78b4d7662e6674d8724a9d7db7b336,
+    type: 2}
 --- !u!114 &114282889534689906
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
-    public Transform target;
+    public Transform target; 
     private Vector2 velocity;
 
     //public float smoothSpeed;
@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour {
 
     [SerializeField] float smoothY, smoothX;
 
-    private void LateUpdate() 
+    private void Update() 
     {
         //Vector3 desiredPosition = target.position + offset;
         //Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
