@@ -399,7 +399,7 @@ public class PlayerMain : MonoBehaviour {
     {
         invulnerable = true;
         stopVelocity = true;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
         stopVelocity = false;
         rb.AddForce(Vector2.down * 850);
         yield return new WaitForSeconds(0.5f);
