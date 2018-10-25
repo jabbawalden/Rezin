@@ -8,13 +8,36 @@ public class LootComponent : MonoBehaviour {
     private UIManager _uiManager;
     public int essenceWorth;
     private Rigidbody2D _rb;
+    bool canPull;
 
     private void Start()
     {
         _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
         _rb = GetComponent<Rigidbody2D>();
-        _rb.AddForce(Vector2.up * 250);
+        _rb.AddForce(Vector2.up * 350);
+        canPull = false;
+    }
+
+    private void Update()
+    {
+        Vector2 target = _playerMain.transform.position;
+
+        float distance = Vector2.Distance(transform.position, target);
+
+        float deltaPos = 10 * Time.deltaTime;
+
+        if (distance < 4 && canPull)
+        {
+            print("move towards");
+            transform.position = Vector2.MoveTowards(transform.position, target, deltaPos);
+        }
+    }
+
+    IEnumerator canPullTimer()
+    {
+        yield return new WaitForSeconds(0.8f);
+        canPull = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

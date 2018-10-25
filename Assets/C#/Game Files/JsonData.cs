@@ -23,7 +23,7 @@ public class JsonData : MonoBehaviour {
     private PlayerShoot _playerShoot;
     private PlayerMain _playerMain;
     private DashUpgrade _dashUpgrade;
-    private ReboundUpgrade _reboundUpgrade;
+    private BlastUpgrade _blastUpgrade;
     private AirJumpUpgrade _airJumpUpgrade;
     private WallClimbUpgrade _wallClimbUpgrade;
     private ConcussionUpgrade _concussionUpgrade;
@@ -38,7 +38,7 @@ public class JsonData : MonoBehaviour {
         _playerShoot = GameObject.Find("Player").GetComponent<PlayerShoot>();
         _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _dashUpgrade = GameObject.Find("DashUpgrade").GetComponent<DashUpgrade>();
-        _reboundUpgrade = GameObject.Find("ReboundUpgrade").GetComponent<ReboundUpgrade>();
+        _blastUpgrade = GameObject.Find("BlastUpgrade").GetComponent<BlastUpgrade>();
         _airJumpUpgrade = GameObject.Find("AirJumpUpgrade").GetComponent<AirJumpUpgrade>();
         _wallClimbUpgrade = GameObject.Find("WallClimbUpgrade").GetComponent<WallClimbUpgrade>();
         _concussionUpgrade = GameObject.Find("ConcussionUpgrade").GetComponent<ConcussionUpgrade>();
@@ -51,9 +51,10 @@ public class JsonData : MonoBehaviour {
         {
             //argument will also be passed through ReadData eg. ReadData(path2);
             ReadData();
+
             _playerMain.LoadData();
             _dashUpgrade.LoadData();
-            _reboundUpgrade.LoadData();
+            _blastUpgrade.LoadData();
             _airJumpUpgrade.LoadData();
             _wallClimbUpgrade.LoadData();
             _playerShoot.LoadData();
@@ -77,7 +78,7 @@ public class JsonData : MonoBehaviour {
         {
             
             ReadData();
-            
+            Debug.Log(path);
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -88,11 +89,10 @@ public class JsonData : MonoBehaviour {
     //argument required for savedata for check which path and file we are saving into
     public void SaveData()
     {
-        gameData.ShootRebound = _playerShoot.shootRebound;
         gameData.maxEnergy = _playerMain.maxEnergy;
         gameData.startPosition = _playerMain.startPosition;
         gameData.dashUpgrade = _playerMain.dashUpgrade;
-        gameData.reboundUpgrade = _playerShoot.reboundUpgrade;
+        gameData.blastUpgrade = _playerShoot.blastUpgrade;
         gameData.airJumpUpgrade = _playerMain.airJumpUpgrade;
         gameData.wallClimbUpgrade = _playerMain.wallClimbUpgrade;
         gameData.concussionUpgrade = _playerMain.concussionUpgrade;

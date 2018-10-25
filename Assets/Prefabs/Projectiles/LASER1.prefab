@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 4696013400914380}
   - component: {fileID: 114405551421321406}
   - component: {fileID: 61238426101810324}
-  - component: {fileID: 58090595978353356}
   - component: {fileID: 50948478126549676}
   - component: {fileID: 23569534317627204}
   m_Layer: 11
@@ -67,8 +66,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1394726853307084}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 998.62573, y: 15.589908, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 802.35, y: -118.53, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 4576514485267128}
   m_Father: {fileID: 0}
@@ -129,21 +128,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &58090595978353356
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1394726853307084}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 3a6fc7a7f38e2934899551c8a2b08238, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.30618286, y: -0.008685112}
-  serializedVersion: 2
-  m_Radius: 0.080945015
 --- !u!61 &61238426101810324
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -185,7 +169,6 @@ MonoBehaviour:
   projectileLife: 0
   duration: 3
   projType: 0
-  canRebound: 0
 --- !u!212 &212256985334555352
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -12,7 +12,9 @@ public class ConcussionObject : MonoBehaviour {
     HealthComponent _healthComponent;
     PlayerMain _playerMain;
     EnemyBasic enemyOnetest;
-    EnemyHopMovement _enemyHopMovement; 
+    EnemyHopMovement _enemyHopMovement;
+    public int concussionDamage;
+
     // Use this for initialization
     void Start ()
     {
@@ -45,7 +47,9 @@ public class ConcussionObject : MonoBehaviour {
             direction = new Vector2(enemy.transform.position.x - transform.position.x, enemy.transform.position.y - transform.position.y).normalized;
             ConcussionBehaviour(direction);
             _healthComponent = enemy.GetComponent<HealthComponent>();
-            _healthComponent.health -= _playerMain.concussionDamage;
+
+            _healthComponent.health -= concussionDamage;
+
             if (enemy.GetComponent<EnemyBasic>() != null)
             {
                 enemyOnetest = enemy.GetComponent<EnemyBasic>();

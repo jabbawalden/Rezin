@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1841048014505962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.125, z: 0}
+  m_LocalPosition: {x: 0, y: -0.062, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4331396418287288}
@@ -369,20 +369,20 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186857213979842}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef3a51ebea3a5554d9768a5d2a803339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootRebound: 0
   laserDamage: 5
   maxLaserDamage: 8
-  laserSpeed: 3
+  laserSpeed: 9
   projectile: {fileID: 1394726853307084, guid: d81d5c19bacb03e47a9c021efb69b5bd, type: 2}
-  fireRateDivider: 15
+  fireRate: 2
   shotOrigin: {fileID: 4430188145359368}
   projectileLife: 4
-  reboundUpgrade: 0
+  propelForce: 150
+  blastUpgrade: 0
 --- !u!114 &114592871750341898
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -415,7 +415,7 @@ MonoBehaviour:
   pMat: {fileID: 2100000, guid: a4a76e3ced4068f4cbe40fb0fdfae2fd, type: 2}
   jumpCount: 1
   jumpMaxCount: 1
-  _haveJumped: 0
+  haveJumped: 0
   currentEnergy: 100
   maxEnergy: 100
   energyRegenerate: 0

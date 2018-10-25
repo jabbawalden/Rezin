@@ -10,7 +10,7 @@ public class GameData
     public bool airJumpUpgrade;
     public bool concussionUpgrade;
     public bool wallClimbUpgrade;
-    public bool reboundUpgrade;
+    public bool blastUpgrade;
     public bool slamUpgrade;
     public bool doubleAirJumpUpgrade;
     public int maxEnergy;

@@ -56,7 +56,7 @@ public class PlayerMain : MonoBehaviour {
     [Header("Player Jump")]
     public int jumpCount;
     public int jumpMaxCount;
-    [SerializeField] private bool _haveJumped;
+    public bool haveJumped;
     [Space(5)]
 
     [Header("Player Energy")]
@@ -82,7 +82,7 @@ public class PlayerMain : MonoBehaviour {
 
     [Header("Player Concussion Behaviour")]
     public GameObject concussionObj;
-    public int concussionDamage;
+    public GameObject concussionObj2;
     public float stunTime;
 
     [Space(5)]
@@ -126,7 +126,7 @@ public class PlayerMain : MonoBehaviour {
         facingPositive = true;
         dead = false;
         _lastPosition = transform.position;
-        _haveJumped = false;
+        haveJumped = false;
         invulnerable = false;
         stopVelocity = false;
         
@@ -181,10 +181,6 @@ public class PlayerMain : MonoBehaviour {
         {
             rb.velocity = new Vector2(0, 0);
         }
-    }
-
-    private void FixedUpdate()
-    {
 
     }
 
@@ -198,21 +194,6 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerDirectionFace()
     {
-        //Vector2 mousePos = Input.mousePosition;
-        //mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-
-        ////direction through - vectors of both positions
-        //if (mousePos.x > transform.position.x /*&& !isWallSliding*/)
-        //{
-        //    transform.localScale = new Vector3(1, 1, 1);
-        //    facingPositive = true;
-        //}
-        //else
-        //{
-        //    transform.localScale = new Vector3(-1, 1, 1);
-        //    facingPositive = false;
-        //}
-
         if (rb.velocity.x > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
@@ -229,8 +210,6 @@ public class PlayerMain : MonoBehaviour {
     {
         float x = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(x * s, rb.velocity.y);
-        //transform.Translate(Vector2.right * x * s);
-        //transform.Translate(Vector2.right * x * deltaSpeed);
     }
 
     void PlayerJump()
@@ -240,26 +219,20 @@ public class PlayerMain : MonoBehaviour {
             jumpMaxCount = 2;
         }
 
-        if (doubleAirJumpUpgrade)
-        {
-            jumpMaxCount = 3;
-        }
-
-        
         //check if grounded
-        if (Input.GetButtonDown("Jump") && jumpCount >= 1)
+        if (Input.GetKeyDown(KeyCode.J) && jumpCount >= 1)
         {
             rb.velocity = Vector2.up * jumpVelocity;
             jumpCount--;
-            _haveJumped = true;
+            haveJumped = true;
         }
+
 
         //fall multiplier
         if (rb.velocity.y < -0.1f)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-
-            if (!_haveJumped)
+            if (!haveJumped)
             {
                 if (airJumpUpgrade && !doubleAirJumpUpgrade)
                     jumpCount = 1;
@@ -268,7 +241,6 @@ public class PlayerMain : MonoBehaviour {
                 else if (!airJumpUpgrade && !doubleAirJumpUpgrade)
                     jumpCount = 0;
             }
-            
         }
     }
 
@@ -276,7 +248,7 @@ public class PlayerMain : MonoBehaviour {
     {
         float transformOffset = 0.2f;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentEnergy >= 50 && dashUpgrade)
+        if (Input.GetKeyDown(KeyCode.K) && currentEnergy >= 50 && dashUpgrade)
         {
             StartCoroutine(DashBehaviour(transformOffset));
         }
@@ -335,21 +307,22 @@ public class PlayerMain : MonoBehaviour {
         {
             if (isWallSliding && rb.velocity.y < 0)
             {
-                float deltaSpeed = climbSpeed * Time.fixedDeltaTime;
-                float v = Input.GetAxis("Vertical");
+                //float deltaSpeed = climbSpeed * Time.fixedDeltaTime;
+                //float v = Input.GetAxis("Vertical");
                 //rb.velocity = new Vector2(rb.velocity.x, v * climbSpeed);
-                transform.Translate(Vector2.up * v * deltaSpeed);
+                //transform.Translate(Vector2.up * v * deltaSpeed);
                 //rb.AddForce(new Vector2(rb.velocity.x, v * deltaSpeed));
                 if (rb.velocity.y < -wallSlideSpeedMax)
                 {
                     rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedMax);
                 }
                 jumpCount = jumpMaxCount;
+                //if on wall, slamConcussion won't fire even when S is pressed down
+                slamConcussion = false;
             }
 
         }
     }
-
 
     public void PlayerDamageBehaviour()
     {
@@ -380,12 +353,36 @@ public class PlayerMain : MonoBehaviour {
     public void SpringBehaviour()
     {
         if (slamConcussion)
-            rb.velocity = (new Vector2(0, springForce));
+            StartCoroutine(SpringBehaviourCo());
+
+        if (haveJumped && slamConcussion)
+        {
+            Instantiate(concussionObj2, transform.position, transform.rotation);
+            slamConcussion = false;
+            jumpCount = jumpMaxCount;
+            //if hit enemy mid-air
+            springForce = 16.3f;
+        }
+        else
+        {
+            //else if hit enemy on ground
+            springForce = 13.5f;
+        }
+
+
+        //if (slamConcussion)
+        //    rb.velocity = (new Vector2(0, springForce));
+    }
+
+    IEnumerator SpringBehaviourCo()
+    {
+        yield return new WaitForSeconds(0.1f);
+        rb.velocity = (new Vector2(0, springForce));
     }
 
     void Slam()
     {
-        if (rb.velocity.y < 0 || _haveJumped)
+        if (rb.velocity.y < 0 || haveJumped)
         {
             if (Input.GetKeyDown(KeyCode.S) && !isWallSliding && slamUpgrade) 
             {
@@ -407,6 +404,12 @@ public class PlayerMain : MonoBehaviour {
 
     }
 
+    public void RecoilBehaviour(float direction)
+    {
+        //rb.velocity = (Vector2.right * 10 * direction);
+        rb.AddForce(new Vector2(260 * direction, 0), ForceMode2D.Force);
+    }
+
     void PlayerDeath()
     {
     }
@@ -415,26 +418,18 @@ public class PlayerMain : MonoBehaviour {
     {
         foreach (ContactPoint2D hitPos in collision.contacts)
         {
-            //Debug.Log(hitPos.normal);
-            //check if we hit ground object AND our hit came from below
             if (collision.collider.CompareTag("Ground") && hitPos.normal.y > 0)
             {
                 jumpCount = jumpMaxCount;
-                _haveJumped = false;
+                haveJumped = false;
 
                 if (concussionUpgrade && slamConcussion)
                 {
-                    Instantiate(concussionObj, transform.position, transform.rotation);
+                    Instantiate(concussionObj2, transform.position, transform.rotation);
                     slamConcussion = false;
                 }
             }
-
-            if (collision.collider.CompareTag("Ground"))
-            {
-                _haveJumped = false;
-            }
         }
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -452,15 +447,6 @@ public class PlayerMain : MonoBehaviour {
                 {
                     isWallSliding = false;
                 }
-
-                //if (hitPos.normal.x > 0)
-                //{
-                //    Debug.Log(hitPos);
-                //}
-                //if (hitPos.normal.x < 0)
-                //{
-
-                //}
 
             }
         }

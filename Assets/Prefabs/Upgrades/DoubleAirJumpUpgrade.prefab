@@ -9,46 +9,75 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1341363833201774}
+  m_RootGameObject: {fileID: 1626877093283236}
   m_IsPrefabAsset: 1
---- !u!1 &1341363833201774
+--- !u!1 &1626877093283236
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4206119138447126}
-  - component: {fileID: 33142796775236496}
-  - component: {fileID: 23848697134697576}
-  - component: {fileID: 114220408625589516}
-  - component: {fileID: 58567552438222294}
+  - component: {fileID: 4978160665537554}
+  - component: {fileID: 58055702126158520}
+  - component: {fileID: 114236655472341860}
   m_Layer: 0
-  m_Name: Concussion
+  m_Name: DoubleAirJumpUpgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4206119138447126
+--- !u!1 &1796706172624278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4407853510764736}
+  - component: {fileID: 33259612290389304}
+  - component: {fileID: 23912806539428480}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4407853510764736
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1341363833201774}
+  m_GameObject: {fileID: 1796706172624278}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1108.97, y: 39.38, z: 0.080078125}
-  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
+  m_Father: {fileID: 4978160665537554}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4978160665537554
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626877093283236}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1126.32, y: -15.29, z: 2.1290312}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4407853510764736}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23848697134697576
+--- !u!23 &23912806539428480
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1341363833201774}
+  m_GameObject: {fileID: 1796706172624278}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -58,7 +87,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 6e0abaf384e83ce42b58bf7fba03cf59, type: 2}
+  - {fileID: 2100000, guid: 21230dfdfe5dba749800d225a07535be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,19 +107,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33142796775236496
+--- !u!33 &33259612290389304
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1341363833201774}
+  m_GameObject: {fileID: 1796706172624278}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!58 &58567552438222294
+--- !u!58 &58055702126158520
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1341363833201774}
+  m_GameObject: {fileID: 1626877093283236}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -100,17 +129,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &114220408625589516
+--- !u!114 &114236655472341860
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1341363833201774}
+  m_GameObject: {fileID: 1626877093283236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8099418f3c1e2c04e9dd19575a2ddec9, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b01f7c00d27e9740ae032cdffbad01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: []
-  eProj: []
-  concussionDamage: 10
+  _playerMain: {fileID: 0}
+  _playerShoot: {fileID: 0}
+  playerisHere: 0
+  upgradeObject: {fileID: 1796706172624278}
+  airJumpUpgrade: 0

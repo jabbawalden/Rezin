@@ -12,44 +12,42 @@ public class Laser : MonoBehaviour {
     private PlayerShoot _playerShoot;
     private PlayerMain _playerMain;
     public int projectileLife;
-    private CircleCollider2D _reboundCol;
+    //private CircleCollider2D _reboundCol;
     public float duration;
     
     [SerializeField]
     public enum ProjectileType {Player, Enemy}
     
     public ProjectileType projType;
-
-    public bool canRebound;
+    
 
     private void Start()
     {
         StartCoroutine(ProjectileLifetime());
         rb = GetComponent<Rigidbody2D>();
-        _reboundCol = GetComponent<CircleCollider2D>();
+        //_reboundCol = GetComponent<CircleCollider2D>();
         _playerShoot = GameObject.Find("Player").GetComponent<PlayerShoot>();
         _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
-        canRebound = _playerShoot.shootRebound;
 
-        if (projType == ProjectileType.Player)
-        {
-            //set collision to true if reboundUpgrade achieved
-            if (_playerShoot.reboundUpgrade)
-            {
-                _reboundCol.enabled = true;
+        //if (projType == ProjectileType.Player)
+        //{
+        //    //set collision to true if reboundUpgrade achieved
+        //    if (_playerShoot.blastUpgrade)
+        //    {
+        //        _reboundCol.enabled = true;
 
-                //check if canRebound is activated, if so, set trigger false, else, is set to trigger to act as normal
-                if (canRebound)
-                    _reboundCol.isTrigger = false;
-                else
-                    Destroy(_reboundCol);
-            }
-            else
-            {
-                _reboundCol.enabled = false;
-            }
-        }
-        else { Destroy(_reboundCol); }
+        //        //check if canRebound is activated, if so, set trigger false, else, is set to trigger to act as normal
+        //        if (canRebound)
+        //            _reboundCol.isTrigger = false;
+        //        else
+        //            Destroy(_reboundCol);
+        //    }
+        //    else
+        //    {
+        //        _reboundCol.enabled = false;
+        //    }
+        //}
+        //else { Destroy(_reboundCol); }
 
     }
 
@@ -62,14 +60,14 @@ public class Laser : MonoBehaviour {
     private void Update()
     {
         //alter rotation
-        float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        //float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg;
+        //transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        if (_playerShoot.reboundUpgrade && projType == ProjectileType.Player)
-        {
-            if (projectileLife <= 0)
-                Destroy(gameObject);
-        } 
+        //if (_playerShoot.blastUpgrade && projType == ProjectileType.Player)
+        //{
+        //    if (projectileLife <= 0)
+        //        Destroy(gameObject);
+        //} 
     }
 
 
@@ -107,7 +105,6 @@ public class Laser : MonoBehaviour {
 
         if (collision.CompareTag("Ground")) 
         {
-            if (!_playerShoot.reboundUpgrade || !canRebound) 
                 Destroy(gameObject);
         }
         else

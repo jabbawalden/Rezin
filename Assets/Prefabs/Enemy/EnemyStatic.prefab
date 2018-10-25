@@ -55,10 +55,11 @@ GameObject:
   - component: {fileID: 114248411284797426}
   - component: {fileID: 114832683570483508}
   - component: {fileID: 114769765200372744}
+  - component: {fileID: 114894184269954166}
   - component: {fileID: 58079642107875458}
   - component: {fileID: 50403869290835016}
   m_Layer: 14
-  m_Name: EnemyStatic (1)
+  m_Name: EnemyStatic
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,9 +84,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1788801414292556}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 937.23, y: -61.51, z: 2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 902.18964, y: -84.21931, z: -19.29794}
+  m_LocalScale: {x: 1.1999999, y: 1.1999999, z: 1}
   m_Children:
   - {fileID: 4510113951480330}
   - {fileID: 4203289532182966}
@@ -214,10 +215,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a4523dc5ff54e34089cb56af79c60c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireRate: 1.5
+  fireRate: 2
   eProj: {fileID: 1359072622980384, guid: e9cf9524194479343b1cb36f16115841, type: 2}
   shotOrigin: {fileID: 4510113951480330}
-  laserSpeed: 4
+  laserSpeed: 3
   damage: 5
 --- !u!114 &114832683570483508
 MonoBehaviour:
@@ -237,3 +238,14 @@ MonoBehaviour:
   distanceAggro: 8
   aggro: 0
   stun: 0
+--- !u!114 &114894184269954166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1788801414292556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e236671a6d159134d8fe2d74d493c9b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

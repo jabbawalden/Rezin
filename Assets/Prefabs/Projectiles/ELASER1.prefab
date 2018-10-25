@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 61702384041634826}
   - component: {fileID: 50265727442523604}
   - component: {fileID: 23453709260350316}
-  - component: {fileID: 58926094656987466}
   m_Layer: 13
   m_Name: ELASER1
   m_TagString: eProj
@@ -129,21 +128,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &58926094656987466
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1359072622980384}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 3a6fc7a7f38e2934899551c8a2b08238, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.37663698, y: 0.05674076}
-  serializedVersion: 2
-  m_Radius: 0.07591677
 --- !u!61 &61702384041634826
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -183,6 +167,7 @@ MonoBehaviour:
   rotationSpeed: 400
   _damage: 0
   projectileLife: 0
+  duration: 0
   projType: 1
 --- !u!212 &212727301923678376
 SpriteRenderer:

@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour {
 
     [SerializeField] float smoothY, smoothX;
 
-    private void Update() 
+    private void FixedUpdate()  
     {
         //Vector3 desiredPosition = target.position + offset;
         //Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
