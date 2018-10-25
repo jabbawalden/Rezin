@@ -45,6 +45,7 @@ public class LootComponent : MonoBehaviour {
         if (collision.collider.CompareTag("Player"))
         {
             _playerMain.essence += essenceWorth;
+            _playerMain.collisionCount--;
             _uiManager.UpdateEssence();
             Destroy(gameObject);
         }

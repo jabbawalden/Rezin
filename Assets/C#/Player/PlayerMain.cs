@@ -57,6 +57,8 @@ public class PlayerMain : MonoBehaviour {
     public int jumpCount;
     public int jumpMaxCount;
     public bool haveJumped;
+    public bool inAir;
+    public int collisionCount;
     [Space(5)]
 
     [Header("Player Energy")]
@@ -122,6 +124,7 @@ public class PlayerMain : MonoBehaviour {
         //jumpMaxCount = 2;
 
         //always default
+        inAir = false;
         slamConcussion = false;
         facingPositive = true;
         dead = false;
@@ -129,7 +132,6 @@ public class PlayerMain : MonoBehaviour {
         haveJumped = false;
         invulnerable = false;
         stopVelocity = false;
-        
     }
 
     public void LoadData()
@@ -149,9 +151,9 @@ public class PlayerMain : MonoBehaviour {
         playerCamera.transform.position = new Vector3(startPosition.x, startPosition.y, -10);
         
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         if (_healthComponent.IsAlive())
         {
@@ -214,11 +216,20 @@ public class PlayerMain : MonoBehaviour {
 
     void PlayerJump()
     {
+        if (collisionCount > 0)
+        {
+            inAir = false;
+        }
+        else
+        {
+            inAir = true;
+        }
+
         if (airJumpUpgrade)
         {
             jumpMaxCount = 2;
         }
-
+        
         //check if grounded
         if (Input.GetKeyDown(KeyCode.J) && jumpCount >= 1)
         {
@@ -227,9 +238,8 @@ public class PlayerMain : MonoBehaviour {
             haveJumped = true;
         }
 
-
         //fall multiplier
-        if (rb.velocity.y < -0.1f)
+        if (rb.velocity.y < -0.05f)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
             if (!haveJumped)
@@ -241,6 +251,7 @@ public class PlayerMain : MonoBehaviour {
                 else if (!airJumpUpgrade && !doubleAirJumpUpgrade)
                     jumpCount = 0;
             }
+
         }
     }
 
@@ -324,6 +335,21 @@ public class PlayerMain : MonoBehaviour {
         }
     }
 
+    public void PlayerHeal()
+    {
+        if (_healthComponent.health <= _healthComponent.maxHealth - 2)
+        {
+            _healthComponent.health += 2;
+            _uiManager.UpdateHealth();
+        }
+        else
+        {
+            _healthComponent.health = _healthComponent.maxHealth;
+            _uiManager.UpdateHealth();
+        }
+           
+    }
+
     public void PlayerDamageBehaviour()
     {
         StartCoroutine(MaterialShift());
@@ -352,22 +378,25 @@ public class PlayerMain : MonoBehaviour {
 
     public void SpringBehaviour()
     {
-        if (slamConcussion)
-            StartCoroutine(SpringBehaviourCo());
 
-        if (haveJumped && slamConcussion)
-        {
-            Instantiate(concussionObj2, transform.position, transform.rotation);
-            slamConcussion = false;
-            jumpCount = jumpMaxCount;
-            //if hit enemy mid-air
-            springForce = 16.3f;
-        }
-        else
-        {
-            //else if hit enemy on ground
-            springForce = 13.5f;
-        }
+        StartCoroutine(SpringBehaviourCo());
+        Instantiate(concussionObj2, transform.position, transform.rotation);
+        slamConcussion = false;
+        jumpCount = jumpMaxCount;
+
+        //if (!haveJumped && slamConcussion)
+        //{
+        //    Instantiate(concussionObj2, transform.position, transform.rotation);
+        //    slamConcussion = false;
+        //    jumpCount = jumpMaxCount;
+        //    //if hit enemy mid-air
+        //    springForce = 14.3f;
+        //}
+        //else
+        //{
+        //    //else if hit enemy on ground
+        //    springForce = 9.7f;
+        //}
 
 
         //if (slamConcussion)
@@ -376,7 +405,7 @@ public class PlayerMain : MonoBehaviour {
 
     IEnumerator SpringBehaviourCo()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         rb.velocity = (new Vector2(0, springForce));
     }
 
@@ -398,7 +427,7 @@ public class PlayerMain : MonoBehaviour {
         stopVelocity = true;
         yield return new WaitForSeconds(0.15f);
         stopVelocity = false;
-        rb.AddForce(Vector2.down * 850);
+        rb.AddForce(Vector2.down * 725);
         yield return new WaitForSeconds(0.5f);
         invulnerable = false;
 
@@ -416,6 +445,8 @@ public class PlayerMain : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        collisionCount++;
+
         foreach (ContactPoint2D hitPos in collision.contacts)
         {
             if (collision.collider.CompareTag("Ground") && hitPos.normal.y > 0)
@@ -431,6 +462,8 @@ public class PlayerMain : MonoBehaviour {
             }
         }
     }
+
+   
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -456,6 +489,8 @@ public class PlayerMain : MonoBehaviour {
     //check off isWallSliding
     private void OnCollisionExit2D(Collision2D collision)
     {
+        collisionCount--;
+
         if (collision.collider.CompareTag("Ground"))
         {
             isWallSliding = false;

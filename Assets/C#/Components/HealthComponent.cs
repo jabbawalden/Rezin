@@ -16,6 +16,11 @@ public class HealthComponent : MonoBehaviour
     private void Update()
     {
         IsAlive();
+
+        if (health >= maxHealth)
+        {
+            health = maxHealth;
+        }
     }
 
     public bool IsAlive()

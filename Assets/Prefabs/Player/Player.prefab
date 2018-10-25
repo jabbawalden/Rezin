@@ -132,7 +132,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186857213979842}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 800.8, y: -120.44, z: 0.042821653}
+  m_LocalPosition: {x: 774.15, y: -126.659996, z: 0.042821653}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4430188145359368}
@@ -293,11 +293,11 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.9
   m_Material: {fileID: 6200000, guid: 9713b5cc76469464f83276dc54578914, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &61455853692980946
 BoxCollider2D:
@@ -374,14 +374,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef3a51ebea3a5554d9768a5d2a803339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserDamage: 5
-  maxLaserDamage: 8
+  laserDamage: 20
   laserSpeed: 9
   projectile: {fileID: 1394726853307084, guid: d81d5c19bacb03e47a9c021efb69b5bd, type: 2}
-  fireRate: 2
+  fireRate: 1
   shotOrigin: {fileID: 4430188145359368}
   projectileLife: 4
-  propelForce: 150
+  propelForce: 9.55
   blastUpgrade: 0
 --- !u!114 &114592871750341898
 MonoBehaviour:
@@ -405,17 +404,19 @@ MonoBehaviour:
   rayOrigin: {fileID: 1186628697885212}
   movementSpeed: 325
   climbSpeed: 3
-  springForce: 11
-  fallMultiplier: 0.9
+  springForce: 8.3
+  fallMultiplier: 1.1
   lowJumpMultiplier: 0
   grounded: 0
-  jumpVelocity: 9.29
+  jumpVelocity: 8.23
   dead: 0
   onGroundCheckRepresentation: 0
   pMat: {fileID: 2100000, guid: a4a76e3ced4068f4cbe40fb0fdfae2fd, type: 2}
   jumpCount: 1
   jumpMaxCount: 1
   haveJumped: 0
+  inAir: 0
+  collisionCount: 0
   currentEnergy: 100
   maxEnergy: 100
   energyRegenerate: 0
@@ -426,7 +427,8 @@ MonoBehaviour:
   isWallSliding: 0
   concussionObj: {fileID: 1341363833201774, guid: 0f6e2399c50409a4397d76eae50e12d3,
     type: 2}
-  concussionDamage: 10
+  concussionObj2: {fileID: 1341363833201774, guid: a3a87897feb509045bf4d2ff1b2f01d5,
+    type: 2}
   stunTime: 2
   slamConcussion: 0
   stopVelocity: 0

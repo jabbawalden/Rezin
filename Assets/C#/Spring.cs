@@ -14,7 +14,8 @@ public class Spring : MonoBehaviour {
     {
         if (collision.CompareTag("Enemy"))
         {
-            _player.SpringBehaviour();
+            if (_player.slamConcussion)
+                _player.SpringBehaviour();
         }
     }
 }

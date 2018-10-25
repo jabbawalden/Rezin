@@ -40,16 +40,20 @@ public class ConcussionObject : MonoBehaviour {
     {
         foreach(GameObject enemy in enemies)
         {
+            /*
             if (enemy.gameObject != null)
                 if (enemy.GetComponent<Rigidbody2D>() != null)
                     rbEnemy = enemy.GetComponent<Rigidbody2D>();
 
             direction = new Vector2(enemy.transform.position.x - transform.position.x, enemy.transform.position.y - transform.position.y).normalized;
             ConcussionBehaviour(direction);
-            _healthComponent = enemy.GetComponent<HealthComponent>();
-
-            _healthComponent.health -= concussionDamage;
-
+            */
+            if (enemy.GetComponent<HealthComponent>() != null)
+            {
+                _healthComponent = enemy.GetComponent<HealthComponent>();
+                _healthComponent.health -= concussionDamage;
+            }
+         
             if (enemy.GetComponent<EnemyBasic>() != null)
             {
                 enemyOnetest = enemy.GetComponent<EnemyBasic>();
@@ -69,12 +73,10 @@ public class ConcussionObject : MonoBehaviour {
     {
         if (collision.CompareTag("Enemy") && !haveExploded)
         {
-            print("Concussion Hit Success");
             enemies.Add(collision.gameObject);
         }
         if (collision.CompareTag("eProj") && !haveExploded)
         {
-            print("Concussion Hit Success");
             eProj.Add(collision.gameObject);
             Debug.Log(enemies);
         }

@@ -13,6 +13,7 @@ public class EnemyHopMovement : MonoBehaviour {
     Rigidbody2D _rb;
     public BoxCollider2D physicsCollider;
     HealthComponent _healthComponent;
+    private PlayerMain _playerMain;
 
     public GameObject essenceCollectable;
 
@@ -22,6 +23,7 @@ public class EnemyHopMovement : MonoBehaviour {
         hopRate = Random.Range(1.7f, 2.25f);
         _playerTarget = GameObject.Find("Player").transform;
         _healthComponent = GetComponent<HealthComponent>();
+        _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _rb = GetComponent<Rigidbody2D>();
 	}
 
@@ -71,6 +73,8 @@ public class EnemyHopMovement : MonoBehaviour {
         if (!_healthComponent.IsAlive())
         {
             Instantiate(essenceCollectable, transform.position, transform.rotation);
+            _playerMain.PlayerHeal();
+            print("heal player");
             Destroy(gameObject);
         }
         else
