@@ -6,6 +6,7 @@ public class EnemyStomper : MonoBehaviour {
 
     public Transform p1, p2, p3;
     public float speed;
+    public float telegraphSpeed, downSpeed, upSpeed;
     public int destination;
     public bool moveToOriginal;
     public float startSeconds;
@@ -31,18 +32,18 @@ public class EnemyStomper : MonoBehaviour {
         {
             if (transform.position == p1.position)
             {
-                speed = 0.5f;
+                speed = telegraphSpeed;
                 destination = 1;
                 moveToOriginal = false;
             }
             else if (transform.position == p2.position && !moveToOriginal)
             {
                 destination = 2;
-                speed = 8;
+                speed = downSpeed;
             }
             else if (distance <= 0.1f && !moveToOriginal)
             {
-                speed = 1.4f;
+                speed = upSpeed;
                 destination = 0;
                 moveToOriginal = true;
             }
@@ -74,9 +75,10 @@ public class EnemyStomper : MonoBehaviour {
             transform.position = Vector2.MoveTowards(transform.position, location, deltaSpeed);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player") && speed == downSpeed)
             _healthComponent.health = 0;
     }
 }
