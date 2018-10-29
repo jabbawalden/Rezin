@@ -22,6 +22,7 @@ public class JsonData : MonoBehaviour {
 
     private PlayerShoot _playerShoot;
     private PlayerMain _playerMain;
+    private AddOns _addOns;
     private DashUpgrade _dashUpgrade;
     private BlastUpgrade _blastUpgrade;
     private AirJumpUpgrade _airJumpUpgrade;
@@ -40,6 +41,7 @@ public class JsonData : MonoBehaviour {
         Debug.Log(path);
         _playerShoot = GameObject.Find("Player").GetComponent<PlayerShoot>();
         _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
+        _addOns = GameObject.Find("Player").GetComponent<AddOns>();
         _dashUpgrade = GameObject.Find("DashUpgrade").GetComponent<DashUpgrade>();
         _blastUpgrade = GameObject.Find("BlastUpgrade").GetComponent<BlastUpgrade>();
         _airJumpUpgrade = GameObject.Find("AirJumpUpgrade").GetComponent<AirJumpUpgrade>();
@@ -62,6 +64,7 @@ public class JsonData : MonoBehaviour {
             ReadData();
 
             _playerMain.LoadData();
+            _addOns.LoadData();
             _dashUpgrade.LoadData();
             _blastUpgrade.LoadData();
             _airJumpUpgrade.LoadData();
@@ -104,7 +107,7 @@ public class JsonData : MonoBehaviour {
         gameData.slamUpgrade = _playerMain.slamUpgrade;
         gameData.doubleAirJumpUpgrade = _playerMain.doubleAirJumpUpgrade;
         gameData.essence = _playerMain.essence;
-        gameData.healSplinter = _playerMain.healSplinter;
+        gameData.healSplinter = _addOns.healSplinter;
 
         //set items in gameData class to contents string variable
         string contents = JsonUtility.ToJson(gameData, true);

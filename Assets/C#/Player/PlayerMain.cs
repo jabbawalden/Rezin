@@ -23,6 +23,7 @@ public class PlayerMain : MonoBehaviour {
     [Header("Player Dash")]
     public float dashSpeed;
     public GameObject rayOrigin;
+    public bool isDashing;
 
     [Space(5)]
 
@@ -89,7 +90,8 @@ public class PlayerMain : MonoBehaviour {
 
     [Header("Player Slam Behaviour")]
     public bool slamConcussion;
-    public bool stopVelocity;
+    public bool stopVelocity; 
+    public bool isSlamming;
 
     [Space(5)]
 
@@ -100,7 +102,9 @@ public class PlayerMain : MonoBehaviour {
     public bool concussionUpgrade;
     public bool slamUpgrade;
     public bool doubleAirJumpUpgrade;
-    public bool healSplinter; 
+
+    [Header("Player Add-ons")]
+    private AddOns _addOns;
 
     private void Awake() 
     {
@@ -110,6 +114,7 @@ public class PlayerMain : MonoBehaviour {
         boxCol = GetComponent<BoxCollider2D>();
         _concussionObject = concussionObj.GetComponent<ConcussionObject>();
         _momentumComponent = GetComponent<MomentumComponent>();
+        _addOns = GetComponent<AddOns>();
     }
 
     // Use this for initialization
@@ -139,7 +144,6 @@ public class PlayerMain : MonoBehaviour {
         slamUpgrade = JsonData.gameData.slamUpgrade;
         doubleAirJumpUpgrade = JsonData.gameData.doubleAirJumpUpgrade;
         essence = JsonData.gameData.essence;
-        healSplinter = JsonData.gameData.healSplinter;
         //set variables
         transform.position = startPosition;
         playerCamera.transform.position = new Vector3(startPosition.x, startPosition.y, -10);
@@ -159,9 +163,15 @@ public class PlayerMain : MonoBehaviour {
             PlayerDirectionFace();
             EnergyRegenerate();
             WallSlide();
-            if (Input.GetKeyDown(KeyCode.I))
+
+            //if healSplinter upgraded
+            if (Input.GetKeyDown(KeyCode.I) && _addOns.healSplinter)
+            {
                 Heal();
-            
+                _uiManager.UpdateHealth();
+            }
+
+
         }
         else
         {
@@ -250,7 +260,11 @@ public class PlayerMain : MonoBehaviour {
         float transformOffset = 0.2f;
 
         if (Input.GetKeyDown(KeyCode.K) && currentEnergy >= 50 && dashUpgrade)
+        {
             StartCoroutine(DashBehaviour(transformOffset));
+            isDashing = true;
+        }
+            
     }
 
     //set velocity to 0, then dash
@@ -259,7 +273,7 @@ public class PlayerMain : MonoBehaviour {
         if (concussionUpgrade)
         {
             concussionObj.transform.localScale = new Vector3(3, 3, 3);
-            _concussionObject.concussionDamage = 10;
+            _concussionObject.concussionDamage += 10;
             Instantiate(concussionObj, transform.position, transform.rotation);
         }
            
@@ -301,7 +315,7 @@ public class PlayerMain : MonoBehaviour {
         if (concussionUpgrade)
         {
             concussionObj.transform.localScale = new Vector3(3, 3, 3);
-            _concussionObject.concussionDamage = 10;
+            _concussionObject.concussionDamage += 10;
             Instantiate(concussionObj, transform.position, transform.rotation);
         }
         
@@ -332,20 +346,6 @@ public class PlayerMain : MonoBehaviour {
         }
     }
 
-    public void PlayerHeal()
-    {
-        if (_healthComponent.health <= _healthComponent.maxHealth - 2)
-        {
-            _healthComponent.health += 2;
-            _uiManager.UpdateHealth();
-        }
-        else
-        {
-            _healthComponent.health = _healthComponent.maxHealth;
-            _uiManager.UpdateHealth();
-        }
-           
-    }
 
     public void PlayerDamageBehaviour()
     {
@@ -378,8 +378,8 @@ public class PlayerMain : MonoBehaviour {
     {
         StartCoroutine(SpringBehaviourCo());
         concussionObj.transform.localScale = new Vector3(4.3f, 4.3f, 4.3f);
+        _concussionObject.concussionDamage += 20;
         Instantiate(concussionObj, transform.position, transform.rotation);
-        _concussionObject.concussionDamage = 20;
         slamConcussion = false;
         jumpCount = jumpMaxCount;
     }
@@ -397,6 +397,7 @@ public class PlayerMain : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.S) && !isWallSliding && slamUpgrade) 
             {
                 slamConcussion = true;
+                isSlamming = true;
                 StartCoroutine(SlamBehaviour());
             }
         }
@@ -424,17 +425,21 @@ public class PlayerMain : MonoBehaviour {
     {
         if (_momentumComponent.momentum >= 50)
             _healthComponent.health += 5;
-        else if (_momentumComponent.momentum >= 60)
-            _healthComponent.health += 10;
-        else if (_momentumComponent.momentum >= 70)
-            _healthComponent.health += 15;
-        else if (_momentumComponent.momentum >= 80)
-            _healthComponent.health += 20;
-        else if (_momentumComponent.momentum >= 90)
-            _healthComponent.health += 25;
-        else if (_momentumComponent.momentum >= 90)
-            _healthComponent.health += 30;
+        if (_momentumComponent.momentum >= 60)
+            _healthComponent.health += 5;
+        if (_momentumComponent.momentum >= 70)
+            _healthComponent.health += 5;
+        if (_momentumComponent.momentum >= 80)
+            _healthComponent.health += 5;
+        if (_momentumComponent.momentum >= 90)
+            _healthComponent.health += 5;
+        if (_momentumComponent.momentum >= 90)
+            _healthComponent.health += 5;
 
+        if (_healthComponent.health > _healthComponent.maxHealth)
+            _healthComponent.health = _healthComponent.maxHealth;
+
+        _momentumComponent.momentum = 0;
     }
 
     void PlayerDeath()
@@ -455,7 +460,7 @@ public class PlayerMain : MonoBehaviour {
                 if (concussionUpgrade && slamConcussion)
                 {
                     concussionObj.transform.localScale = new Vector3(4.3f, 4.3f, 4.3f);
-                    _concussionObject.concussionDamage = 20;
+                    _concussionObject.concussionDamage += 20;
                     Instantiate(concussionObj, transform.position, transform.rotation);
                     slamConcussion = false;
                 }

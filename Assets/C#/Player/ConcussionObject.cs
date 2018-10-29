@@ -14,22 +14,50 @@ public class ConcussionObject : MonoBehaviour {
     MomentumComponent _momentumComponent;
     EnemyBasic enemyOnetest;
     EnemyHopMovement _enemyHopMovement;
-    public int concussionDamage;
+    public int concussionDamage = 0;
+
+    AddOns _addOns;
 
     // Use this for initialization
     void Start ()
     {
         _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _momentumComponent = GameObject.Find("Player").GetComponent<MomentumComponent>();
-        StartCoroutine(DestroyConcussion());
+        _addOns = GameObject.Find("Player").GetComponent<AddOns>();
+
+        if (_playerMain.isSlamming)
+        {
+            StartCoroutine(DestroyConcussionSlam());
+        }
+        else if (_playerMain.isDashing)
+        {
+            StartCoroutine(DestroyConcussionDash());
+        }
+
+
+        //if (_addOns.damageIncreaseSplinter)
+        //    concussionDamage = _addOns.ConcussionIncreaseDamage();
+        //else
+        //    concussionDamage = 0;
     }
 
-    IEnumerator DestroyConcussion()
+    IEnumerator DestroyConcussionSlam()
+    {
+        yield return new WaitForSeconds(0.08f);
+        AddConcussion();
+        yield return new WaitForSeconds(0.18f);
+        Destroy(gameObject);
+        _playerMain.isSlamming = false;
+    }
+
+
+    IEnumerator DestroyConcussionDash()
     {
         yield return new WaitForSeconds(0.01f);
         AddConcussion();
         yield return new WaitForSeconds(0.18f);
-        Destroy(gameObject);  
+        Destroy(gameObject);
+        _playerMain.isDashing = false;
     }
 
     void ConcussionBehaviour(Vector2 direction)
@@ -62,7 +90,7 @@ public class ConcussionObject : MonoBehaviour {
                 enemyOnetest.stun = true;
             }
 
-            _momentumComponent.AddMomentum(2);
+            _momentumComponent.AddMomentum(4);
             //_enemyHopMovement = enemy.GetComponent<EnemyHopMovement>();
         }
 

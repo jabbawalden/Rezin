@@ -53,6 +53,7 @@ GameObject:
   - component: {fileID: 4331396418287288}
   - component: {fileID: 114006198121751612}
   - component: {fileID: 114592871750341898}
+  - component: {fileID: 114729780133192402}
   - component: {fileID: 114541623098430520}
   - component: {fileID: 114086920108605140}
   - component: {fileID: 50792544386310970}
@@ -133,7 +134,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186857213979842}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 773.92004, y: -176.68999, z: 0.042821653}
+  m_LocalPosition: {x: 902.38, y: -156.1, z: 0.042821653}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4430188145359368}
@@ -366,7 +367,8 @@ MonoBehaviour:
   timeRemaining: 0
   timeRep: 0
   momentum: 0
-  lossRate: 0
+  maxMomentum: 100
+  lossRate: 0.75
   nextLoss: 0
 --- !u!114 &114086920108605140
 MonoBehaviour:
@@ -413,8 +415,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   essence: 0
-  currentMomentum: 0
-  maxMomentum: 100
   rb: {fileID: 0}
   startPosition: {x: 0, y: 0}
   playerCamera: {fileID: 0}
@@ -446,8 +446,6 @@ MonoBehaviour:
   isWallSliding: 0
   concussionObj: {fileID: 1341363833201774, guid: 0f6e2399c50409a4397d76eae50e12d3,
     type: 2}
-  concussionObj2: {fileID: 1341363833201774, guid: a3a87897feb509045bf4d2ff1b2f01d5,
-    type: 2}
   stunTime: 2
   slamConcussion: 0
   stopVelocity: 0
@@ -468,3 +466,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d477ff103c6f1eb4baa8abb1565fbf19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114729780133192402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1186857213979842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fe0a568651ea8a47b15746147f4ff8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healSplinter: 0
+  lifeStealSplinter: 0
+  additionalConcussionSplinter: 0
+  stunSplinter: 0
+  lifeForceSplinter: 0
+  unleashConcussionSplinter: 0
+  additionalMomentumSplinter: 0
+  releaseConcussionSplinter: 0
+  additionalAirJumpSplinter: 0
+  additionalLifeStealSplinter: 0
+  damageIncreaseSplinter: 0

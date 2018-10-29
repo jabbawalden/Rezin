@@ -20,11 +20,13 @@ public abstract class UnlockableBaseClass : MonoBehaviour {
     public PlayerShoot _playerShoot;
     public bool playerisHere;
     public GameObject upgradeObject;
+    public AddOns addOns;
 
     private void Start()
     {
         _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _playerShoot = GameObject.Find("Player").GetComponent<PlayerShoot>();
+        addOns = GameObject.Find("Player").GetComponent<AddOns>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

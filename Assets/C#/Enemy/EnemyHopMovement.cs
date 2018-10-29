@@ -73,8 +73,6 @@ public class EnemyHopMovement : MonoBehaviour {
         if (!_healthComponent.IsAlive())
         {
             Instantiate(essenceCollectable, transform.position, transform.rotation);
-            _playerMain.PlayerHeal();
-            print("heal player");
             Destroy(gameObject);
         }
         else

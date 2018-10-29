@@ -32,7 +32,7 @@ public class HealSplinter : UnlockableBaseClass {
 
     void Upgrade()
     {
-        _playerMain.healSplinter = true;
+        addOns.healSplinter = true;
     }
 
 }

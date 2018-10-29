@@ -9,6 +9,7 @@ public class MomentumComponent : MonoBehaviour {
     public float timeRemaining;
     public float timeRep;
     public int momentum;
+    public int maxMomentum = 100;
     public float lossRate;
     public float nextLoss;
 
@@ -21,7 +22,15 @@ public class MomentumComponent : MonoBehaviour {
     public void AddMomentum(int addMomentum)
     {
         isEngaged = true;
-        momentum += addMomentum;
+
+        if (momentum < maxMomentum)
+        {
+            momentum += addMomentum;
+
+            if (momentum > maxMomentum)
+                momentum = maxMomentum;
+        }
+        
     }
 
     // Update is called once per frame

@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour {
 
     private PlayerMain _playerMain;
     private HealthComponent _healthComponent;
-
+    private MomentumComponent _momentum;
     private GameObject _restartPanel;
 
     public Text currentHealth;
@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour {
     public Text currentEnergy;
     public Text maxEnergy;
     public Text essence;
+    public Text momentum;
 
     // set variables
     private void Awake()
@@ -23,6 +24,7 @@ public class UIManager : MonoBehaviour {
         _restartPanel = GameObject.Find("RestartPanel");
         _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         _healthComponent = GameObject.Find("Player").GetComponent<HealthComponent>();
+        _momentum = GameObject.Find("Player").GetComponent<MomentumComponent>();
     }
 
     // Use this for initialization
@@ -39,6 +41,7 @@ public class UIManager : MonoBehaviour {
     {
         currentEnergy.text = "" + _playerMain.currentEnergy;
         maxEnergy.text = "" + _playerMain.maxEnergy;
+        momentum.text = "" + _momentum.momentum;
 
         if (_playerMain.dead)
         {
