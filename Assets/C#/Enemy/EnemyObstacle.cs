@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class EnemyObstacle : MonoBehaviour {
 
-    [SerializeField]
-    public enum MoveType {Movetowards, Lerp};
-
-    public MoveType moveType;  
-
     [Header("Obstacle Movement")]
     public GameObject[] points;
     public float speed;
@@ -27,10 +22,10 @@ public class EnemyObstacle : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        if (GameObject.Find("Player") != null)
-            _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
+        _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
         if (points.Length > 0)
             transform.position = points[0].transform.position;
+
         destination = 1;
     }
 
@@ -47,58 +42,26 @@ public class EnemyObstacle : MonoBehaviour {
     void MoveObstacle(Vector2 location)
     {
         float deltaSpeed = speed * Time.deltaTime;
-
-        if(moveType == MoveType.Movetowards)
-            transform.position = Vector2.MoveTowards(transform.position, location , deltaSpeed); 
-        else
-            transform.position = Vector2.Lerp(transform.position, location, deltaSpeed);
-    }
-
-    float GetDistance()
-    {
-        float distance = Vector2.Distance(transform.position, points[destination - 1].transform.position);
-        return distance;
+        transform.position = Vector2.MoveTowards(transform.position, location , deltaSpeed); 
     }
 
     void CheckLocation()
     {
-        if (moveType == MoveType.Movetowards)
+        if (points.Length > 0)
         {
-            if (points.Length > 0)
+            if (transform.position == points[destination - 1].transform.position)
             {
-                if (transform.position == points[destination - 1].transform.position)
+                if (destination == points.Length)
                 {
-                    if (destination == points.Length)
-                    {
-                        destination = 1;
-                    }
-                    else
-                    {
-                        destination++;
-                    }
+                    destination = 1;
+                }
+                else
+                {
+                    destination++;
                 }
             }
         }
-        else
-        {
-            if (points.Length > 0)
-            {
-                if (GetDistance() < 0.025f)
-                {
-                    if (destination == points.Length)
-                    {
-                        destination = 1;
-                    }
-                    else
-                    {
-                        destination++;
-                    }
-                }
-            }
-        }
-
-
-
+    
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
