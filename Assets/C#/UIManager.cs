@@ -39,6 +39,17 @@ public class UIManager : MonoBehaviour {
     {
         currentEnergy.text = "" + _playerMain.currentEnergy;
         maxEnergy.text = "" + _playerMain.maxEnergy;
+
+        if (_playerMain.dead)
+        {
+            print("Player is dead");
+            if(Input.GetKeyDown(KeyCode.Return))
+            {
+                print("Level Restart");
+                SceneManager.LoadScene(0);
+            }
+                
+        }
     }
 
     // called by player on death

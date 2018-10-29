@@ -383,24 +383,6 @@ public class PlayerMain : MonoBehaviour {
         Instantiate(concussionObj2, transform.position, transform.rotation);
         slamConcussion = false;
         jumpCount = jumpMaxCount;
-
-        //if (!haveJumped && slamConcussion)
-        //{
-        //    Instantiate(concussionObj2, transform.position, transform.rotation);
-        //    slamConcussion = false;
-        //    jumpCount = jumpMaxCount;
-        //    //if hit enemy mid-air
-        //    springForce = 14.3f;
-        //}
-        //else
-        //{
-        //    //else if hit enemy on ground
-        //    springForce = 9.7f;
-        //}
-
-
-        //if (slamConcussion)
-        //    rb.velocity = (new Vector2(0, springForce));
     }
 
     IEnumerator SpringBehaviourCo()
