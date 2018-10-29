@@ -16,5 +16,7 @@ public class GameData
     public int maxEnergy;
     public int essence;
     public Vector2 startPosition;
-	
+
+    public bool healSplinter;
+
 }

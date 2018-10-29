@@ -29,10 +29,13 @@ public class JsonData : MonoBehaviour {
     private ConcussionUpgrade _concussionUpgrade;
     private SlamUpgrade _slamUpgrade;
     private DoubleAirJumpUpgrade _doubleAirJumpUpgrade;
+    private HealSplinter _healSplinter;
     //slam upgrade
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    private void Awake()
     {
+        //if singleton gameLoaded = x
+        //path = filename1, filename2 or filename3
         path = Application.persistentDataPath + "/" + filename;
         Debug.Log(path);
         _playerShoot = GameObject.Find("Player").GetComponent<PlayerShoot>();
@@ -44,6 +47,12 @@ public class JsonData : MonoBehaviour {
         _concussionUpgrade = GameObject.Find("ConcussionUpgrade").GetComponent<ConcussionUpgrade>();
         _slamUpgrade = GameObject.Find("SlamUpgrade").GetComponent<SlamUpgrade>();
         _doubleAirJumpUpgrade = GameObject.Find("DoubleAirJumpUpgrade").GetComponent<DoubleAirJumpUpgrade>();
+        _healSplinter = GameObject.Find("HealSplinter").GetComponent<HealSplinter>();
+
+    }
+
+    void Start ()
+    {
 
         //this will later be converted into a function, with a string argument passed through it to check which paths to save through
         //eg, GameLoadData(path2);
@@ -61,7 +70,7 @@ public class JsonData : MonoBehaviour {
             _concussionUpgrade.LoadData();
             _slamUpgrade.LoadData();
             _doubleAirJumpUpgrade.LoadData();
-
+            _healSplinter.LoadData();
             print("file exists");
         }
 	}
@@ -69,10 +78,6 @@ public class JsonData : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-		//if (Input.GetKeyDown(KeyCode.S))
-  //      {
-  //          SaveData();
-  //      }
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -99,6 +104,7 @@ public class JsonData : MonoBehaviour {
         gameData.slamUpgrade = _playerMain.slamUpgrade;
         gameData.doubleAirJumpUpgrade = _playerMain.doubleAirJumpUpgrade;
         gameData.essence = _playerMain.essence;
+        gameData.healSplinter = _playerMain.healSplinter;
 
         //set items in gameData class to contents string variable
         string contents = JsonUtility.ToJson(gameData, true);

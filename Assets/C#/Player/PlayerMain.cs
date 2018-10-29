@@ -7,6 +7,7 @@ public class PlayerMain : MonoBehaviour {
 
     [Header("Player Stats")]
     public int essence;
+    private MomentumComponent _momentumComponent;
 
     [Space(5)]
 
@@ -99,6 +100,7 @@ public class PlayerMain : MonoBehaviour {
     public bool concussionUpgrade;
     public bool slamUpgrade;
     public bool doubleAirJumpUpgrade;
+    public bool healSplinter; 
 
     private void Awake() 
     {
@@ -107,19 +109,13 @@ public class PlayerMain : MonoBehaviour {
         _healthComponent = GetComponent<HealthComponent>();
         boxCol = GetComponent<BoxCollider2D>();
         _concussionObject = concussionObj.GetComponent<ConcussionObject>();
+        _momentumComponent = GetComponent<MomentumComponent>();
     }
 
     // Use this for initialization
     void Start ()
     {
         pMat.color = new Color(0, 191, 156);
-        //if file exists, load files here
-        //else initialize default variables
-        //doubleJump = true;
-        //rebound = true;
-        //jumpCount = 2;
-        //jumpMaxCount = 2;
-
         //always default
         inAir = false;
         slamConcussion = false;
@@ -143,6 +139,7 @@ public class PlayerMain : MonoBehaviour {
         slamUpgrade = JsonData.gameData.slamUpgrade;
         doubleAirJumpUpgrade = JsonData.gameData.doubleAirJumpUpgrade;
         essence = JsonData.gameData.essence;
+        healSplinter = JsonData.gameData.healSplinter;
         //set variables
         transform.position = startPosition;
         playerCamera.transform.position = new Vector3(startPosition.x, startPosition.y, -10);
@@ -162,6 +159,8 @@ public class PlayerMain : MonoBehaviour {
             PlayerDirectionFace();
             EnergyRegenerate();
             WallSlide();
+            if (Input.GetKeyDown(KeyCode.I))
+                Heal();
             
         }
         else
@@ -419,6 +418,23 @@ public class PlayerMain : MonoBehaviour {
     {
         //rb.velocity = (Vector2.right * 10 * direction);
         rb.AddForce(new Vector2(260 * direction, 0), ForceMode2D.Force);
+    }
+
+    void Heal()
+    {
+        if (_momentumComponent.momentum >= 50)
+            _healthComponent.health += 5;
+        else if (_momentumComponent.momentum >= 60)
+            _healthComponent.health += 10;
+        else if (_momentumComponent.momentum >= 70)
+            _healthComponent.health += 15;
+        else if (_momentumComponent.momentum >= 80)
+            _healthComponent.health += 20;
+        else if (_momentumComponent.momentum >= 90)
+            _healthComponent.health += 25;
+        else if (_momentumComponent.momentum >= 90)
+            _healthComponent.health += 30;
+
     }
 
     void PlayerDeath()
