@@ -16,6 +16,7 @@ public class LootComponent : MonoBehaviour {
         _uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
         _rb = GetComponent<Rigidbody2D>();
         _rb.AddForce(Vector2.up * 350);
+        StartCoroutine(canPullTimer());
         canPull = false;
     }
 
@@ -25,9 +26,9 @@ public class LootComponent : MonoBehaviour {
 
         float distance = Vector2.Distance(transform.position, target);
 
-        float deltaPos = 10 * Time.deltaTime;
+        float deltaPos = 11 * Time.deltaTime;
 
-        if (distance < 4 && canPull)
+        if (distance < 5.5f && canPull)
         {
             print("move towards");
             transform.position = Vector2.MoveTowards(transform.position, target, deltaPos);
