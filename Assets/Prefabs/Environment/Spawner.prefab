@@ -137,7 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6102c5c0c87eab4986b964aa0552216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSpawn: {fileID: 0}
+  objectToSpawn: {fileID: 1212310767424370, guid: 388485771eb15ba42bb7ece1f5d6fec8,
+    type: 2}
   minRate: 0.4
   maxRate: 0.8
   nextSpawn: 0
