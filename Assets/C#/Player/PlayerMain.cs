@@ -6,10 +6,7 @@ public class PlayerMain : MonoBehaviour {
 
 
     [Header("Player Stats")]
-
     public int essence;
-    public float currentMomentum;
-    public float maxMomentum;
 
     [Space(5)]
 
@@ -217,18 +214,12 @@ public class PlayerMain : MonoBehaviour {
     void PlayerJump()
     {
         if (collisionCount > 0)
-        {
             inAir = false;
-        }
         else
-        {
             inAir = true;
-        }
 
         if (airJumpUpgrade)
-        {
             jumpMaxCount = 2;
-        }
         
         //check if grounded
         if (Input.GetKeyDown(KeyCode.J) && jumpCount >= 1)
@@ -260,9 +251,7 @@ public class PlayerMain : MonoBehaviour {
         float transformOffset = 0.2f;
 
         if (Input.GetKeyDown(KeyCode.K) && currentEnergy >= 50 && dashUpgrade)
-        {
             StartCoroutine(DashBehaviour(transformOffset));
-        }
     }
 
     //set velocity to 0, then dash

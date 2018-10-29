@@ -11,6 +11,7 @@ public class ConcussionObject : MonoBehaviour {
     [SerializeField] private List<GameObject> eProj;
     HealthComponent _healthComponent;
     PlayerMain _playerMain;
+    MomentumComponent _momentumComponent;
     EnemyBasic enemyOnetest;
     EnemyHopMovement _enemyHopMovement;
     public int concussionDamage;
@@ -19,6 +20,7 @@ public class ConcussionObject : MonoBehaviour {
     void Start ()
     {
         _playerMain = GameObject.Find("Player").GetComponent<PlayerMain>();
+        _momentumComponent = GameObject.Find("Player").GetComponent<MomentumComponent>();
         StartCoroutine(DestroyConcussion());
     }
 
@@ -60,6 +62,7 @@ public class ConcussionObject : MonoBehaviour {
                 enemyOnetest.stun = true;
             }
 
+            _momentumComponent.AddMomentum(2);
             //_enemyHopMovement = enemy.GetComponent<EnemyHopMovement>();
         }
 

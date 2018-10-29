@@ -5440,7 +5440,7 @@ Prefab:
     - target: {fileID: 114006198121751612, guid: 127e4877114e19344bd703c7a9b230c5,
         type: 2}
       propertyPath: lossRate
-      value: 0.5
+      value: 0.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 127e4877114e19344bd703c7a9b230c5, type: 2}
