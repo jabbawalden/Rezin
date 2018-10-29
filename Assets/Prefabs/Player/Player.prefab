@@ -51,6 +51,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4331396418287288}
+  - component: {fileID: 114006198121751612}
   - component: {fileID: 114592871750341898}
   - component: {fileID: 114541623098430520}
   - component: {fileID: 114086920108605140}
@@ -132,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186857213979842}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 774.15, y: -126.659996, z: 0.042821653}
+  m_LocalPosition: {x: 773.92004, y: -176.68999, z: 0.042821653}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4430188145359368}
@@ -349,6 +350,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.31201172, y: 0.93565464}
   m_EdgeRadius: 0
+--- !u!114 &114006198121751612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1186857213979842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e82ac781297286244b600215f2270551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEngaged: 0
+  loseMomentum: 0
+  timeRemaining: 0
+  timeRep: 0
+  momentum: 0
+  lossRate: 0
+  nextLoss: 0
 --- !u!114 &114086920108605140
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -408,7 +427,7 @@ MonoBehaviour:
   fallMultiplier: 1.1
   lowJumpMultiplier: 0
   grounded: 0
-  jumpVelocity: 8.23
+  jumpVelocity: 9.06
   dead: 0
   onGroundCheckRepresentation: 0
   pMat: {fileID: 2100000, guid: a4a76e3ced4068f4cbe40fb0fdfae2fd, type: 2}

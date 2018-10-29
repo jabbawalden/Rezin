@@ -84,8 +84,8 @@ public class PlayerMain : MonoBehaviour {
 
     [Header("Player Concussion Behaviour")]
     public GameObject concussionObj;
-    public GameObject concussionObj2;
     public float stunTime;
+    ConcussionObject _concussionObject;
 
     [Space(5)]
 
@@ -109,7 +109,7 @@ public class PlayerMain : MonoBehaviour {
         _uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
         _healthComponent = GetComponent<HealthComponent>();
         boxCol = GetComponent<BoxCollider2D>();
-
+        _concussionObject = concussionObj.GetComponent<ConcussionObject>();
     }
 
     // Use this for initialization
@@ -269,7 +269,12 @@ public class PlayerMain : MonoBehaviour {
     IEnumerator DashBehaviour(float transformOffset)
     {
         if (concussionUpgrade)
+        {
+            concussionObj.transform.localScale = new Vector3(3, 3, 3);
+            _concussionObject.concussionDamage = 10;
             Instantiate(concussionObj, transform.position, transform.rotation);
+        }
+           
 
         invulnerable = true;
         int direction;
@@ -286,9 +291,9 @@ public class PlayerMain : MonoBehaviour {
             offsetCalc = transformOffset;
             direction = -1;
         }
-            
-        yield return new WaitForSeconds(0.02F);
-        
+        stopVelocity = true;
+        yield return new WaitForSeconds(0.05F);
+        stopVelocity = false;
         RaycastHit2D hit = Physics2D.Raycast(rayOrigin.transform.position, Vector2.right * direction, 3, 1 << LayerMask.NameToLayer("GroundLayer"));
         Debug.DrawRay(rayOrigin.transform.position, Vector2.right * direction * 3, Color.red, 0.7f);
 
@@ -306,9 +311,13 @@ public class PlayerMain : MonoBehaviour {
         yield return new WaitForSeconds(0.01F);
 
         if (concussionUpgrade)
+        {
+            concussionObj.transform.localScale = new Vector3(3, 3, 3);
+            _concussionObject.concussionDamage = 10;
             Instantiate(concussionObj, transform.position, transform.rotation);
-
-        yield return new WaitForSeconds(0.4F);
+        }
+        
+        yield return new WaitForSeconds(0.45F);
         invulnerable = false;
     }
 
@@ -376,11 +385,13 @@ public class PlayerMain : MonoBehaviour {
         }
     }
 
+    //player slam spring behaviour midAir
     public void SpringBehaviour()
     {
-
         StartCoroutine(SpringBehaviourCo());
-        Instantiate(concussionObj2, transform.position, transform.rotation);
+        concussionObj.transform.localScale = new Vector3(4.3f, 4.3f, 4.3f);
+        Instantiate(concussionObj, transform.position, transform.rotation);
+        _concussionObject.concussionDamage = 20;
         slamConcussion = false;
         jumpCount = jumpMaxCount;
     }
@@ -438,7 +449,9 @@ public class PlayerMain : MonoBehaviour {
 
                 if (concussionUpgrade && slamConcussion)
                 {
-                    Instantiate(concussionObj2, transform.position, transform.rotation);
+                    concussionObj.transform.localScale = new Vector3(4.3f, 4.3f, 4.3f);
+                    _concussionObject.concussionDamage = 20;
+                    Instantiate(concussionObj, transform.position, transform.rotation);
                     slamConcussion = false;
                 }
             }
