@@ -2761,11 +2761,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4767303604074746, guid: 6153e609438722c4cbcfabdf54431eeb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 97.32997
+      value: 72.14
       objectReference: {fileID: 0}
     - target: {fileID: 4767303604074746, guid: 6153e609438722c4cbcfabdf54431eeb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -45.469997
+      value: -68.1
       objectReference: {fileID: 0}
     - target: {fileID: 4767303604074746, guid: 6153e609438722c4cbcfabdf54431eeb, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3255,6 +3255,11 @@ Prefab:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 605119509}
+    - target: {fileID: 114729780133192402, guid: 127e4877114e19344bd703c7a9b230c5,
+        type: 2}
+      propertyPath: additionalLifeStealSplinter
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 127e4877114e19344bd703c7a9b230c5, type: 2}
   m_IsPrefabAsset: 0
@@ -6165,8 +6170,7 @@ Prefab:
     - target: {fileID: 1960676763837394, guid: 1ee2349e06089b4468e5730fb01093ac, type: 2}
       propertyPath: m_Icon
       value: 
-      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000,
-        type: 0}
+      objectReference: {fileID: 0}
     - target: {fileID: 1960676763837394, guid: 1ee2349e06089b4468e5730fb01093ac, type: 2}
       propertyPath: m_Name
       value: CheckPoint (3)
@@ -10150,8 +10154,7 @@ Prefab:
     - target: {fileID: 1960676763837394, guid: 1ee2349e06089b4468e5730fb01093ac, type: 2}
       propertyPath: m_Icon
       value: 
-      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000,
-        type: 0}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ee2349e06089b4468e5730fb01093ac, type: 2}
   m_IsPrefabAsset: 0

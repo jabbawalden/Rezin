@@ -273,7 +273,7 @@ public class PlayerMain : MonoBehaviour {
         if (concussionUpgrade)
         {
             concussionObj.transform.localScale = new Vector3(3, 3, 3);
-            _concussionObject.concussionDamage += 10;
+            _concussionObject.concussionDamage = 10;
             Instantiate(concussionObj, transform.position, transform.rotation);
         }
            
@@ -315,7 +315,7 @@ public class PlayerMain : MonoBehaviour {
         if (concussionUpgrade)
         {
             concussionObj.transform.localScale = new Vector3(3, 3, 3);
-            _concussionObject.concussionDamage += 10;
+            _concussionObject.concussionDamage = 10;
             Instantiate(concussionObj, transform.position, transform.rotation);
         }
         
@@ -378,7 +378,7 @@ public class PlayerMain : MonoBehaviour {
     {
         StartCoroutine(SpringBehaviourCo());
         concussionObj.transform.localScale = new Vector3(4.3f, 4.3f, 4.3f);
-        _concussionObject.concussionDamage += 20;
+        _concussionObject.concussionDamage = 20;
         Instantiate(concussionObj, transform.position, transform.rotation);
         slamConcussion = false;
         jumpCount = jumpMaxCount;
@@ -460,7 +460,7 @@ public class PlayerMain : MonoBehaviour {
                 if (concussionUpgrade && slamConcussion)
                 {
                     concussionObj.transform.localScale = new Vector3(4.3f, 4.3f, 4.3f);
-                    _concussionObject.concussionDamage += 20;
+                    _concussionObject.concussionDamage = 20;
                     Instantiate(concussionObj, transform.position, transform.rotation);
                     slamConcussion = false;
                 }

@@ -18,12 +18,26 @@ public class AddOns : MonoBehaviour {
     public bool releaseConcussionSplinter;
     public bool additionalAirJumpSplinter;
     [Header("Concussion")]
-    public bool additionalLifeStealSplinter;
+    public bool additionalConcussionLifeStealSplinter;
     public bool damageIncreaseSplinter;
 
+    HealthComponent _healthComponent;
+    PlayerMain _playerMain;
+    PlayerShoot _playerShoot;
+    UIManager _uiManager;
     // Use this for initialization
+
+    private void Awake()
+    {
+        _healthComponent = GetComponent<HealthComponent>();
+        _playerMain = GetComponent<PlayerMain>();
+        _playerShoot = GetComponent<PlayerShoot>();
+        _uiManager = GameObject.Find("UI_Manager").GetComponent<UIManager>();
+    }
+
     void Start ()
     {
+
         lifeStealSplinter = false;
         additionalStunConcussionSplinter = false;
         stunSplinter = false;
@@ -32,7 +46,7 @@ public class AddOns : MonoBehaviour {
         additionalMomentumSplinter = false;
         releaseConcussionSplinter = false;
         additionalAirJumpSplinter = false;
-        additionalLifeStealSplinter = false;
+        additionalConcussionLifeStealSplinter = false;
         damageIncreaseSplinter = false;
 
     }
@@ -49,7 +63,7 @@ public class AddOns : MonoBehaviour {
         additionalMomentumSplinter = JsonData.gameData.additionalMomentumSplinter;
         releaseConcussionSplinter = JsonData.gameData.releaseConcussionSplinter;
         additionalAirJumpSplinter = JsonData.gameData.additionalAirJumpSplinter;
-        additionalLifeStealSplinter = JsonData.gameData.additionalLifeStealSplinter;
+        additionalConcussionLifeStealSplinter = JsonData.gameData.additionalLifeStealSplinter;
         damageIncreaseSplinter = JsonData.gameData.damageIncreaseSplinter;
 
     }
@@ -116,6 +130,18 @@ public class AddOns : MonoBehaviour {
 
     public void ConcussionAdditionalLifeSteal()
     {
+        if (additionalConcussionLifeStealSplinter)
+        {
+            _healthComponent.LifeSteal(1);
+            _uiManager.UpdateHealth();
+            print("lifesteal");
+        }
+        //if (additionalLifeStealSplinter)
+        //{
+
+        //    if (_healthComponent.health < _healthComponent.maxHealth)
+        //        _healthComponent.health += 1;
+        //}
         //Addition + 1 life steal for every concussion hit on any move
         //concussion checks if this addon is true
         //if true, add +1 life to player health component
@@ -129,8 +155,4 @@ public class AddOns : MonoBehaviour {
         //if true, increase base damage to 2 (damage by concussion should all be set with a +=)
     }
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

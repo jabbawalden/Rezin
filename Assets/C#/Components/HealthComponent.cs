@@ -31,4 +31,9 @@ public class HealthComponent : MonoBehaviour
             return false;
         
     }
+
+    public void LifeSteal(int value) 
+    {
+        health += value;
+    }
 }

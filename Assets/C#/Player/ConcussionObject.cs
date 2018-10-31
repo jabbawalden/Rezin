@@ -15,7 +15,6 @@ public class ConcussionObject : MonoBehaviour {
     EnemyBasic enemyOnetest;
     EnemyHopMovement _enemyHopMovement;
     public int concussionDamage = 0;
-
     AddOns _addOns;
 
     // Use this for initialization
@@ -33,12 +32,23 @@ public class ConcussionObject : MonoBehaviour {
         {
             StartCoroutine(DestroyConcussionDash());
         }
-
+        else
+        {
+            StartCoroutine(NormalConcussionKill());
+        }
 
         //if (_addOns.damageIncreaseSplinter)
         //    concussionDamage = _addOns.ConcussionIncreaseDamage();
         //else
         //    concussionDamage = 0;
+    }
+
+    IEnumerator NormalConcussionKill()
+    {
+        yield return new WaitForSeconds(0.08f);
+        AddConcussion();
+        yield return new WaitForSeconds(0.18f);
+        Destroy(gameObject);
     }
 
     IEnumerator DestroyConcussionSlam()
@@ -68,8 +78,10 @@ public class ConcussionObject : MonoBehaviour {
 
     void AddConcussion()
     {
-        foreach(GameObject enemy in enemies)
+
+        foreach (GameObject enemy in enemies)
         {
+
             /*
             if (enemy.gameObject != null)
                 if (enemy.GetComponent<Rigidbody2D>() != null)
@@ -78,6 +90,7 @@ public class ConcussionObject : MonoBehaviour {
             direction = new Vector2(enemy.transform.position.x - transform.position.x, enemy.transform.position.y - transform.position.y).normalized;
             ConcussionBehaviour(direction);
             */
+
             if (enemy.GetComponent<HealthComponent>() != null)
             {
                 _healthComponent = enemy.GetComponent<HealthComponent>();
@@ -89,7 +102,7 @@ public class ConcussionObject : MonoBehaviour {
                 enemyOnetest = enemy.GetComponent<EnemyBasic>();
                 enemyOnetest.stun = true;
             }
-
+            _addOns.ConcussionAdditionalLifeSteal();
             _momentumComponent.AddMomentum(4);
             //_enemyHopMovement = enemy.GetComponent<EnemyHopMovement>();
         }
@@ -109,7 +122,6 @@ public class ConcussionObject : MonoBehaviour {
         if (collision.CompareTag("eProj") && !haveExploded)
         {
             eProj.Add(collision.gameObject);
-            Debug.Log(enemies);
         }
     }
 }

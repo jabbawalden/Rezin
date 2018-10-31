@@ -46,6 +46,7 @@ public class EnemyBasic : MonoBehaviour {
     {
         if (_healthComp.health <= 0)
         {
+
             Destroy(gameObject);
         }
             
